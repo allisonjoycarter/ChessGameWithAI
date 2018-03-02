@@ -6,4 +6,5 @@ public class ChessGame {
         //making another change
     }
     //and another one
+    ///a change
 }
