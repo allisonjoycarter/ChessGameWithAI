@@ -1,0 +1,22 @@
+public abstract class ChessPiece implements IChessPiece {
+
+    private Player owner;
+
+    protected ChessPiece(Player player) {
+        this.owner = player;
+    }
+
+    public abstract String type();
+
+    public Player player() {
+        // complete this
+        return Player.BLACK;
+    }
+
+    public boolean isValidMove(Move move, IChessPiece[][] board) {
+        // complete this
+        return false;
+    }
+
+
+}
