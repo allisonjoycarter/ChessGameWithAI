@@ -15,7 +15,10 @@ public abstract class ChessPiece implements IChessPiece {
 
     public boolean isValidMove(Move move, IChessPiece[][] board) {
         // complete this
-        return false;
+        if ((move.oldRow == move.newRow || move.oldColumn == move.newColumn)|| //moving to the same spot
+                board[move.newRow][move.newColumn] != null) //if space is empty, or will there be an object for an empty space?
+            return false;
+        return true;
     }
 
 
