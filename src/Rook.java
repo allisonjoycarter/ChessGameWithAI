@@ -29,7 +29,7 @@ public class Rook extends ChessPiece {
 			if (move.oldColumn < move.newColumn) {
 				for (int i = move.newRow; i <= move.oldRow; i++)
 					for (int j = move.newColumn; j <= move.oldColumn; j++) {
-						if (!(board[i][j] == null))
+						if (board[i][j] != null)
 							return false;
 					}
 			}
@@ -38,7 +38,7 @@ public class Rook extends ChessPiece {
 
 				for (int i = move.newRow; i <= move.oldRow; i++)
 					for (int j = move.oldColumn; j <= move.newColumn; j++) {
-						if (!(board[i][j] == null))
+						if (board[i][j] != null)
 							return false;
 					}
 			}
