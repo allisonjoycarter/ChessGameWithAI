@@ -1,12 +1,27 @@
+/**********************************************************************
+ * Contains the necessary information for a queen piece to exist. Such
+ * as the player that owns the piece, a the name of the piece, and 
+ * has the ability to check whether the piece can excecute a specified
+ * move. 
+ * 
+ * @author
+ * @version
+ *********************************************************************/
 public class Queen extends ChessPiece {
 
+	/******************************************************************
+	 * Creates the piece using the constructor of ChessPiece.
+	 *****************************************************************/
     protected Queen(Player player) {
         super(player);
     }
 
+    /******************************************************************
+     * Returns the name of the piece as a string.
+     *****************************************************************/
     @Override
     public String type() {
-        return null;
+        return "Queen";
     }
 
     /******************************************************************
