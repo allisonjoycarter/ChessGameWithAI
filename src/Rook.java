@@ -1,14 +1,15 @@
 public class Rook extends ChessPiece {
 
-    private boolean canCastle; //set false if move is made
+    public boolean canCastle; //set false if move is made
 
     public Rook(Player player) {
         super(player);
+        canCastle = true;
     }
 
     @Override
     public String type() {
-        return null;
+        return "Rook";
     }
 
     /******************************************************************

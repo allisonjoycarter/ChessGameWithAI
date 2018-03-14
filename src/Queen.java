@@ -10,7 +10,7 @@ public class Queen extends ChessPiece {
 
     @Override
     public String type() {
-        return null;
+        return "Queen";
     }
 
     /******************************************************************

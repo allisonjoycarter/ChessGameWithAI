@@ -7,6 +7,8 @@ public interface IChessPiece {
      */
     Player player();
 
+    Player opponent();
+
     /**
      * Return the type of this piece ("King", "Queen", "Rook", etc.).  Note:  In this case "type" refers to the game
      * of chess, not the type of the Java class.
