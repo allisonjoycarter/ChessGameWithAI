@@ -4,8 +4,8 @@
  * has the ability to check whether the piece can excecute a specified
  * move. 
  * 
- * @author
- * @version
+ * @author George
+ * @version 3/14
  *********************************************************************/
 public class Rook extends ChessPiece {
 
@@ -45,7 +45,8 @@ public class Rook extends ChessPiece {
 			
 			if (move.oldColumn < move.newColumn) {	
 				for (int i = move.newRow; i <= move.oldRow; i++)
-					for (int j = move.newColumn; j <= move.oldColumn; j++) {
+					for (int j = move.newColumn; j <= move.oldColumn;
+							j++) {
 						
 						if (!(board[i][j] == null))
 							return false;
@@ -54,7 +55,8 @@ public class Rook extends ChessPiece {
 
 			else if (move.oldColumn > move.newColumn) {
 				for (int i = move.newRow; i <= move.oldRow; i++)
-					for (int j = move.oldColumn; j <= move.newColumn; j++) {
+					for (int j = move.oldColumn; j <= move.newColumn;
+							j++) {
 						if (board[i][j] != null)
 							return false;
 					}
@@ -65,7 +67,8 @@ public class Rook extends ChessPiece {
 			
 			if (move.oldColumn < move.newColumn) {
 				for (int i = move.oldRow; i <= move.newRow; i++)
-					for (int j = move.newColumn; j <= move.oldColumn; j++) {
+					for (int j = move.newColumn; j <= move.oldColumn;
+							j++) {
 						if (!(board[i][j] == null))
 							return false;
 					}
@@ -73,12 +76,19 @@ public class Rook extends ChessPiece {
 			
 			else if (move.oldColumn > move.newColumn) {
 				for (int i = move.oldRow; i <= move.newRow; i++)
-					for (int j = move.oldColumn; j <= move.newColumn; j++) {
+					for (int j = move.oldColumn; j <= move.newColumn;
+							j++) {
 						if (!(board[i][j] == null))
 							return false;
 					}
 			}
 		}
-		return true;
+		
+		//Makes sure the piece stayed within a column or row.
+		if(move.oldColumn == move.newColumn ||
+				move.oldRow == move.oldColumn)
+			return true;
+		
+		return false;
 	}
 }

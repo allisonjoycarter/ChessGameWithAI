@@ -4,8 +4,8 @@
  * has the ability to check whether the piece can excecute a specified
  * move. 
  * 
- * @author
- * @version
+ * @author George
+ * @version 3/14
  *********************************************************************/
 public class Queen extends ChessPiece {
 
@@ -34,7 +34,6 @@ public class Queen extends ChessPiece {
      *****************************************************************/
     public boolean isValidMove(Move move, IChessPiece[][] board) {
     	boolean valid = false;
-    	
     	//The queen moves like a bishop and a rook
     	Rook tempRook = new Rook(tempPlayer);
     	Bishop tempBish = new Bishop(tempPlayer);
