@@ -26,7 +26,6 @@ public abstract class ChessPiece implements IChessPiece {
     }
 
     public boolean isValidMove(Move move, IChessPiece[][] board) {
-        // complete this
         if ((move.oldRow == move.newRow || move.oldColumn == move.newColumn)|| //moving to the same spot
                 board[move.newRow][move.newColumn] != null) //space is taken
             return false;

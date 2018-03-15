@@ -9,13 +9,14 @@
  *********************************************************************/
 public class Rook extends ChessPiece {
 
-    private boolean canCastle; //set false if move is made
+    public boolean canCastle; //set false if move is made
 
 	/******************************************************************
 	 * Creates the piece using the constructor of ChessPiece.
 	 *****************************************************************/
     public Rook(Player player) {
         super(player);
+        canCastle = true;
     }
 
     /******************************************************************
@@ -54,7 +55,7 @@ public class Rook extends ChessPiece {
 			else if (move.oldColumn > move.newColumn) {
 				for (int i = move.newRow; i <= move.oldRow; i++)
 					for (int j = move.oldColumn; j <= move.newColumn; j++) {
-						if (!(board[i][j] == null))
+						if (board[i][j] != null)
 							return false;
 					}
 			}

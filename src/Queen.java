@@ -14,6 +14,7 @@ public class Queen extends ChessPiece {
 	 *****************************************************************/
     protected Queen(Player player) {
         super(player);
+        tempPlayer = player;
     }
 
     /******************************************************************
@@ -26,7 +27,7 @@ public class Queen extends ChessPiece {
 
     /******************************************************************
      * A queen acts like a bishop and a rook, so by making a temporary
-     * piece of a bishopa and rook a valid move can be checked.
+     * piece of a bishop and rook a valid move can be checked.
      * 
      * @param move Is the move the player wishes to make.
      * @param board Is the current board.
@@ -35,8 +36,8 @@ public class Queen extends ChessPiece {
     	boolean valid = false;
     	
     	//The queen moves like a bishop and a rook
-    	Rook tempRook = new Rook(); 
-    	Bishop tempBish = new Bishop();
+    	Rook tempRook = new Rook(tempPlayer);
+    	Bishop tempBish = new Bishop(tempPlayer);
     	
     	if(tempRook.isValidMove(move,board))
     		valid = true;
