@@ -11,7 +11,8 @@ package ChessW18;
  *********************************************************************/
 public class Queen extends ChessPiece {
 
-    Player tempPlayer;
+    private Player tempPlayer;
+
 	/******************************************************************
 	 * Creates the piece using the constructor of ChessW18.ChessPiece.
 	 *****************************************************************/

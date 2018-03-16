@@ -2,33 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cb32b9d6-56c5-4ec4-91ee-d0cf4010f683" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/Bishop.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/Bishop.java" afterPath="$PROJECT_DIR$/src/ChessW18/Bishop.java" />
-      <change beforePath="$PROJECT_DIR$/src/ChessGame.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/ChessGame.java" afterPath="$PROJECT_DIR$/src/ChessW18/ChessGame.java" />
-      <change beforePath="$PROJECT_DIR$/src/ChessModel.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/ChessModel.java" afterPath="$PROJECT_DIR$/src/ChessW18/ChessModel.java" />
-      <change beforePath="$PROJECT_DIR$/src/ChessPiece.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/ChessPiece.java" afterPath="$PROJECT_DIR$/src/ChessW18/ChessPiece.java" />
-      <change beforePath="$PROJECT_DIR$/src/IChessModel.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/IChessModel.java" afterPath="$PROJECT_DIR$/src/ChessW18/IChessModel.java" />
-      <change beforePath="$PROJECT_DIR$/src/IChessPiece.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/IChessPiece.java" afterPath="$PROJECT_DIR$/src/ChessW18/IChessPiece.java" />
-      <change beforePath="$PROJECT_DIR$/src/King.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/King.java" afterPath="$PROJECT_DIR$/src/ChessW18/King.java" />
-      <change beforePath="$PROJECT_DIR$/src/Knight.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/Knight.java" afterPath="$PROJECT_DIR$/src/ChessW18/Knight.java" />
-      <change beforePath="$PROJECT_DIR$/src/Move.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/Move.java" afterPath="$PROJECT_DIR$/src/ChessW18/Move.java" />
-      <change beforePath="$PROJECT_DIR$/src/Pawn.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/Pawn.java" afterPath="$PROJECT_DIR$/src/ChessW18/Pawn.java" />
-      <change beforePath="$PROJECT_DIR$/src/Player.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/Player.java" afterPath="$PROJECT_DIR$/src/ChessW18/Player.java" />
-      <change beforePath="$PROJECT_DIR$/src/Queen.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/Queen.java" afterPath="$PROJECT_DIR$/src/ChessW18/Queen.java" />
-      <change beforePath="$PROJECT_DIR$/src/Rook.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/Rook.java" afterPath="$PROJECT_DIR$/src/ChessW18/Rook.java" />
+      <change beforePath="$PROJECT_DIR$/src/ChessW18/ChessGame.java" afterPath="$PROJECT_DIR$/src/ChessW18/ChessGame.java" />
+      <change beforePath="$PROJECT_DIR$/src/ChessW18/Queen.java" afterPath="$PROJECT_DIR$/src/ChessW18/Queen.java" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -42,7 +19,17 @@
       <file leaf-file-name="IChessPiece.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ChessW18/IChessPiece.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-262">
+            <state relative-caret-position="775">
+              <caret line="31" column="31" lean-forward="false" selection-start-line="31" selection-start-column="31" selection-end-line="31" selection-end-column="31" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IChessModel.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ChessW18/IChessModel.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="25">
               <caret line="2" column="17" lean-forward="false" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
               <folding />
             </state>
@@ -52,8 +39,8 @@
       <file leaf-file-name="ChessPiece.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessPiece.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="2" column="22" lean-forward="false" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
+            <state relative-caret-position="150">
+              <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
               <folding>
                 <element signature="e#145#146#0" expanded="true" />
                 <element signature="e#180#181#0" expanded="true" />
@@ -94,34 +81,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Queen.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/ChessW18/Queen.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="27" column="16" lean-forward="false" selection-start-line="27" selection-start-column="16" selection-end-line="27" selection-end-column="16" />
-              <folding>
-                <element signature="e#1018#1019#0" expanded="true" />
-                <element signature="e#1048#1049#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ChessGame.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessGame.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="50">
-              <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="ChessModel.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="50">
-              <caret line="4" column="13" lean-forward="false" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+            <state relative-caret-position="2634">
+              <caret line="113" column="21" lean-forward="false" selection-start-line="113" selection-start-column="21" selection-end-line="113" selection-end-column="21" />
               <folding>
                 <element signature="e#1464#1465#0" expanded="true" />
                 <element signature="e#1492#1493#0" expanded="true" />
@@ -138,40 +102,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="King.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ChessW18/King.java">
+      <file leaf-file-name="ChessGame.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessGame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="21" column="16" lean-forward="false" selection-start-line="21" selection-start-column="16" selection-end-line="21" selection-end-column="16" />
-              <folding>
-                <element signature="e#666#667#0" expanded="true" />
-                <element signature="e#695#696#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="150">
+              <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Knight.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ChessW18/Knight.java">
+      <file leaf-file-name="Queen.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ChessW18/Queen.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="9" column="16" lean-forward="true" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
+            <state relative-caret-position="350">
+              <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
               <folding>
-                <element signature="e#1006#1007#0" expanded="true" />
-                <element signature="e#1028#1029#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Rook.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ChessW18/Rook.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="291">
-              <caret line="28" column="16" lean-forward="false" selection-start-line="28" selection-start-column="16" selection-end-line="28" selection-end-column="16" />
-              <folding>
+                <element signature="e#1027#1028#0" expanded="true" />
                 <element signature="e#1057#1058#0" expanded="true" />
-                <element signature="e#1086#1087#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -222,7 +170,9 @@
         <option value="$PROJECT_DIR$/src/ChessW18/Knight.java" />
         <option value="$PROJECT_DIR$/src/ChessW18/Bishop.java" />
         <option value="$PROJECT_DIR$/src/ChessW18/Rook.java" />
+        <option value="$PROJECT_DIR$/src/ChessW18/IChessPiece.java" />
         <option value="$PROJECT_DIR$/src/ChessW18/Queen.java" />
+        <option value="$PROJECT_DIR$/src/ChessW18/ChessGame.java" />
       </list>
     </option>
   </component>
@@ -419,12 +369,12 @@
       <updated>1520017119482</updated>
       <workItem from="1520017121046" duration="1776000" />
       <workItem from="1520087248915" duration="7706000" />
-      <workItem from="1521036951090" duration="11435000" />
+      <workItem from="1521036951090" duration="12318000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="20917000" />
+    <option name="totallyTimeSpent" value="21800000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-11" y="-11" width="1942" height="1102" extended-state="6" />
@@ -504,71 +454,32 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ChessW18/IChessModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-416">
-          <caret line="2" column="17" lean-forward="false" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ChessW18/IChessPiece.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-262">
-          <caret line="2" column="17" lean-forward="false" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
+        <state relative-caret-position="775">
+          <caret line="31" column="31" lean-forward="false" selection-start-line="31" selection-start-column="31" selection-end-line="31" selection-end-column="31" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessPiece.java">
+    <entry file="file://$PROJECT_DIR$/src/ChessW18/Rook.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="2" column="22" lean-forward="false" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
+        <state relative-caret-position="291">
+          <caret line="28" column="16" lean-forward="false" selection-start-line="28" selection-start-column="16" selection-end-line="28" selection-end-column="16" />
           <folding>
-            <element signature="e#145#146#0" expanded="true" />
-            <element signature="e#180#181#0" expanded="true" />
-            <element signature="e#246#247#0" expanded="true" />
-            <element signature="e#274#275#0" expanded="true" />
+            <element signature="e#1057#1058#0" expanded="false" />
+            <element signature="e#1086#1087#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ChessW18/Bishop.java">
+    <entry file="file://$PROJECT_DIR$/src/ChessW18/Knight.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="659">
-          <caret line="29" column="16" lean-forward="false" selection-start-line="29" selection-start-column="16" selection-end-line="29" selection-end-column="16" />
+        <state relative-caret-position="225">
+          <caret line="9" column="16" lean-forward="false" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
           <folding>
-            <element signature="e#787#788#0" expanded="true" />
-            <element signature="e#816#817#0" expanded="true" />
-            <element signature="e#1127#1128#0" expanded="true" />
-            <element signature="e#1158#1159#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessGame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="50">
-          <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="50">
-          <caret line="4" column="13" lean-forward="false" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-          <folding>
-            <element signature="e#1464#1465#0" expanded="true" />
-            <element signature="e#1492#1493#0" expanded="true" />
-            <element signature="e#3714#3715#0" expanded="true" />
-            <element signature="e#3742#3743#0" expanded="true" />
-            <element signature="e#3793#3794#0" expanded="true" />
-            <element signature="e#3829#3830#0" expanded="true" />
-            <element signature="e#4016#4017#0" expanded="true" />
-            <element signature="e#4044#4045#0" expanded="true" />
-            <element signature="e#4099#4100#0" expanded="true" />
-            <element signature="e#4140#4141#0" expanded="true" />
+            <element signature="e#1006#1007#0" expanded="false" />
+            <element signature="e#1028#1029#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -578,30 +489,19 @@
         <state relative-caret-position="459">
           <caret line="21" column="16" lean-forward="false" selection-start-line="21" selection-start-column="16" selection-end-line="21" selection-end-column="16" />
           <folding>
-            <element signature="e#666#667#0" expanded="true" />
-            <element signature="e#695#696#0" expanded="true" />
+            <element signature="e#666#667#0" expanded="false" />
+            <element signature="e#695#696#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ChessW18/Knight.java">
+    <entry file="file://$PROJECT_DIR$/src/ChessW18/Queen.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="9" column="16" lean-forward="true" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
+        <state relative-caret-position="350">
+          <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
           <folding>
-            <element signature="e#1006#1007#0" expanded="true" />
-            <element signature="e#1028#1029#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ChessW18/Rook.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="291">
-          <caret line="28" column="16" lean-forward="false" selection-start-line="28" selection-start-column="16" selection-end-line="28" selection-end-column="16" />
-          <folding>
+            <element signature="e#1027#1028#0" expanded="true" />
             <element signature="e#1057#1058#0" expanded="true" />
-            <element signature="e#1086#1087#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -619,14 +519,80 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ChessW18/Queen.java">
+    <entry file="file://$PROJECT_DIR$/src/ChessW18/Bishop.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="27" column="16" lean-forward="false" selection-start-line="27" selection-start-column="16" selection-end-line="27" selection-end-column="16" />
+        <state relative-caret-position="659">
+          <caret line="29" column="16" lean-forward="false" selection-start-line="29" selection-start-column="16" selection-end-line="29" selection-end-column="16" />
           <folding>
-            <element signature="e#1018#1019#0" expanded="true" />
-            <element signature="e#1048#1049#0" expanded="true" />
+            <element signature="e#787#788#0" expanded="true" />
+            <element signature="e#816#817#0" expanded="true" />
+            <element signature="e#1127#1128#0" expanded="true" />
+            <element signature="e#1158#1159#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessPiece.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+          <folding>
+            <element signature="e#145#146#0" expanded="true" />
+            <element signature="e#180#181#0" expanded="true" />
+            <element signature="e#246#247#0" expanded="true" />
+            <element signature="e#274#275#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ChessW18/IChessModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="25">
+          <caret line="2" column="17" lean-forward="false" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2634">
+          <caret line="113" column="21" lean-forward="false" selection-start-line="113" selection-start-column="21" selection-end-line="113" selection-end-column="21" />
+          <folding>
+            <element signature="e#1464#1465#0" expanded="true" />
+            <element signature="e#1492#1493#0" expanded="true" />
+            <element signature="e#3714#3715#0" expanded="true" />
+            <element signature="e#3742#3743#0" expanded="true" />
+            <element signature="e#3793#3794#0" expanded="true" />
+            <element signature="e#3829#3830#0" expanded="true" />
+            <element signature="e#4016#4017#0" expanded="true" />
+            <element signature="e#4044#4045#0" expanded="true" />
+            <element signature="e#4099#4100#0" expanded="true" />
+            <element signature="e#4140#4141#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ChessW18/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ChessW18/Bishop.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessGame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
