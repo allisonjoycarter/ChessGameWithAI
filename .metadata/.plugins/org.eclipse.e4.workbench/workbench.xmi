@@ -151,7 +151,7 @@
         <tags>org.eclipse.e4.primaryDataStack</tags>
         <tags>EditorStack</tags>
         <children xsi:type="basic:Part" xmi:id="_wAMnoClDEeicEd_GkPtF2g" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="ChessGame.java" iconURI="platform:/plugin/org.eclipse.jdt.ui/icons/full/obj16/jcu_obj.png" closeable="true">
-          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;ChessGame.java&quot; partName=&quot;ChessGame.java&quot; title=&quot;ChessGame.java&quot; tooltip=&quot;C:\Users\allis\IdeaProjects\ChessGameWithAI\src\ChessW18\ChessGame.java&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.ide.FileStoreEditorInputFactory&quot; uri=&quot;file:/C:/Users/allis/IdeaProjects/ChessGameWithAI/src/ChessW18/ChessGame.java&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;164&quot; selectionTopPixel=&quot;0&quot;/>&#xD;&#xA;&lt;/editor>"/>
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;ChessGame.java&quot; partName=&quot;ChessGame.java&quot; title=&quot;ChessGame.java&quot; tooltip=&quot;C:\Users\allis\IdeaProjects\ChessGameWithAI\src\ChessW18\ChessGame.java&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.ide.FileStoreEditorInputFactory&quot; uri=&quot;file:/C:/Users/allis/IdeaProjects/ChessGameWithAI/src/ChessW18/ChessGame.java&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;169&quot; selectionTopPixel=&quot;0&quot;/>&#xD;&#xA;&lt;/editor>"/>
           <tags>Editor</tags>
           <tags>org.eclipse.jdt.ui.CompilationUnitEditor</tags>
           <tags>removeOnHide</tags>
@@ -318,7 +318,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_nJzA8Ck-EeixFqm5jBxIUA" elementId="org.eclipse.ui.workbench.file">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_nBxUEClDEeicEd_GkPtF2g" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_mvQaRik-EeixFqm5jBxIUA"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_qoHHoClOEeiQa44ujc2BYQ" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_mvQaRik-EeixFqm5jBxIUA"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_nJzoACk-EeixFqm5jBxIUA" elementId="additions" toBeRendered="false">
         <tags>toolbarSeparator</tags>
@@ -342,7 +342,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_nJzoBCk-EeixFqm5jBxIUA" elementId="org.eclipse.ui.workbench.navigate">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_nB0-cClDEeicEd_GkPtF2g" elementId="org.eclipse.ui.window.pinEditor" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" type="Check" command="_mvOk-ik-EeixFqm5jBxIUA"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_qoKyAClOEeiQa44ujc2BYQ" elementId="org.eclipse.ui.window.pinEditor" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" type="Check" command="_mvOk-ik-EeixFqm5jBxIUA"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_K03SEClGEeicEd_GkPtF2g" elementId="org.eclipse.jdt.ui.ClassFileEditor" visible="false">
         <tags>Draggable</tags>

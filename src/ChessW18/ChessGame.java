@@ -4,6 +4,6 @@ public class ChessGame {
 
     public static void main(String[] args) {
         System.out.println("Welcome to the Working Chess!");
-
+        //if you're using the darcula theme it should all be okay
     }
 }
