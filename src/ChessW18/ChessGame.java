@@ -6,4 +6,6 @@ public class ChessGame {
         System.out.println("Welcome to the Working Chess!");
 
     }
+
+    public static void AMETHOD() {}
 }

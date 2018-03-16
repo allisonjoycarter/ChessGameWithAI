@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cb32b9d6-56c5-4ec4-91ee-d0cf4010f683" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/src/ChessW18/ChessGame.java" afterPath="$PROJECT_DIR$/src/ChessW18/ChessGame.java" />
-      <change beforePath="$PROJECT_DIR$/src/ChessW18/Queen.java" afterPath="$PROJECT_DIR$/src/ChessW18/Queen.java" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -105,8 +103,8 @@
       <file leaf-file-name="ChessGame.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessGame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+            <state relative-caret-position="225">
+              <caret line="9" column="33" lean-forward="false" selection-start-line="9" selection-start-column="33" selection-end-line="9" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -188,6 +186,20 @@
     <option name="width" value="980" />
     <option name="height" value="1090" />
   </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>Ant inspections</id>
+          </State>
+        </expanded-state>
+      </profile-state>
+    </entry>
+  </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
       <flattenPackages />
@@ -232,7 +244,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
@@ -369,12 +381,12 @@
       <updated>1520017119482</updated>
       <workItem from="1520017121046" duration="1776000" />
       <workItem from="1520087248915" duration="7706000" />
-      <workItem from="1521036951090" duration="12318000" />
+      <workItem from="1521036951090" duration="13049000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="21800000" />
+    <option name="totallyTimeSpent" value="22531000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-11" y="-11" width="1942" height="1102" extended-state="6" />
@@ -590,8 +602,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessGame.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+        <state relative-caret-position="225">
+          <caret line="9" column="33" lean-forward="false" selection-start-line="9" selection-start-column="33" selection-end-line="9" selection-end-column="33" />
           <folding />
         </state>
       </provider>
