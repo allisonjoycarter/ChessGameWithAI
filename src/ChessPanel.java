@@ -1,9 +1,14 @@
+import ChessW18.ChessModel;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ChessPanel extends JPanel {
 	
 	   private JButton[][] board;   
 	   private ChessModel model;
-	   private final BOARDSIZE = 8;
+	   private final int BOARDSIZE = 8;
 	   
 	   private ImageIcon wPawn;
 	   private ImageIcon wRook;
@@ -25,7 +30,7 @@ public class ChessPanel extends JPanel {
 
 	   public ChessPanel() {
 		   board = new JButton[BOARDSIZE][BOARDSIZE];
-		   boardSetup();
+//		   boardSetup();
 	   }
 	   
 	   /**
@@ -37,9 +42,9 @@ public class ChessPanel extends JPanel {
 		   
 		   //This images still need to be added to the repository
 		   wPawn = new ImageIcon("wPawn.png");
-		   wRook = new IMageIcon("wRook.png");
+		   wRook = new ImageIcon("wRook.png");
 		   wBishop = new ImageIcon("wBishop.png");
-		   wKnight = new IMageIcon("wKnight");
+		   wKnight = new ImageIcon("wKnight");
 		   wKing = new ImageIcon("wKing");
 		   wQueen = new ImageIcon("wQueen");
 		   
@@ -51,7 +56,7 @@ public class ChessPanel extends JPanel {
 		   bKing = new ImageIcon("bKing");
 		   bQueen = new ImageIcon("bQueen");
 		   
-		   ButtonListener listner = new ButtonListener();
+		   ButtonListener listener = new ButtonListener();
 		   
 		   //Creates buttons for the white pieces
 		   board[0][0] = new JButton(wRook);
@@ -112,8 +117,9 @@ public class ChessPanel extends JPanel {
 	    */
 	   private class ButtonListener implements ActionListener {
 
-		   public void actionPerformed(ActionEvent event) {
-			   // complete this
+		   @Override
+		   public void actionPerformed(ActionEvent e) {
+
 		   }
 	   }
 
