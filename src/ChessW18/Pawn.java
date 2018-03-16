@@ -1,3 +1,12 @@
+package ChessW18;
+
+/**********************************************************************
+ * ChessW18.ChessPiece to represent a ChessW18.Pawn. Holds the player of the piece, the
+ * type of piece it is, and whether a move is valid or invalid
+ *
+ * @author Allison
+ * @version 3/14/2018
+ *********************************************************************/
 public class Pawn extends ChessPiece {
 
 

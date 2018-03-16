@@ -1,3 +1,5 @@
+package ChessW18;
+
 public interface IChessPiece {
     //This is all copied from Blackboard
     /**
@@ -10,7 +12,7 @@ public interface IChessPiece {
     Player opponent();
 
     /**
-     * Return the type of this piece ("King", "Queen", "Rook", etc.).  Note:  In this case "type" refers to the game
+     * Return the type of this piece ("ChessW18.King", "ChessW18.Queen", "ChessW18.Rook", etc.).  Note:  In this case "type" refers to the game
      * of chess, not the type of the Java class.
      *
      * @return the type of this piece

@@ -1,3 +1,5 @@
+package ChessW18;
+
 public abstract class ChessPiece implements IChessPiece {
 
     private Player owner;
@@ -17,7 +19,7 @@ public abstract class ChessPiece implements IChessPiece {
      * recognizing possible capture
      *
      * @author Allison
-     * @return Player opposite to owner, i.e. the opponent
+     * @return ChessW18.Player opposite to owner, i.e. the opponent
      *****************************************************************/
     public Player opponent() {
         if (owner.equals(Player.BLACK))

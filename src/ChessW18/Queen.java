@@ -1,3 +1,5 @@
+package ChessW18;
+
 /**********************************************************************
  * Contains the necessary information for a queen piece to exist. Such
  * as the player that owns the piece, a the name of the piece, and 
@@ -9,10 +11,11 @@
  *********************************************************************/
 public class Queen extends ChessPiece {
 
+    Player tempPlayer;
 	/******************************************************************
-	 * Creates the piece using the constructor of ChessPiece.
+	 * Creates the piece using the constructor of ChessW18.ChessPiece.
 	 *****************************************************************/
-    protected Queen(Player player) {
+    public Queen(Player player) {
         super(player);
         tempPlayer = player;
     }

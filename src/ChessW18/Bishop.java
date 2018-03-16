@@ -1,9 +1,30 @@
+package ChessW18;
+
+/**********************************************************************
+ * ChessW18.ChessPiece object that represents a ChessW18.Bishop. Holds which player is
+ * the owner of the piece, the type, and a method to determine whether
+ * a move is valid or invalid.
+ *
+ * @author Allison
+ * @version 3/14/2018
+ *********************************************************************/
 public class Bishop extends ChessPiece {
 
+    /******************************************************************
+     * Constructor for ChessW18.Bishop, which holds the player that
+     * owns/controls the piece
+     *
+     * @param player which player owns the piece (white or black)
+     *****************************************************************/
     public Bishop(Player player) {
         super(player);
     }
 
+    /******************************************************************
+     * Used to return a name to describe the type of piece
+     *
+     * @return String that describes the name of the piece
+     *****************************************************************/
     @Override
     public String type() {
         return "Bishop";
@@ -23,6 +44,7 @@ public class Bishop extends ChessPiece {
     @Override
     public boolean isValidMove(Move move, IChessPiece[][] board) {
         if (super.isValidMove(move,board)) {
+            //check to make sure there is no piece in the way
             //for moving right diagonal
             if (move.oldRow > move.newRow) {
                 for (int row = move.oldRow; row > move.newRow; row--)
