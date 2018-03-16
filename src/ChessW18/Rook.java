@@ -1,5 +1,7 @@
+package ChessW18;
+
 /**********************************************************************
- * Contains the necessary information for a Rook piece to exist. Such
+ * Contains the necessary information for a ChessW18.Rook piece to exist. Such
  * as the player that owns the piece, a the name of the piece, and 
  * has the ability to check whether the piece can excecute a specified
  * move. 
@@ -12,7 +14,7 @@ public class Rook extends ChessPiece {
     public boolean canCastle; //set false if move is made
 
 	/******************************************************************
-	 * Creates the piece using the constructor of ChessPiece.
+	 * Creates the piece using the constructor of ChessW18.ChessPiece.
 	 *****************************************************************/
     public Rook(Player player) {
         super(player);
@@ -29,7 +31,7 @@ public class Rook extends ChessPiece {
 
     /******************************************************************
      * Looks along diagonal that the rook is moving in to make sure
-     * that the piece can move without impediance. 
+     * that the piece can move without impedance.
      * 
      * @param move Is the move that the player wishes to make.
      * @param board Is the current board.

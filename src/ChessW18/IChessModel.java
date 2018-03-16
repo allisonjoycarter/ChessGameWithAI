@@ -1,3 +1,5 @@
+package ChessW18;
+
 public interface IChessModel {
 
 	/**
@@ -30,7 +32,7 @@ public interface IChessModel {
 
 	/**
 	 * Report whether the current player p is in check.
-	 * @param  p {@link W18project3.Move} the Player being checked
+	 * @param  p {@link Move} the ChessW18.Player being checked
 	 * @return {@code true} if the current player is in check, {@code false} otherwise.
 	 */
 	boolean inCheck(Player p);

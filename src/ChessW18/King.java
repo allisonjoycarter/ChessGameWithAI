@@ -1,3 +1,13 @@
+package ChessW18;
+
+/**********************************************************************
+ * ChessW18.ChessPiece object to represent a ChessW18.King. Holds the ChessW18.Player that owns
+ * the piece, whether the piece can Castle, the type of piece, and
+ * whether a move proposed is valid given the general rules of Chess
+ *
+ * @author Allison
+ * @version 3/15/2018
+ *********************************************************************/
 public class King extends ChessPiece {
 
     public boolean canCastle; //set false if move is made

@@ -1,3 +1,4 @@
+
 public class ChessPanel extends JPanel {
 	
 	   private JButton[][] board;   
@@ -86,6 +87,7 @@ public class ChessPanel extends JPanel {
 				   
 				   board[row][col].addActionListener(listener);
 			   }
+		   
 	   }
 
 	   
@@ -98,6 +100,7 @@ public class ChessPanel extends JPanel {
 	   
 	   /***************************************************************
 	    * Puts the board in the starting setup. 
+	    * I
 	    **************************************************************/
 	   private void resetBoard() {
 		   

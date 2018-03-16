@@ -1,3 +1,5 @@
+package ChessW18;
+
 public class Move {
     int oldRow;
     int oldColumn;

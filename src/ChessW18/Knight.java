@@ -1,4 +1,4 @@
-import java.math.*;
+package ChessW18;
 
 /**********************************************************************
  * Contains the necessary information for a knight piece to exist. Such
@@ -12,7 +12,7 @@ import java.math.*;
 public class Knight extends ChessPiece {
 
 	/******************************************************************
-	 * Creates the piece using the constructor of ChessPiece.
+	 * Creates the piece using the constructor of ChessW18.ChessPiece.
 	 * 
 	 * @param player
 	 *            The player that owns the piece.
@@ -26,7 +26,7 @@ public class Knight extends ChessPiece {
 	 *****************************************************************/
 	@Override
 	public String type() {
-		return null;
+		return "Knight";
 	}
 
 	/******************************************************************
@@ -55,17 +55,19 @@ public class Knight extends ChessPiece {
 			return false;
 
 		//Sees if the piece moved twice in a row and once in a column.
-		if(Math.abs(move.newRow - move.oldRow) == 2) { 
-			if((Math.abs(move.newColumn - move.oldColumn)) == 1) 
+		if(Math.abs(move.newRow - move.oldRow) == 2) {
+			if ((Math.abs(move.newColumn - move.oldColumn)) == 1)
 				return true;
+		}
 			
 		//Sees if the piece move twice in a column and once in a row.
-		else if(Math.abs(most.newColumn - move.oldColumn == 2) {
-			if(Math.abs(move.newRow - move.oldRow) == 1)) 
-				return true;
+		else if(Math.abs(move.newColumn - move.oldColumn) == 2) {
+				if(Math.abs(move.newRow - move.oldRow) == 1) {
+					return true;
 			}
 		}
 		
 		return false;
+
 	}
 }
