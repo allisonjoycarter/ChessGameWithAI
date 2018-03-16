@@ -33,7 +33,9 @@ public class Queen extends ChessPiece {
      * @param board Is the current board.
      *****************************************************************/
     public boolean isValidMove(Move move, IChessPiece[][] board) {
+    	
     	boolean valid = false;
+    	
     	//The queen moves like a bishop and a rook
     	Rook tempRook = new Rook(tempPlayer);
     	Bishop tempBish = new Bishop(tempPlayer);

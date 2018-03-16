@@ -61,8 +61,8 @@ public class Knight extends ChessPiece {
 			
 		//Sees if the piece move twice in a column and once in a row.
 		else if(Math.abs(most.newColumn - move.oldColumn == 2) {
-				if(Math.abs(move.newRow - move.oldRow) == 1)) 
-					return true;
+			if(Math.abs(move.newRow - move.oldRow) == 1)) 
+				return true;
 			}
 		}
 		
