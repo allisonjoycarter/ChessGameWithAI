@@ -33,9 +33,8 @@ public class Pawn extends ChessPiece {
 							.player() == opponent())
 				return true;
 			//if move is 1 square forward
-            if (move.oldColumn == move.newColumn &&
-                    move.newRow == move.oldRow + toCenter) //or -1
-                return true;
+            return move.oldColumn == move.newColumn &&
+                    move.newRow == move.oldRow + toCenter;
         }
         return false;
     }

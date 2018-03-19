@@ -29,7 +29,7 @@ public interface IChessPiece {
      * (This method makes no sense otherwise.)
      *
      * @param move  a {@link Move} object describing the move to be made.
-     * @param board the {@link IChessBoard} in which this piece resides.
+     * @param board the {@link IChessModel} in which this piece resides.
      * @return {@code true} if the proposed move is valid, {@code false} otherwise.
      * @throws IndexOutOfBoundsException if either {@code [move.fromRow, move.fromColumn]} or {@code [move.toRow,
      *                                   move.toColumn]} don't represent valid locations on the board.

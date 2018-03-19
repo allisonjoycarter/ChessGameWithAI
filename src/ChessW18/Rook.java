@@ -87,10 +87,8 @@ public class Rook extends ChessPiece {
 		}
 		
 		//Makes sure the piece stayed within a column or row.
-		if(move.oldColumn == move.newColumn ||
-				move.oldRow == move.oldColumn)
-			return true;
-		
-		return false;
-	}
+        return move.oldColumn == move.newColumn ||
+                move.oldRow == move.oldColumn;
+
+    }
 }

@@ -59,8 +59,7 @@ public class Bishop extends ChessPiece {
                             return false;
             }
             //if the amount of rows moved is equal to the amount of columns moved
-            if (Math.abs(move.oldRow - move.newRow) == Math.abs(move.oldColumn - move.newColumn))
-                return true;
+            return Math.abs(move.oldRow - move.newRow) == Math.abs(move.oldColumn - move.newColumn);
         }
         return false;
     }

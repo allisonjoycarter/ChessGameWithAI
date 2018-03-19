@@ -55,7 +55,7 @@ public class ChessModel implements IChessModel {
     /******************************************************************
      * Checks if a move is a capture and returns the captured piece
      *
-     * @return
+     * @return the piece that was captured
      * @param move
      * @param board
      *****************************************************************/

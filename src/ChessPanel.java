@@ -30,7 +30,7 @@ public class ChessPanel extends JPanel {
 
 	   public ChessPanel() {
 		   board = new JButton[BOARDSIZE][BOARDSIZE];
-//		   boardSetup();
+		   boardInit();
 	   }
 	   
 	   /**
@@ -56,7 +56,7 @@ public class ChessPanel extends JPanel {
 		   bKing = new ImageIcon("bKing");
 		   bQueen = new ImageIcon("bQueen");
 		   
-		   ButtonListener listener = new ButtonListener();
+//		   ButtonListener listener = new ButtonListener();
 		   
 		   //Creates buttons for the white pieces
 		   board[0][0] = new JButton(wRook);
@@ -67,21 +67,20 @@ public class ChessPanel extends JPanel {
 		   board[0][5] = new JButton(wBishop);
 		   board[0][6] = new JButton(wKnight);
 		   board[0][7] = new JButton(wRook);
-		   
+
 		   //Creates buttons for the black pieces
-		   board[8][0] = new JButton(bRook);
-		   board[8][1] = new JButton(bKnight);
-		   board[8][2] = new JButton(bBishop);
-		   board[8][3] = new JButton(bKing);
-		   board[8][4] = new JButton(bQueen);
-		   board[8][5] = new JButton(bBishop);
-		   board[8][6] = new JButton(bKnight);
-		   board[8][7] = new JButton(bRook);
+		   board[7][0] = new JButton(bRook);
+		   board[7][1] = new JButton(bKnight);
+		   board[7][2] = new JButton(bBishop);
+		   board[7][3] = new JButton(bKing);
+		   board[7][4] = new JButton(bQueen);
+		   board[7][5] = new JButton(bBishop);
+		   board[7][6] = new JButton(bKnight);
+		   board[7][7] = new JButton(bRook);
 		   
 		   //Creates all of the pawns.
 		   for(int row = 0; row < BOARDSIZE; row++) 
 			   for(int col = 0; col < BOARDSIZE; col++) {
-				   
 				   if(row == 1) {
 					   board[row][col] = new JButton(wPawn);
 				   }
@@ -89,8 +88,8 @@ public class ChessPanel extends JPanel {
 				   else if(row == 7) {
 					   board[row][col] = new JButton(bPawn);
 				   }
-				   
-				   board[row][col].addActionListener(listener);
+				   add(board[row][col]);
+//				   board[row][col].addActionListener(listener);
 			   }
 		   
 	   }
