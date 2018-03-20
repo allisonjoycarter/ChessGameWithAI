@@ -1,11 +1,17 @@
 package ChessW18;
 
 import javax.swing.*;
+import javax.swing.event.MenuListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import static java.lang.System.exit;
+
 public class ChessPanel extends JPanel {
+
+	private JMenuItem gameItem;
+	private JMenuItem quitItem;
 
 	private JButton[][] board;
 	private ChessModel model;
@@ -32,15 +38,18 @@ public class ChessPanel extends JPanel {
 	 * or a position. */
 	private boolean pieceChosen;
 
-
-	// declare other instance variables as needed
-
 	private ButtonListener buttonListener = new ButtonListener();
 
-	public ChessPanel() {
+	public ChessPanel(JMenuItem pquitItem, JMenuItem pgameItem) {
 		model = new ChessModel();
 		move = new Move();
 		board = new JButton[BOARDSIZE][BOARDSIZE];
+
+		gameItem = pgameItem;
+		quitItem = pquitItem;
+		quitItem.addActionListener(e -> exit(1)); //These lambda functions are neat!
+		gameItem.addActionListener( e -> resetBoard());  //They saved us something like a dozen lines of code!
+
 		boardInit();
 		displayBoard();
 	}
@@ -55,26 +64,22 @@ public class ChessPanel extends JPanel {
 	 */
 	private void boardInit() {
 
-		//This images still need to be added to the repository
 		wPawn = new ImageIcon("wPawn.png");
 		wRook = new ImageIcon("wRook.png");
 		wBishop = new ImageIcon("wBishop.png");
-		wKnight = new ImageIcon("wKnight");
-		wKing = new ImageIcon("wKing");
-		wQueen = new ImageIcon("wQueen");
+		wKnight = new ImageIcon("wKnight.png");
+		wKing = new ImageIcon("wKing.png");
+		wQueen = new ImageIcon("wQueen.png");
 
-		//This images still need to be added to the repository
-		bPawn = new ImageIcon("bPawn");
-		bRook = new ImageIcon("bRook");
-		bBishop = new ImageIcon("bBishop");
-		bKnight = new ImageIcon("bKnight");
-		bKing = new ImageIcon("bKing");
-		bQueen = new ImageIcon("bQueen");
+		bPawn = new ImageIcon("bPawn.png");
+		bRook = new ImageIcon("bRook.png");
+		bBishop = new ImageIcon("bBishop.png");
+		bKnight = new ImageIcon("bKnight.png");
+		bKing = new ImageIcon("bKing.png");
+		bQueen = new ImageIcon("bQueen.png");
 
 		ButtonListener listener = new ButtonListener();
 
-//		setLayout(new GridBagLayout()); /** I'm setting this up so that
-//		 the buttons will fall into place when created */
         setLayout(new GridLayout(BOARDSIZE, BOARDSIZE)); //this can be changed back, just temporary for seeing the grid
 		GridBagConstraints loc;
 
@@ -102,6 +107,7 @@ public class ChessPanel extends JPanel {
 	 * needs to be finished
 	 */
 	private void displayBoard() {
+
 		for (int row = 0; row < BOARDSIZE; row++) {
 			for (int col = 0; col < BOARDSIZE; col++) {
 				IChessPiece temp = model.pieceAt(row,col); //variable to improve readability
@@ -159,8 +165,8 @@ public class ChessPanel extends JPanel {
 	 *
 	 **************************************************************/
 	private void resetBoard() {
+		board = new JButton[BOARDSIZE][BOARDSIZE];
 		boardInit();
-		repaint();
 	}
 
 
@@ -181,8 +187,8 @@ public class ChessPanel extends JPanel {
 			 * be stored and model.move is called. The turn will be
 			 * switched in chessModel.
 			 *
-			 * -Somewhere, probably not here, we should make sure a piece of the
-			 *  correct team is being chosen.
+			 * -Somewhere, probably not here, we should make sure a
+			 *  piece of the correct team is being chosen.
 			 * -Should make the button look differently, but still
 			 *  pressable?
 			 * */
@@ -211,7 +217,6 @@ public class ChessPanel extends JPanel {
                             model.addToMoveStack(move);
 						}
 					}
-
 			model.move(move);//The move method that is called here will check for validity.
 			displayBoard();
 		}

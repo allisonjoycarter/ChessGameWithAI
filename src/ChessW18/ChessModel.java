@@ -97,7 +97,7 @@ public class ChessModel implements IChessModel {
                 ((Rook) temp).canCastle = false;
 
         } else {
-            System.out.println("Invalid Move");
+            setMessage("Invalid Move");
         }
     }
 
