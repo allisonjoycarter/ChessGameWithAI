@@ -9,6 +9,8 @@ public class ChessModel implements IChessModel {
     private ArrayList<IChessPiece> whiteCaptures = new ArrayList<>();
     private ArrayList<IChessPiece> blackCaptures = new ArrayList<>();
 
+    private String message;
+
     public ChessModel() {
 
         //placing the pawns on the board
@@ -123,4 +125,13 @@ public class ChessModel implements IChessModel {
         whiteCaptures.clear();
         board = new IChessPiece[8][8];
     }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
 }

@@ -27,6 +27,13 @@ public class Move {
         this.newColumn = newColumn;
     }
 
+    public Move() {
+        this.oldColumn = 0;
+        this.oldRow = 0;
+        this.newRow = 0;
+        this.newColumn = 0;
+    }
+
     public int getOldRow() {
         return oldRow;
     }
