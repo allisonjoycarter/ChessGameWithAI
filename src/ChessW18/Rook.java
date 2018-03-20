@@ -45,21 +45,25 @@ public class Rook extends ChessPiece {
 		//dont go through loops we don't need to.
         //add one to the starting location so it does not count itself and return false
 		if (move.oldRow < move.newRow) { //moving down
-		    for (int i = move.oldRow + 1; i < move.newRow; i++)
-		        if (board[i][move.oldRow] != null)
+		    for (int i = move.oldRow; i < move.newRow; i++)
+		        if (board[move.oldRow][i] != null &&
+                        board[move.oldRow][move.oldColumn] != board[move.oldRow][i])
 		            return false;
 		} else if (move.oldRow > move.newRow) { //moving up
-		    for (int i = move.oldRow - 1; i > move.newRow; i--)
-		        if (board[i][move.oldColumn] != null)
+		    for (int i = move.oldRow; i > move.newRow; i--)
+		        if (board[i][move.oldColumn] != null &&
+                        board[move.oldRow][move.oldColumn] != board[move.oldRow][i])
 		            return false;
 		} else if (move.oldColumn < move.newColumn) { //moving right
-            for (int i = move.oldColumn + 1; i < move.newColumn; i++) {
-                if (board[move.oldRow][i] != null)
+            for (int i = move.oldColumn; i < move.newColumn; i++) {
+                if (board[move.oldRow][i] != null &&
+                        board[move.oldRow][move.oldColumn] != board[move.oldRow][i])
                     return false;
             }
         } else if (move.oldColumn > move.newColumn) { //moving left
-            for (int i = move.oldColumn - 1; i > move.newColumn; i--) {
-                if (board[move.oldRow][i] != null)
+            for (int i = move.oldColumn; i > move.newColumn; i--) {
+                if (board[move.oldRow][i] != null &&
+                        board[move.oldRow][move.oldColumn] != board[i][move.oldColumn])
                     return false;
             }
         }

@@ -5,6 +5,8 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class ChessPanel extends JPanel {
 
@@ -200,6 +202,12 @@ public class ChessPanel extends JPanel {
                                 model.pieceAt(row, col).player().equals(currentPlayer)) { //prevents playing for opponent
 							move.oldColumn = col;
 							move.oldRow = row;
+							ArrayList<Move> moves = model.findValidMoves(row, col);
+//                            System.out.println(" ~~~~~~~~ " + model.pieceAt(row, col).type());
+                            for (int i = 0; i < moves.size(); i++) {
+                                board[moves.get(i).newRow][moves.get(i).newColumn].setBorder(new LineBorder(Color.blue, 5));
+//                                System.out.println("Row: " + moves.get(i).newRow + " Column: " + moves.get(i).newColumn);
+                            }
                             //a border so you can see which piece is selected
 							board[row][col].setBorder(new LineBorder(Color.orange, 5));
 							pieceChosen = true;
@@ -207,7 +215,12 @@ public class ChessPanel extends JPanel {
                                     ){
 							move.newColumn = col;
 							move.newRow = row;
-							board[move.getOldRow()][move.getOldColumn()].setBorder(null);
+                            for (int r = 0; r < board.length; r++) {
+                                for (int c = 0; c < board.length; c++) {
+                                    if (board[r][c].getBorder() != null)
+                                        board[r][c].setBorder(null);
+                                }
+                            }
 							//not sure if he wants an invalid move to throw an error
                             try {
                                 model.move(move);//The move method that is called here will check for validity.

@@ -1,7 +1,5 @@
 package ChessW18;
 
-import ChessW18.ChessPanel;
-
 import javax.swing.*;
 
 public class ChessGUI {

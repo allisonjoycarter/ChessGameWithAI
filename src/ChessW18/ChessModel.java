@@ -113,6 +113,18 @@ public class ChessModel implements IChessModel {
         return false;
     }
 
+    public ArrayList<Move> findValidMoves(int currentRow, int currentCol) {
+        ArrayList<Move> possibleMoves = new ArrayList<>();
+        for (int row = 0; row < board.length; row++) {
+            for (int col = 0; col < board.length; col++) {
+                Move temp = new Move(currentRow, currentCol, row, col);
+                if (isValidMove(temp))
+                    possibleMoves.add(temp);
+            }
+        }
+        return possibleMoves;
+    }
+
     @Override
     public Player currentPlayer() {
         return currentPlayer;
