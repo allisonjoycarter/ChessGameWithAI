@@ -8,13 +8,19 @@ import java.awt.event.ActionListener;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import static java.lang.System.exit;
+
 public class ChessPanel extends JPanel {
+
+	private JMenuItem gameItem;
+	private JMenuItem quitItem;
 
 	private JButton[][] board;
 	private ChessModel model;
 	private final int BOARDSIZE = 8;
 
-	private JLabel message;
+	private JLabel outMessage;
+    private String message;
 
 	private ImageIcon wPawn;
 	private ImageIcon wRook;
@@ -43,12 +49,18 @@ public class ChessPanel extends JPanel {
 
 	private ButtonListener buttonListener = new ButtonListener();
 
-	public ChessPanel() {
+	public ChessPanel(JMenuItem pquitItem, JMenuItem pgameItem) {
 		model = new ChessModel();
 		move = new Move();
 		currentPlayer = model.currentPlayer();
 		pieceChosen = false;
 		board = new JButton[BOARDSIZE][BOARDSIZE];
+
+		gameItem = pgameItem;
+		quitItem = pquitItem;
+		quitItem.addActionListener(e -> exit(1));
+		gameItem.addActionListener( e -> resetBoard());
+
 		boardInit();
 		displayBoard();
 	}
@@ -63,7 +75,6 @@ public class ChessPanel extends JPanel {
 	 */
 	private void boardInit() {
 
-		//This images still need to be added to the repository
 		wPawn = new ImageIcon("wPawn.png");
 		wRook = new ImageIcon("wRook.png");
 		wBishop = new ImageIcon("wBishop.png");
@@ -72,6 +83,12 @@ public class ChessPanel extends JPanel {
 		wQueen = new ImageIcon("wQueen.png");
 
 		//This images still need to be added to the repository
+		bPawn = new ImageIcon("bPawn.png");
+		bRook = new ImageIcon("bRook.png");
+		bBishop = new ImageIcon("bBishop.png");
+		bKnight = new ImageIcon("bKnight.png");
+		bKing = new ImageIcon("bKing.png");
+		bQueen = new ImageIcon("bQueen.png");
 		bPawn = new ImageIcon("bPawn.png");
 		bRook = new ImageIcon("bRook.png");
 		bBishop = new ImageIcon("bBishop.png");
@@ -100,7 +117,7 @@ public class ChessPanel extends JPanel {
 				add(board[row][col]);
 			}
 
-		message = new JLabel("");
+		outMessage = new JLabel("");
 		model.reset();
 	}
 
@@ -158,8 +175,7 @@ public class ChessPanel extends JPanel {
                 }
 			}
 		}
-//		message = new JLabel(model.getMessage(),
-//				(model.getMessage()).length());
+//		outMessage.setText(message);
 	}
 
 	/***************************************************************
@@ -167,8 +183,8 @@ public class ChessPanel extends JPanel {
 	 *
 	 **************************************************************/
 	private void resetBoard() {
+		board = new JButton[BOARDSIZE][BOARDSIZE];
 		boardInit();
-		repaint();
 	}
 
 
@@ -230,7 +246,7 @@ public class ChessPanel extends JPanel {
                                 model.addToMoveStack(move);
                                 move = new Move(); //to prevent null pointer errors from trying to move a piece that isn't there anymore
                             } catch (IllegalArgumentException e) {
-//                                System.out.println("Illegal Move");
+                                message = "Illegal Move"; //a JOptionPane is another option
                             }
 							pieceChosen = false;
                             displayBoard();
