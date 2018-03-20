@@ -1,6 +1,7 @@
 package ChessW18;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,6 +33,9 @@ public class ChessPanel extends JPanel {
 	 * or a position. */
 	private boolean pieceChosen;
 
+	/** the current player */
+	private Player currentPlayer;
+
 
 	// declare other instance variables as needed
 
@@ -40,6 +44,8 @@ public class ChessPanel extends JPanel {
 	public ChessPanel() {
 		model = new ChessModel();
 		move = new Move();
+		currentPlayer = model.currentPlayer();
+		pieceChosen = false;
 		board = new JButton[BOARDSIZE][BOARDSIZE];
 		boardInit();
 		displayBoard();
@@ -59,20 +65,21 @@ public class ChessPanel extends JPanel {
 		wPawn = new ImageIcon("wPawn.png");
 		wRook = new ImageIcon("wRook.png");
 		wBishop = new ImageIcon("wBishop.png");
-		wKnight = new ImageIcon("wKnight");
-		wKing = new ImageIcon("wKing");
-		wQueen = new ImageIcon("wQueen");
+		wKnight = new ImageIcon("wKnight.png");
+		wKing = new ImageIcon("wKing.png");
+		wQueen = new ImageIcon("wQueen.png");
 
 		//This images still need to be added to the repository
-		bPawn = new ImageIcon("bPawn");
-		bRook = new ImageIcon("bRook");
-		bBishop = new ImageIcon("bBishop");
-		bKnight = new ImageIcon("bKnight");
-		bKing = new ImageIcon("bKing");
-		bQueen = new ImageIcon("bQueen");
+		bPawn = new ImageIcon("bPawn.png");
+		bRook = new ImageIcon("bRook.png");
+		bBishop = new ImageIcon("bBishop.png");
+		bKnight = new ImageIcon("bKnight.png");
+		bKing = new ImageIcon("bKing.png");
+		bQueen = new ImageIcon("bQueen.png");
 
 		ButtonListener listener = new ButtonListener();
 
+		//TODO: create a panel that shows captures
 //		setLayout(new GridBagLayout()); /** I'm setting this up so that
 //		 the buttons will fall into place when created */
         setLayout(new GridLayout(BOARDSIZE, BOARDSIZE)); //this can be changed back, just temporary for seeing the grid
@@ -96,11 +103,11 @@ public class ChessPanel extends JPanel {
 	}
 
 
-	/**
-	 * Method that updates the board.
+	/******************************************************************
+	 * Method that updates the board and sets the correct icons.
 	 *
-	 * needs to be finished
-	 */
+	 * @author Allison
+	 *****************************************************************/
 	private void displayBoard() {
 		for (int row = 0; row < BOARDSIZE; row++) {
 			for (int col = 0; col < BOARDSIZE; col++) {
@@ -109,49 +116,48 @@ public class ChessPanel extends JPanel {
                     board[row][col].setIcon(null);
                     continue;
                 }
-				//set pawn icon
-				if (temp.type().equals("Pawn")) {
-					if (temp.player().equals(Player.WHITE))
-						board[row][col].setIcon(wPawn);
-					else
-						board[row][col].setIcon(bPawn);
-				} else if (temp.type().equals("Knight")) { //set knight icon
-					if (temp.player().equals(Player.WHITE))
-						board[row][col].setIcon(wKnight);
-					else
-						board[row][col].setIcon(bKnight);
-				} else if (temp.type().equals("Rook")) { //set rook icon
-					if (temp.player().equals(Player.WHITE))
-						board[row][col].setIcon(wRook);
-					else
-						board[row][col].setIcon(bRook);
-				} else if (temp.type().equals("Bishop")) { //set bishop icon
-					if (temp.player().equals(Player.WHITE))
-						board[row][col].setIcon(wBishop);
-					else
-						board[row][col].setIcon(bBishop);
-				} else if (temp.type().equals("King")) { //set king icon
-					if (temp.player().equals(Player.WHITE))
-						board[row][col].setIcon(wKing);
-					else
-						board[row][col].setIcon(bKing);
-				} else if (temp.type().equals("Queen")) { //set queen icon
-					if (temp.player().equals(Player.WHITE))
-						board[row][col].setIcon(wQueen);
-					else
-						board[row][col].setIcon(bQueen);
-				}
+
+                switch (temp.type()) {
+                    case "Pawn":
+                        if (temp.player().equals(Player.WHITE))
+                            board[row][col].setIcon(wPawn);
+                        else
+                            board[row][col].setIcon(bPawn);
+                        break;
+                    case "Knight":
+                        if (temp.player().equals(Player.WHITE))
+                            board[row][col].setIcon(wKnight);
+                        else
+                            board[row][col].setIcon(bKnight);
+                        break;
+                    case "Rook":
+                        if (temp.player().equals(Player.WHITE))
+                            board[row][col].setIcon(wRook);
+                        else
+                            board[row][col].setIcon(bRook);
+                        break;
+                    case "Bishop":
+                        if (temp.player().equals(Player.WHITE))
+                            board[row][col].setIcon(wBishop);
+                        else
+                            board[row][col].setIcon(bBishop);
+                        break;
+                    case "King":
+                        if (temp.player().equals(Player.WHITE))
+                            board[row][col].setIcon(wKing);
+                        else
+                            board[row][col].setIcon(bKing);
+                        break;
+                    case "Queen":
+                        if (temp.player().equals(Player.WHITE))
+                            board[row][col].setIcon(wQueen);
+                        else
+                            board[row][col].setIcon(bQueen);
+                }
 			}
 		}
-
-		board[move.newRow][move.newColumn] =
-				board[move.oldRow][move.oldColumn];
-		board[move.oldRow][move.oldColumn] = new JButton();
-
 //		message = new JLabel(model.getMessage(),
 //				(model.getMessage()).length());
-
-		repaint();
 	}
 
 	/***************************************************************
@@ -186,37 +192,37 @@ public class ChessPanel extends JPanel {
 			 * -Should make the button look differently, but still
 			 *  pressable?
 			 * */
-			for (int row = 0; row < 8; row++)
-				for (int col = 0; col < 8; col++)
-					if (event.equals(board[row][col])) {
-						if(!pieceChosen) { //stores the first pressed button.
+			for (int row = 0; row < board.length; row++)
+				for (int col = 0; col < board.length; col++)
+					if (event.getSource() == board[row][col]) {
+						if(!pieceChosen &&
+                                model.pieceAt(row, col) != null && //need to make sure user is selecting an actual piece
+                                model.pieceAt(row, col).player().equals(currentPlayer)) { //prevents playing for opponent
 							move.oldColumn = col;
 							move.oldRow = row;
+                            //a border so you can see which piece is selected
+							board[row][col].setBorder(new LineBorder(Color.orange, 5));
 							pieceChosen = true;
-						}
-						else { //stores the second pressed button.
+						} else if (pieceChosen //stores the second pressed button.
+                                    ){
 							move.newColumn = col;
 							move.newRow = row;
-							pieceChosen = false;
-
-                            //make sure pieces can't move certain ways after the first turn
-                            if (model.pieceAt(row, col) != null) {
-                                if (model.pieceAt(row, col).type().equals("Pawn"))
-                                    ((Pawn) model.pieceAt(row, col)).setFirstTurn(false);
-                                else if (model.pieceAt(row,col).type().equals("King"))
-                                    ((King) model.pieceAt(row, col)).setCanCastle(false);
-                                else if (model.pieceAt(row, col).type().equals("Rook"))
-                                    ((Rook) model.pieceAt(row, col)).setCanCastle(false);
+							board[move.getOldRow()][move.getOldColumn()].setBorder(null);
+							//not sure if he wants an invalid move to throw an error
+                            try {
+                                model.move(move);//The move method that is called here will check for validity.
+                                model.addToMoveStack(move);
+                                model.switchPlayer();
+                                currentPlayer = model.currentPlayer();
+                                model.addToMoveStack(move);
+                                move = new Move(); //to prevent null pointer errors from trying to move a piece that isn't there anymore
+                            } catch (IllegalArgumentException e) {
+//                                System.out.println("Illegal Move");
                             }
-                            model.addToMoveStack(move);
+							pieceChosen = false;
+                            displayBoard();
 						}
 					}
-
-			model.move(move);//The move method that is called here will check for validity.
-			displayBoard();
 		}
-
-
-
 	}
 }

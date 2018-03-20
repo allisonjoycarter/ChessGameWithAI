@@ -6,7 +6,7 @@ import java.util.Stack;
 public class ChessModel implements IChessModel {
 
     private IChessPiece[][] board = new IChessPiece[8][8];
-    private Player currentPlayer = Player.WHITE; //to be changed
+    private Player currentPlayer; //to be changed
     private ArrayList<IChessPiece> whiteCaptures = new ArrayList<>();
     private ArrayList<IChessPiece> blackCaptures = new ArrayList<>();
     private Stack<Move> moveStack = new Stack<>();
@@ -18,6 +18,7 @@ public class ChessModel implements IChessModel {
     }
 
     private void placeStartingPieces() {
+        currentPlayer = Player.WHITE;
         //placing the pawns on the board
         for (int column = 0; column < board.length; column++) {
             board[1][column] = new Pawn(Player.BLACK);
@@ -66,10 +67,11 @@ public class ChessModel implements IChessModel {
      * @param move
      * @param board
      *****************************************************************/
-    public IChessPiece checkForAndCapture(Move move, IChessPiece[][] board) {
+    private IChessPiece checkForAndCapture(Move move, IChessPiece[][] board) {
         IChessPiece tempPiece = board[move.newRow][move.newColumn];
         //if the player of the place to move to is opposite of the player of the moving piece
-        if (!tempPiece.player().equals(board[move.oldRow][move.oldColumn].opponent())) {
+        if (tempPiece != null &&
+                tempPiece.player().equals(board[move.oldRow][move.oldColumn].opponent())) {
             return tempPiece;
         }
         return null;
@@ -78,26 +80,27 @@ public class ChessModel implements IChessModel {
     @Override
     public void move(Move move) {
         if (isValidMove(move)) {
-//            if (checkForAndCapture(move, board) != null) //if there is a piece to be captured
-//                //add to list of respective player's captures
-//                if (currentPlayer.equals(Player.BLACK))
-//                    blackCaptures.add(checkForAndCapture(move, board));
-//                else
-//                    whiteCaptures.add(checkForAndCapture(move, board));
-
+            if (checkForAndCapture(move, board) != null) //if there is a piece to be captured
+                //add to list of respective player's captures
+                if (currentPlayer.equals(Player.BLACK))
+                    blackCaptures.add(checkForAndCapture(move, board));
+                else
+                    whiteCaptures.add(checkForAndCapture(move, board));
             //transferring piece from old square to new square
             board[move.newRow][move.newColumn] = board[move.oldRow][move.oldColumn];
             board[move.oldRow][move.oldColumn] = null;
 
-            //if the ChessW18.King or ChessW18.Rook is moved, Castling is no longer an option
+            //if the King or Rook is moved, Castling is no longer an option
             IChessPiece temp = board[move.newRow][move.newColumn];
             if (temp.type().equals("King"))
                 ((King) temp).canCastle = false;
             if (temp.type().equals("Rook"))
                 ((Rook) temp).canCastle = false;
+            if (temp.type().equals("Pawn"))
+                ((Pawn) temp).setFirstTurn(false);
 
         } else {
-            System.out.println("Invalid Move");
+            throw new IllegalArgumentException();
         }
     }
 
@@ -115,10 +118,11 @@ public class ChessModel implements IChessModel {
         return currentPlayer;
     }
 
-    public Player switchPlayer() {
+    public void switchPlayer() {
         if (currentPlayer().equals(Player.BLACK))
-            return Player.WHITE;
-        return Player.BLACK;
+            currentPlayer = Player.WHITE;
+        else
+            currentPlayer = Player.BLACK;
     }
 
     public boolean gameOver() {

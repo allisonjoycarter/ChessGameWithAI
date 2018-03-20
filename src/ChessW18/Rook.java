@@ -43,52 +43,30 @@ public class Rook extends ChessPiece {
 
 		//The if's are to make sure we check the right direction, and
 		//dont go through loops we don't need to.
-		if (move.oldRow < move.newRow) {
-			
-			if (move.oldColumn < move.newColumn) {	
-				for (int i = move.newRow; i <= move.oldRow; i++)
-					for (int j = move.newColumn; j <= move.oldColumn;
-							j++) {
-						
-						if (!(board[i][j] == null))
-							return false;
-					}
-			}
-
-			else if (move.oldColumn > move.newColumn) {
-				for (int i = move.newRow; i <= move.oldRow; i++)
-					for (int j = move.oldColumn; j <= move.newColumn;
-							j++) {
-						if (board[i][j] != null)
-							return false;
-					}
-			}
-		}
-		
-		else if (move.oldRow > move.newRow) {
-			
-			if (move.oldColumn < move.newColumn) {
-				for (int i = move.oldRow; i <= move.newRow; i++)
-					for (int j = move.newColumn; j <= move.oldColumn;
-							j++) {
-						if (!(board[i][j] == null))
-							return false;
-					}
-			}
-			
-			else if (move.oldColumn > move.newColumn) {
-				for (int i = move.oldRow; i <= move.newRow; i++)
-					for (int j = move.oldColumn; j <= move.newColumn;
-							j++) {
-						if (!(board[i][j] == null))
-							return false;
-					}
-			}
-		}
+        //add one to the starting location so it does not count itself and return false
+		if (move.oldRow < move.newRow) { //moving down
+		    for (int i = move.oldRow + 1; i < move.newRow; i++)
+		        if (board[i][move.oldRow] != null)
+		            return false;
+		} else if (move.oldRow > move.newRow) { //moving up
+		    for (int i = move.oldRow - 1; i > move.newRow; i--)
+		        if (board[i][move.oldColumn] != null)
+		            return false;
+		} else if (move.oldColumn < move.newColumn) { //moving right
+            for (int i = move.oldColumn + 1; i < move.newColumn; i++) {
+                if (board[move.oldRow][i] != null)
+                    return false;
+            }
+        } else if (move.oldColumn > move.newColumn) { //moving left
+            for (int i = move.oldColumn - 1; i > move.newColumn; i--) {
+                if (board[move.oldRow][i] != null)
+                    return false;
+            }
+        }
 		
 		//Makes sure the piece stayed within a column or row.
-        return move.oldColumn == move.newColumn ||
-                move.oldRow == move.oldColumn;
+        return move.oldColumn == move.newColumn ^
+                move.oldRow == move.newRow;
 
     }
 

@@ -23,25 +23,27 @@ public class Pawn extends ChessPiece {
 
 
     public boolean isValidMove(Move move, IChessPiece[][] board) {
-        int toCenter = 1; //to be added to row
-        if (player() == Player.WHITE)
-            toCenter = -1; //makes the pawn move towards the center of the board, up a row for black, down a row for white
+        if (super.isValidMove(move, board)) {
+            int toCenter = 1; //to be added to row
+            if (player() == Player.WHITE)
+                toCenter = -1; //makes the pawn move towards the center of the board, up a row for black, down a row for white
 
             //if there is a piece of opposite player to capture, diagonal movement 1 square
-			if (move.newRow == move.oldRow + toCenter && // or -1 depending on the player, to the center of the board
-					(move.newColumn == move.oldColumn + 1
-							|| move.newColumn == move.oldColumn - 1)
-					&& board[move.newRow][move.newColumn]
-							.player() == opponent())
-				return true;
-			if (isFirstTurn && move.oldColumn == move.newColumn &&
+            if (move.newRow == move.oldRow + toCenter && // or -1 depending on the player, to the center of the board
+                    board[move.newRow][move.newColumn] != null &&
+                    (move.newColumn == move.oldColumn + 1
+                            || move.newColumn == move.oldColumn - 1)
+                    && board[move.newRow][move.newColumn]
+                    .player() == opponent())
+                return true;
+            if (isFirstTurn && move.oldColumn == move.newColumn &&
                     move.newRow == move.oldRow + (toCenter * 2))
-			    return true;
-			//if move is 1 square forward
+                return true;
+            //if move is 1 square forward
             return move.oldColumn == move.newColumn &&
                     move.newRow == move.oldRow + toCenter;
-
-//        return false;
+        }
+        return false;
     }
 
     public void setFirstTurn(boolean isFirstTurn) {
