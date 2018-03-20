@@ -3,7 +3,7 @@ package ChessW18;
 /**********************************************************************
  * Contains the necessary information for a knight piece to exist. Such
  * as the player that owns the piece, a the name of the piece, and has
- * the ability to check whether the piece can excecute a specified
+ * the ability to check whether the piece can execute a specified
  * move.
  * 
  * @author

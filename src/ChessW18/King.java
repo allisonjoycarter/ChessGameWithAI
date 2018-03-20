@@ -33,4 +33,8 @@ public class King extends ChessPiece {
         }
         return false;
     }
+
+    public void setCanCastle(boolean canCastle) {
+        this.canCastle = canCastle;
+    }
 }

@@ -1,6 +1,7 @@
 package ChessW18;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class ChessModel implements IChessModel {
 
@@ -8,15 +9,19 @@ public class ChessModel implements IChessModel {
     private Player currentPlayer = Player.WHITE; //to be changed
     private ArrayList<IChessPiece> whiteCaptures = new ArrayList<>();
     private ArrayList<IChessPiece> blackCaptures = new ArrayList<>();
+    private Stack<Move> moveStack = new Stack<>();
 
     private String message;
 
     public ChessModel() {
+        placeStartingPieces();
+    }
 
+    private void placeStartingPieces() {
         //placing the pawns on the board
         for (int column = 0; column < board.length; column++) {
             board[1][column] = new Pawn(Player.BLACK);
-            board[7][column] = new Pawn(Player.WHITE);
+            board[6][column] = new Pawn(Player.WHITE);
         }
         //placing the rest of the pieces
         board[0][0] = new Rook(Player.BLACK);
@@ -73,12 +78,12 @@ public class ChessModel implements IChessModel {
     @Override
     public void move(Move move) {
         if (isValidMove(move)) {
-            if (checkForAndCapture(move, board) != null) //if there is a piece to be captured
-                //add to list of respective player's captures
-                if (currentPlayer.equals(Player.BLACK))
-                    blackCaptures.add(checkForAndCapture(move, board));
-                else
-                    whiteCaptures.add(checkForAndCapture(move, board));
+//            if (checkForAndCapture(move, board) != null) //if there is a piece to be captured
+//                //add to list of respective player's captures
+//                if (currentPlayer.equals(Player.BLACK))
+//                    blackCaptures.add(checkForAndCapture(move, board));
+//                else
+//                    whiteCaptures.add(checkForAndCapture(move, board));
 
             //transferring piece from old square to new square
             board[move.newRow][move.newColumn] = board[move.oldRow][move.oldColumn];
@@ -86,14 +91,18 @@ public class ChessModel implements IChessModel {
 
             //if the ChessW18.King or ChessW18.Rook is moved, Castling is no longer an option
             IChessPiece temp = board[move.newRow][move.newColumn];
-            if (temp.type().equals("ChessW18.King"))
+            if (temp.type().equals("King"))
                 ((King) temp).canCastle = false;
-            if (temp.type().equals("ChessW18.Rook"))
+            if (temp.type().equals("Rook"))
                 ((Rook) temp).canCastle = false;
 
         } else {
-            System.out.println("Invalid ChessW18.Move");
+            System.out.println("Invalid Move");
         }
+    }
+
+    public void addToMoveStack(Move move) {
+        moveStack.add(move);
     }
 
     @Override
@@ -124,6 +133,7 @@ public class ChessModel implements IChessModel {
         blackCaptures.clear();
         whiteCaptures.clear();
         board = new IChessPiece[8][8];
+        placeStartingPieces();
     }
 
     public String getMessage() {

@@ -1,7 +1,7 @@
 package ChessW18;
 
 /**********************************************************************
- * ChessW18.ChessPiece object that represents a ChessW18.Bishop. Holds which player is
+ * ChessPiece object that represents a ChessW18.Bishop. Holds which player is
  * the owner of the piece, the type, and a method to determine whether
  * a move is valid or invalid.
  *
@@ -11,7 +11,7 @@ package ChessW18;
 public class Bishop extends ChessPiece {
 
     /******************************************************************
-     * Constructor for ChessW18.Bishop, which holds the player that
+     * Constructor for Bishop, which holds the player that
      * owns/controls the piece
      *
      * @param player which player owns the piece (white or black)
@@ -47,16 +47,20 @@ public class Bishop extends ChessPiece {
             //check to make sure there is no piece in the way
             //for moving right diagonal
             if (move.oldRow > move.newRow) {
-                for (int row = move.oldRow; row > move.newRow; row--)
-                    for (int column = move.oldColumn; column > move.newColumn; column--)
+                for (int row = move.oldRow - 1; row > move.newRow; row--)
+                    for (int column = move.oldColumn - 1; column > move.newColumn; column--) {
                         if (board[row][column] != null)
                             return false;
+                        row--;
+                    }
             //for moving left diagonal
             } else if (move.oldRow < move.newRow) {
-                for (int row = move.oldRow; row < move.newRow; row++)
-                    for (int column = move.oldColumn; column < move.newColumn; column++)
+                for (int row = move.oldRow + 1; row < move.newRow; row++)
+                    for (int column = move.oldColumn + 1; column < move.newColumn; column++) {
                         if (board[row][column] != null)
                             return false;
+                        row++;
+                    }
             }
             //if the amount of rows moved is equal to the amount of columns moved
             return Math.abs(move.oldRow - move.newRow) == Math.abs(move.oldColumn - move.newColumn);

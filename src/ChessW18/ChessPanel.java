@@ -42,6 +42,7 @@ public class ChessPanel extends JPanel {
 		move = new Move();
 		board = new JButton[BOARDSIZE][BOARDSIZE];
 		boardInit();
+		displayBoard();
 	}
 
 	/**
@@ -72,45 +73,21 @@ public class ChessPanel extends JPanel {
 
 		ButtonListener listener = new ButtonListener();
 
-		//Creates buttons for the white pieces
-		board[0][0] = new JButton(wRook);
-		board[0][1] = new JButton(wKnight);
-		board[0][2] = new JButton(wBishop);
-		board[0][3] = new JButton(wKing);
-		board[0][4] = new JButton(wQueen);
-		board[0][5] = new JButton(wBishop);
-		board[0][6] = new JButton(wKnight);
-		board[0][7] = new JButton(wRook);
-
-		//Creates buttons for the black pieces
-		board[7][0] = new JButton(bRook);
-		board[7][1] = new JButton(bKnight);
-		board[7][2] = new JButton(bBishop);
-		board[7][3] = new JButton(bKing);
-		board[7][4] = new JButton(bQueen);
-		board[7][5] = new JButton(bBishop);
-		board[7][6] = new JButton(bKnight);
-		board[7][7] = new JButton(bRook);
-
-
-		setLayout(new GridBagLayout()); /** I'm setting this up so that
-		 the buttons will fall into place when created */
+//		setLayout(new GridBagLayout()); /** I'm setting this up so that
+//		 the buttons will fall into place when created */
+        setLayout(new GridLayout(BOARDSIZE, BOARDSIZE)); //this can be changed back, just temporary for seeing the grid
 		GridBagConstraints loc;
 
 		//Creates all of the pawns.
 		for(int row = 0; row < BOARDSIZE; row++)
 			for(int col = 0; col < BOARDSIZE; col++) {
-
-				if(row == 1)
-					board[row][col] = new JButton(wPawn);
-
-				else if(row == 6)
-					board[row][col] = new JButton(bPawn);
-
-				else
-					board[row][col] = new JButton();
-
+		        board[row][col] = new JButton();
 				board[row][col].addActionListener(listener);
+                if ((row % 2 == 1 && col % 2 == 1) ||
+                        (row % 2 == 0 && col % 2 == 0))
+                    board[row][col].setBackground(Color.black);
+                else
+                    board[row][col].setBackground(Color.white);
 				add(board[row][col]);
 			}
 
@@ -125,12 +102,54 @@ public class ChessPanel extends JPanel {
 	 * needs to be finished
 	 */
 	private void displayBoard() {
+		for (int row = 0; row < BOARDSIZE; row++) {
+			for (int col = 0; col < BOARDSIZE; col++) {
+				IChessPiece temp = model.pieceAt(row,col); //variable to improve readability
+				if (temp == null) { //if there is no piece, keep going on the loop
+                    board[row][col].setIcon(null);
+                    continue;
+                }
+				//set pawn icon
+				if (temp.type().equals("Pawn")) {
+					if (temp.player().equals(Player.WHITE))
+						board[row][col].setIcon(wPawn);
+					else
+						board[row][col].setIcon(bPawn);
+				} else if (temp.type().equals("Knight")) { //set knight icon
+					if (temp.player().equals(Player.WHITE))
+						board[row][col].setIcon(wKnight);
+					else
+						board[row][col].setIcon(bKnight);
+				} else if (temp.type().equals("Rook")) { //set rook icon
+					if (temp.player().equals(Player.WHITE))
+						board[row][col].setIcon(wRook);
+					else
+						board[row][col].setIcon(bRook);
+				} else if (temp.type().equals("Bishop")) { //set bishop icon
+					if (temp.player().equals(Player.WHITE))
+						board[row][col].setIcon(wBishop);
+					else
+						board[row][col].setIcon(bBishop);
+				} else if (temp.type().equals("King")) { //set king icon
+					if (temp.player().equals(Player.WHITE))
+						board[row][col].setIcon(wKing);
+					else
+						board[row][col].setIcon(bKing);
+				} else if (temp.type().equals("Queen")) { //set queen icon
+					if (temp.player().equals(Player.WHITE))
+						board[row][col].setIcon(wQueen);
+					else
+						board[row][col].setIcon(bQueen);
+				}
+			}
+		}
+
 		board[move.newRow][move.newColumn] =
 				board[move.oldRow][move.oldColumn];
 		board[move.oldRow][move.oldColumn] = new JButton();
 
-		message = new JLabel(model.getMessage(),
-				(model.getMessage()).length());
+//		message = new JLabel(model.getMessage(),
+//				(model.getMessage()).length());
 
 		repaint();
 	}
@@ -173,12 +192,23 @@ public class ChessPanel extends JPanel {
 						if(!pieceChosen) { //stores the first pressed button.
 							move.oldColumn = col;
 							move.oldRow = row;
-							pieceChosen = false;
+							pieceChosen = true;
 						}
 						else { //stores the second pressed button.
 							move.newColumn = col;
-							move.oldRow = row;
-							pieceChosen = true;
+							move.newRow = row;
+							pieceChosen = false;
+
+                            //make sure pieces can't move certain ways after the first turn
+                            if (model.pieceAt(row, col) != null) {
+                                if (model.pieceAt(row, col).type().equals("Pawn"))
+                                    ((Pawn) model.pieceAt(row, col)).setFirstTurn(false);
+                                else if (model.pieceAt(row,col).type().equals("King"))
+                                    ((King) model.pieceAt(row, col)).setCanCastle(false);
+                                else if (model.pieceAt(row, col).type().equals("Rook"))
+                                    ((Rook) model.pieceAt(row, col)).setCanCastle(false);
+                            }
+                            model.addToMoveStack(move);
 						}
 					}
 
@@ -189,6 +219,4 @@ public class ChessPanel extends JPanel {
 
 
 	}
-
-
 }
