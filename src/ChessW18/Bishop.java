@@ -48,19 +48,34 @@ public class Bishop extends ChessPiece {
             //for moving right diagonal
             if (move.oldRow > move.newRow) {
                 for (int row = move.oldRow - 1; row > move.newRow; row--)
-                    for (int column = move.oldColumn - 1; column > move.newColumn; column--) {
-                        if (board[row][column] != null)
-                            return false;
-                        row--;
+                    if (move.oldColumn > move.newColumn) {
+                        for (int column = move.oldColumn - 1; column > move.newColumn; column--) {
+                            if (board[row][column] != null)
+                                return false;
+                            row--;
+                        }
+                    } else {
+                        for (int column = move.oldColumn + 1; column < move.newColumn; column++) {
+                            if (board[row][column] != null)
+                                return false;
+                            row--;
+                        }
                     }
             //for moving left diagonal
             } else if (move.oldRow < move.newRow) {
                 for (int row = move.oldRow + 1; row < move.newRow; row++)
-                    for (int column = move.oldColumn + 1; column < move.newColumn; column++) {
-                        if (board[row][column] != null)
-                            return false;
-                        row++;
-                    }
+                    if (move.oldColumn > move.newColumn) {
+                        for (int column = move.oldColumn - 1; column > move.newColumn; column--) {
+                            if (board[row][column] != null)
+                                return false;
+                            row++;
+                        }
+                    } else
+                        for (int column = move.oldColumn + 1; column < move.newColumn; column++) {
+                            if (board[row][column] != null)
+                                return false;
+                            row++;
+                        }
             }
             //if the amount of rows moved is equal to the amount of columns moved
             return Math.abs(move.oldRow - move.newRow) == Math.abs(move.oldColumn - move.newColumn);

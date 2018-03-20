@@ -19,7 +19,7 @@ public abstract class ChessPiece implements IChessPiece {
      * recognizing possible capture
      *
      * @author Allison
-     * @return ChessW18.Player opposite to owner, i.e. the opponent
+     * @return Player opposite to owner, i.e. the opponent
      *****************************************************************/
     public Player opponent() {
         if (owner.equals(Player.BLACK))
@@ -28,8 +28,11 @@ public abstract class ChessPiece implements IChessPiece {
     }
 
     public boolean isValidMove(Move move, IChessPiece[][] board) {
-        return (move.oldRow != move.newRow && move.oldColumn != move.newColumn) && //moving to the same spot
-                board[move.newRow][move.newColumn] == null;
+        if (move.oldRow == move.newRow && move.oldColumn == move.newColumn)
+            return false; //moving to the same spot
+        else if (board[move.newRow][move.newColumn] == null)
+            return true;
+        return (board[move.newRow][move.newColumn].player().equals(board[move.oldRow][move.oldColumn].player()));
     }
 
 
