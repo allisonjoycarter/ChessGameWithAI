@@ -1,7 +1,6 @@
 package ChessW18;
 
 import javax.swing.*;
-import javax.swing.event.MenuListener;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -18,7 +17,8 @@ public class ChessPanel extends JPanel {
 	private ChessModel model;
 	private final int BOARDSIZE = 8;
 
-	private JLabel message;
+	private JLabel outMessage;
+    private String message;
 
 	private ImageIcon wPawn;
 	private ImageIcon wRook;
@@ -56,8 +56,8 @@ public class ChessPanel extends JPanel {
 
 		gameItem = pgameItem;
 		quitItem = pquitItem;
-		quitItem.addActionListener(e -> exit(1)); //These lambda functions are neat!
-		gameItem.addActionListener( e -> resetBoard());  //They saved us something like a dozen lines of code!
+		quitItem.addActionListener(e -> exit(1));
+		gameItem.addActionListener( e -> resetBoard());
 
 		boardInit();
 		displayBoard();
@@ -115,7 +115,7 @@ public class ChessPanel extends JPanel {
 				add(board[row][col]);
 			}
 
-		message = new JLabel("");
+		outMessage = new JLabel("");
 		model.reset();
 	}
 
@@ -173,8 +173,7 @@ public class ChessPanel extends JPanel {
                 }
 			}
 		}
-//		message = new JLabel(model.getMessage(),
-//				(model.getMessage()).length());
+//		outMessage.setText(message);
 	}
 
 	/***************************************************************
@@ -234,7 +233,7 @@ public class ChessPanel extends JPanel {
                                 model.addToMoveStack(move);
                                 move = new Move(); //to prevent null pointer errors from trying to move a piece that isn't there anymore
                             } catch (IllegalArgumentException e) {
-//                                System.out.println("Illegal Move");
+                                message = "Illegal Move"; //a JOptionPane is another option
                             }
 							pieceChosen = false;
                             displayBoard();

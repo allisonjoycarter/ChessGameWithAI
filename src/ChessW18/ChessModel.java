@@ -11,8 +11,6 @@ public class ChessModel implements IChessModel {
     private ArrayList<IChessPiece> blackCaptures = new ArrayList<>();
     private Stack<Move> moveStack = new Stack<>();
 
-    private String message;
-
     public ChessModel() {
         placeStartingPieces();
     }
@@ -140,14 +138,6 @@ public class ChessModel implements IChessModel {
         whiteCaptures.clear();
         board = new IChessPiece[8][8];
         placeStartingPieces();
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 
 }
