@@ -1,29 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="89c675a3-8600-4105-b6c1-16eb3af26b58" name="Default" comment="Merged your changes and my changes to the panel class and fixed a few problems that I had when moving pieces. Also temporarily changed layout so we could test it">
+    <list default="true" id="89c675a3-8600-4105-b6c1-16eb3af26b58" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessGameWithAI/ChessGUI.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessGameWithAI/ChessPanel$1.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessGameWithAI/ChessPanel$ButtonListener.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessGameWithAI/ChessPanel.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessGameWithAI/ChessW18/Bishop.class" afterPath="$PROJECT_DIR$/out/production/ChessGameWithAI/ChessW18/Bishop.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessGameWithAI/ChessW18/ChessGame.class" afterPath="$PROJECT_DIR$/out/production/ChessGameWithAI/ChessW18/ChessGame.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessGameWithAI/ChessW18/ChessModel.class" afterPath="$PROJECT_DIR$/out/production/ChessGameWithAI/ChessW18/ChessModel.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessGameWithAI/ChessW18/ChessPiece.class" afterPath="$PROJECT_DIR$/out/production/ChessGameWithAI/ChessW18/ChessPiece.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessGameWithAI/ChessW18/King.class" afterPath="$PROJECT_DIR$/out/production/ChessGameWithAI/ChessW18/King.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessGameWithAI/ChessW18/Pawn.class" afterPath="$PROJECT_DIR$/out/production/ChessGameWithAI/ChessW18/Pawn.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessGameWithAI/ChessW18/Rook.class" afterPath="$PROJECT_DIR$/out/production/ChessGameWithAI/ChessW18/Rook.class" />
-      <change beforePath="$PROJECT_DIR$/src/ChessPanel.java" afterPath="$PROJECT_DIR$/src/ChessPanel.java" />
-      <change beforePath="$PROJECT_DIR$/src/ChessW18/Bishop.java" afterPath="$PROJECT_DIR$/src/ChessW18/Bishop.java" />
-      <change beforePath="$PROJECT_DIR$/src/ChessW18/ChessGame.java" afterPath="$PROJECT_DIR$/src/ChessW18/ChessGame.java" />
-      <change beforePath="$PROJECT_DIR$/src/ChessW18/ChessModel.java" afterPath="$PROJECT_DIR$/src/ChessW18/ChessModel.java" />
-      <change beforePath="$PROJECT_DIR$/src/ChessW18/ChessPanel.java" afterPath="$PROJECT_DIR$/src/ChessW18/ChessPanel.java" />
-      <change beforePath="$PROJECT_DIR$/src/ChessW18/King.java" afterPath="$PROJECT_DIR$/src/ChessW18/King.java" />
-      <change beforePath="$PROJECT_DIR$/src/ChessW18/Knight.java" afterPath="$PROJECT_DIR$/src/ChessW18/Knight.java" />
-      <change beforePath="$PROJECT_DIR$/src/ChessW18/Pawn.java" afterPath="$PROJECT_DIR$/src/ChessW18/Pawn.java" />
-      <change beforePath="$PROJECT_DIR$/src/ChessW18/Queen.java" afterPath="$PROJECT_DIR$/src/ChessW18/Queen.java" />
-      <change beforePath="$PROJECT_DIR$/src/ChessW18/Rook.java" afterPath="$PROJECT_DIR$/src/ChessW18/Rook.java" />
+      <change beforePath="$PROJECT_DIR$/out/production/ChessGameWithAI/ChessW18/Move.class" afterPath="$PROJECT_DIR$/out/production/ChessGameWithAI/ChessW18/Move.class" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -63,6 +43,7 @@
         <option value="Allison" />
       </list>
     </option>
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GradleLocalSettings">
@@ -161,7 +142,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="settings.editor.selected.configurable" value="settings.github" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -295,16 +276,23 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1521563655350</updated>
-      <workItem from="1521563656635" duration="1259000" />
+      <workItem from="1521563656635" duration="1377000" />
     </task>
+    <task id="LOCAL-00001" summary="Merged your changes and my changes to the panel class and fixed a few problems that I had when moving pieces. Also temporarily changed layout so we could test it">
+      <created>1521564934354</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1521564934354</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1259000" />
+    <option name="totallyTimeSpent" value="1377000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-11" y="-11" width="1942" height="1102" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
