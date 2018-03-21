@@ -14,6 +14,7 @@ public class ChessPanel extends JPanel {
 
 	private JMenuItem gameItem;
 	private JMenuItem quitItem;
+    private JMenuItem undoMove;
 
 	private JButton[][] board;
 	private ChessModel model;
@@ -49,7 +50,7 @@ public class ChessPanel extends JPanel {
 
 	private ButtonListener buttonListener = new ButtonListener();
 
-	public ChessPanel(JMenuItem pquitItem, JMenuItem pgameItem) {
+	public ChessPanel(JMenuItem pquitItem, JMenuItem pgameItem, JMenuItem undoMove) {
 		model = new ChessModel();
 		move = new Move();
 		currentPlayer = model.currentPlayer();
@@ -58,8 +59,14 @@ public class ChessPanel extends JPanel {
 
 		gameItem = pgameItem;
 		quitItem = pquitItem;
+		this.undoMove = undoMove;
 		quitItem.addActionListener(e -> exit(1));
 		gameItem.addActionListener( e -> resetBoard());
+		this.undoMove.addActionListener(e -> {
+            model.undoLastMove();
+            currentPlayer = model.currentPlayer();
+            displayBoard();
+        });
 
 		boardInit();
 		displayBoard();
@@ -220,8 +227,8 @@ public class ChessPanel extends JPanel {
 							move.oldRow = row;
 							ArrayList<Move> moves = model.findValidMoves(row, col);
 //                            System.out.println(" ~~~~~~~~ " + model.pieceAt(row, col).type());
-                            for (int i = 0; i < moves.size(); i++) {
-                                board[moves.get(i).newRow][moves.get(i).newColumn].setBorder(new LineBorder(Color.blue, 5));
+                            for (Move move : moves) {
+                                board[move.newRow][move.newColumn].setBorder(new LineBorder(Color.blue, 5));
 //                                System.out.println("Row: " + moves.get(i).newRow + " Column: " + moves.get(i).newColumn);
                             }
                             //a border so you can see which piece is selected
@@ -243,7 +250,8 @@ public class ChessPanel extends JPanel {
                                 model.addToMoveStack(move);
                                 model.switchPlayer();
                                 currentPlayer = model.currentPlayer();
-                                model.addToMoveStack(move);
+                                System.out.println(model.moveStack.size());
+                                System.out.println(model.moveStack.peek().oldRow + " Col " + model.moveStack.peek().oldColumn);
                                 move = new Move(); //to prevent null pointer errors from trying to move a piece that isn't there anymore
                             } catch (IllegalArgumentException e) {
                                 message = "Illegal Move"; //a JOptionPane is another option

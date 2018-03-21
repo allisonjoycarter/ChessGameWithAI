@@ -36,6 +36,13 @@ public class Pawn extends ChessPiece {
                     && board[move.newRow][move.newColumn]
                     .player() == opponent())
                 return true;
+            if (move.newRow == move.oldRow + toCenter &&
+                    board[move.oldRow][move.newColumn] != null &&
+                    (move.newColumn == move.oldColumn + 1 ||
+                    move.newColumn == move.oldColumn - 1) &&
+                    board[move.oldRow][move.newColumn].player().
+                            equals(board[move.oldRow][move.oldColumn].opponent()))
+                return true;
             if (isFirstTurn && move.oldColumn == move.newColumn &&
                     move.newRow == move.oldRow + (toCenter * 2))
                 return true;

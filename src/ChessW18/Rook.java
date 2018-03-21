@@ -46,13 +46,13 @@ public class Rook extends ChessPiece {
         //add one to the starting location so it does not count itself and return false
 		if (move.oldRow < move.newRow) { //moving down
 		    for (int i = move.oldRow; i < move.newRow; i++)
-		        if (board[move.oldRow][i] != null &&
-                        board[move.oldRow][move.oldColumn] != board[move.oldRow][i])
+		        if (board[i][move.oldColumn] != null && //there should be no piece in between
+                        board[move.oldRow][move.oldColumn] != board[i][move.oldColumn]) //do not count yourself
 		            return false;
 		} else if (move.oldRow > move.newRow) { //moving up
 		    for (int i = move.oldRow; i > move.newRow; i--)
 		        if (board[i][move.oldColumn] != null &&
-                        board[move.oldRow][move.oldColumn] != board[move.oldRow][i])
+                        board[move.oldRow][move.oldColumn] != board[i][move.oldColumn])
 		            return false;
 		} else if (move.oldColumn < move.newColumn) { //moving right
             for (int i = move.oldColumn; i < move.newColumn; i++) {
@@ -63,7 +63,7 @@ public class Rook extends ChessPiece {
         } else if (move.oldColumn > move.newColumn) { //moving left
             for (int i = move.oldColumn; i > move.newColumn; i--) {
                 if (board[move.oldRow][i] != null &&
-                        board[move.oldRow][move.oldColumn] != board[i][move.oldColumn])
+                        board[move.oldRow][move.oldColumn] != board[move.oldRow][i])
                     return false;
             }
         }

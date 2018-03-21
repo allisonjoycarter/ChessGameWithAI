@@ -6,6 +6,9 @@ public class Move {
     int newRow;
     int newColumn;
 
+    private boolean wasCastle;
+    private boolean wasEnPassant;
+
     /******************************************************************
      * Object to store a move
      * Could use this to make an undo function?
@@ -25,6 +28,8 @@ public class Move {
         this.oldColumn = oldColumn;
         this.newRow = newRow;
         this.newColumn = newColumn;
+        wasCastle = false;
+        wasEnPassant = false;
     }
 
     public Move() {
@@ -32,37 +37,23 @@ public class Move {
         this.oldRow = 0;
         this.newRow = 0;
         this.newColumn = 0;
+        wasCastle = false;
+        wasEnPassant = false;
     }
 
-    public int getOldRow() {
-        return oldRow;
+    public boolean wasCastle() {
+        return wasCastle;
     }
 
-    public void setOldRow(int oldRow) {
-        this.oldRow = oldRow;
+    public void setWasCastle(boolean wasCastle) {
+        this.wasCastle = wasCastle;
     }
 
-    public int getOldColumn() {
-        return oldColumn;
+    public boolean wasEnPassant() {
+        return wasEnPassant;
     }
 
-    public void setOldColumn(int oldColumn) {
-        this.oldColumn = oldColumn;
-    }
-
-    public int getNewRow() {
-        return newRow;
-    }
-
-    public void setNewRow(int newRow) {
-        this.newRow = newRow;
-    }
-
-    public int getNewColumn() {
-        return newColumn;
-    }
-
-    public void setNewColumn(int newColumn) {
-        this.newColumn = newColumn;
+    public void setWasEnPassant(boolean wasEnPassant) {
+        this.wasEnPassant = wasEnPassant;
     }
 }

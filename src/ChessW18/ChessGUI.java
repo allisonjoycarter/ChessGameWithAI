@@ -7,23 +7,26 @@ public class ChessGUI {
  private static JMenu fileMenu;
  private static JMenuItem quitItem;
  private static JMenuItem gameItem;
+ private static JMenuItem undoMove;
  private static JMenuBar menus;
 
  public static void main(String[] args) {
   JFrame frame = new JFrame("Chess Game");
-  frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+  frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
   fileMenu = new JMenu("File");
   quitItem = new JMenuItem("quit");
   gameItem = new JMenuItem("new game");
+  undoMove = new JMenuItem("Undo Move");
 
   fileMenu.add(gameItem);
   fileMenu.add(quitItem);
   menus = new JMenuBar();
   frame.setJMenuBar(menus);
   menus.add(fileMenu);
+  menus.add(undoMove);
 
-  ChessPanel panel = new ChessPanel(quitItem, gameItem);
+  ChessPanel panel = new ChessPanel(quitItem, gameItem, undoMove);
   frame.getContentPane().add(panel);
 
   frame.pack();
