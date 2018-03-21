@@ -7,7 +7,7 @@ package ChessW18;
  * move. 
  * 
  * @author George
- * @version 3/14
+ * @version 3/21
  *********************************************************************/
 public class Rook extends ChessPiece {
 
@@ -41,29 +41,22 @@ public class Rook extends ChessPiece {
 		if (!super.isValidMove(move, board))
 			return false;
 
-		//The if's are to make sure we check the right direction, and
-		//dont go through loops we don't need to.
-        //add one to the starting location so it does not count itself and return false
 		if (move.oldRow < move.newRow) { //moving down
-		    for (int i = move.oldRow; i < move.newRow; i++)
-		        if (board[i][move.oldColumn] != null && //there should be no piece in between
-                        board[move.oldRow][move.oldColumn] != board[i][move.oldColumn]) //do not count yourself
+		    for (int i = move.oldRow+1; i < move.newRow; ++i)
+		        if (board[i][move.oldColumn] != null)
 		            return false;
 		} else if (move.oldRow > move.newRow) { //moving up
-		    for (int i = move.oldRow; i > move.newRow; i--)
-		        if (board[i][move.oldColumn] != null &&
-                        board[move.oldRow][move.oldColumn] != board[i][move.oldColumn])
+		    for (int i = move.oldRow-1; i > move.newRow; --i)
+		        if (board[i][move.oldColumn] != null)
 		            return false;
 		} else if (move.oldColumn < move.newColumn) { //moving right
-            for (int i = move.oldColumn; i < move.newColumn; i++) {
-                if (board[move.oldRow][i] != null &&
-                        board[move.oldRow][move.oldColumn] != board[move.oldRow][i])
+            for (int i = move.oldColumn+1; i < move.newColumn; ++i) {
+                if (board[move.oldRow][i] != null)
                     return false;
             }
         } else if (move.oldColumn > move.newColumn) { //moving left
-            for (int i = move.oldColumn; i > move.newColumn; i--) {
-                if (board[move.oldRow][i] != null &&
-                        board[move.oldRow][move.oldColumn] != board[move.oldRow][i])
+            for (int i = move.oldColumn-1; i > move.newColumn; --i) {
+                if (board[move.oldRow][i] != null)
                     return false;
             }
         }

@@ -192,6 +192,7 @@ public class ChessPanel extends JPanel {
 	private void resetBoard() {
 		board = new JButton[BOARDSIZE][BOARDSIZE];
 		boardInit();
+		repaint();
 	}
 
 
