@@ -1,16 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="89c675a3-8600-4105-b6c1-16eb3af26b58" name="Default" comment="I got the rook working and added an undo button to the jmenubar (temporarily).&#10;I added undo functionality and got it working with regular moves and captures.&#10;I added en passant for the pawn (it's a special move in chess) and&#10;got it to work with undo.">
+    <list default="true" id="89c675a3-8600-4105-b6c1-16eb3af26b58" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessGameWithAI/ChessW18/ChessModel.class" afterPath="$PROJECT_DIR$/out/production/ChessGameWithAI/ChessW18/ChessModel.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessGameWithAI/ChessW18/ChessPiece.class" afterPath="$PROJECT_DIR$/out/production/ChessGameWithAI/ChessW18/ChessPiece.class" />
-      <change beforePath="$PROJECT_DIR$/src/ChessW18/ChessGUI.java" afterPath="$PROJECT_DIR$/src/ChessW18/ChessGUI.java" />
-      <change beforePath="$PROJECT_DIR$/src/ChessW18/ChessModel.java" afterPath="$PROJECT_DIR$/src/ChessW18/ChessModel.java" />
-      <change beforePath="$PROJECT_DIR$/src/ChessW18/ChessPanel.java" afterPath="$PROJECT_DIR$/src/ChessW18/ChessPanel.java" />
-      <change beforePath="$PROJECT_DIR$/src/ChessW18/Move.java" afterPath="$PROJECT_DIR$/src/ChessW18/Move.java" />
-      <change beforePath="$PROJECT_DIR$/src/ChessW18/Pawn.java" afterPath="$PROJECT_DIR$/src/ChessW18/Pawn.java" />
-      <change beforePath="$PROJECT_DIR$/src/ChessW18/Rook.java" afterPath="$PROJECT_DIR$/src/ChessW18/Rook.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -31,7 +23,7 @@
         <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessPanel.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="311">
-              <caret line="245" column="29" lean-forward="true" selection-start-line="245" selection-start-column="29" selection-end-line="245" selection-end-column="29" />
+              <caret line="246" column="29" lean-forward="false" selection-start-line="246" selection-start-column="29" selection-end-line="246" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -67,7 +59,7 @@
         <entry file="file://$PROJECT_DIR$/src/ChessW18/Move.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="259">
-              <caret line="49" column="5" lean-forward="true" selection-start-line="49" selection-start-column="5" selection-end-line="49" selection-end-column="5" />
+              <caret line="49" column="5" lean-forward="false" selection-start-line="49" selection-start-column="5" selection-end-line="49" selection-end-column="5" />
               <folding>
                 <element signature="e#1152#1153#0" expanded="true" />
                 <element signature="e#1184#1185#0" expanded="true" />
@@ -85,11 +77,11 @@
       <file leaf-file-name="Rook.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ChessW18/Rook.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="991">
-              <caret line="49" column="111" lean-forward="false" selection-start-line="49" selection-start-column="111" selection-end-line="49" selection-end-column="111" />
+            <state relative-caret-position="966">
+              <caret line="46" column="33" lean-forward="false" selection-start-line="46" selection-start-column="33" selection-end-line="46" selection-end-column="33" />
               <folding>
-                <element signature="e#3244#3245#0" expanded="true" />
-                <element signature="e#3277#3278#0" expanded="true" />
+                <element signature="e#2640#2641#0" expanded="true" />
+                <element signature="e#2673#2674#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -121,8 +113,8 @@
       <file leaf-file-name="ChessGUI.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessGUI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="186">
-              <caret line="14" column="48" lean-forward="false" selection-start-line="14" selection-start-column="48" selection-end-line="14" selection-end-column="48" />
+            <state relative-caret-position="191">
+              <caret line="14" column="64" lean-forward="false" selection-start-line="14" selection-start-column="64" selection-end-line="14" selection-end-column="64" />
               <folding />
             </state>
           </provider>
@@ -363,7 +355,7 @@
       <option name="presentableId" value="Default" />
       <updated>1521563655350</updated>
       <workItem from="1521563656635" duration="1493000" />
-      <workItem from="1521570546453" duration="21871000" />
+      <workItem from="1521570546453" duration="22114000" />
     </task>
     <task id="LOCAL-00001" summary="Merged your changes and my changes to the panel class and fixed a few problems that I had when moving pieces. Also temporarily changed layout so we could test it">
       <created>1521564934354</created>
@@ -400,11 +392,25 @@
       <option name="project" value="LOCAL" />
       <updated>1521583271398</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="I got the rook working and added an undo button to the jmenubar (temporarily).&#10;I added undo functionality and got it working with regular moves and captures.&#10;I added en passant for the pawn (it's a special move in chess) and&#10;got it to work with undo.">
+      <created>1521609819250</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1521609819250</updated>
+    </task>
+    <task id="LOCAL-00007" summary="I got the rook working and added an undo button to the jmenubar (temporarily).&#10;I added undo functionality and got it working with regular moves and captures.&#10;I added en passant for the pawn (it's a special move in chess) and&#10;got it to work with undo.">
+      <created>1521610009291</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1521610009291</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23364000" />
+    <option name="totallyTimeSpent" value="23607000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-11" y="-11" width="1942" height="1102" extended-state="6" />
@@ -412,13 +418,13 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32939914" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32939914" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32939914" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32939914" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32939914" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32939914" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296875" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -452,7 +458,8 @@
     <MESSAGE value="Fixed the Rook's movements(changed ifs and loops to four separate cases: up, down, right, or left), changed players after movment so only one can go at a time (starts with white), included a border so that you can see when you've selected a piece, changed isValidMove for ChessPiece to allow for captures, and fixed pawn's movement when capturing" />
     <MESSAGE value="I added a blue border around possible move locations. Reveals some issues that still need to be ironed out. Committing so you can test with it if you want" />
     <MESSAGE value="I got the rook working and added an undo button to the jmenubar (temporarily).&#10;I added undo functionality and got it working with regular moves and captures.&#10;I added en passant for the pawn (it's a special move in chess) and&#10;got it to work with undo." />
-    <option name="LAST_COMMIT_MESSAGE" value="I got the rook working and added an undo button to the jmenubar (temporarily).&#10;I added undo functionality and got it working with regular moves and captures.&#10;I added en passant for the pawn (it's a special move in chess) and&#10;got it to work with undo." />
+    <MESSAGE value="I added an undo button to the jmenubar (temporarily).&#10;I added undo functionality and got it working with regular moves and captures.&#10;I added en passant for the pawn (it's a special move in chess) and&#10;got it to work with undo." />
+    <option name="LAST_COMMIT_MESSAGE" value="I added an undo button to the jmenubar (temporarily).&#10;I added undo functionality and got it working with regular moves and captures.&#10;I added en passant for the pawn (it's a special move in chess) and&#10;got it to work with undo." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -524,11 +531,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ChessW18/Rook.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="991">
-          <caret line="49" column="111" lean-forward="false" selection-start-line="49" selection-start-column="111" selection-end-line="49" selection-end-column="111" />
+        <state relative-caret-position="966">
+          <caret line="46" column="33" lean-forward="false" selection-start-line="46" selection-start-column="33" selection-end-line="46" selection-end-column="33" />
           <folding>
-            <element signature="e#3244#3245#0" expanded="true" />
-            <element signature="e#3277#3278#0" expanded="true" />
+            <element signature="e#2640#2641#0" expanded="true" />
+            <element signature="e#2673#2674#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -555,7 +562,7 @@
     <entry file="file://$PROJECT_DIR$/src/ChessW18/Move.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="259">
-          <caret line="49" column="5" lean-forward="true" selection-start-line="49" selection-start-column="5" selection-end-line="49" selection-end-column="5" />
+          <caret line="49" column="5" lean-forward="false" selection-start-line="49" selection-start-column="5" selection-end-line="49" selection-end-column="5" />
           <folding>
             <element signature="e#1152#1153#0" expanded="true" />
             <element signature="e#1184#1185#0" expanded="true" />
@@ -596,15 +603,15 @@
     <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessPanel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="311">
-          <caret line="245" column="29" lean-forward="true" selection-start-line="245" selection-start-column="29" selection-end-line="245" selection-end-column="29" />
+          <caret line="246" column="29" lean-forward="false" selection-start-line="246" selection-start-column="29" selection-end-line="246" selection-end-column="29" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessGUI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="14" column="48" lean-forward="false" selection-start-line="14" selection-start-column="48" selection-end-line="14" selection-end-column="48" />
+        <state relative-caret-position="191">
+          <caret line="14" column="64" lean-forward="false" selection-start-line="14" selection-start-column="64" selection-end-line="14" selection-end-column="64" />
           <folding />
         </state>
       </provider>
