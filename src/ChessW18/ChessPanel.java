@@ -221,21 +221,38 @@ public class ChessPanel extends JPanel {
 			for (int row = 0; row < board.length; row++)
 				for (int col = 0; col < board.length; col++)
 					if (event.getSource() == board[row][col]) {
+			            boolean check = model.inCheck(currentPlayer);
 						if(!pieceChosen &&
                                 model.pieceAt(row, col) != null && //need to make sure user is selecting an actual piece
-                                model.pieceAt(row, col).player().equals(currentPlayer)) { //prevents playing for opponent
-							move.oldColumn = col;
-							move.oldRow = row;
-							ArrayList<Move> moves = model.findValidMoves(row, col);
+                                model.pieceAt(row, col).player().equals(currentPlayer))//prevents playing for opponent
+						    {
+						    if (!check) {
+                                move.oldColumn = col;
+                                move.oldRow = row;
+                                ArrayList<Move> moves = model.findValidMoves(row, col);
 //                            System.out.println(" ~~~~~~~~ " + model.pieceAt(row, col).type());
-                            for (Move move : moves) {
-                                board[move.newRow][move.newColumn].setBorder(new LineBorder(Color.blue, 5));
+                                for (Move move : moves) {
+                                    board[move.newRow][move.newColumn].setBorder(new LineBorder(Color.blue, 5));
 //                                System.out.println("Row: " + moves.get(i).newRow + " Column: " + moves.get(i).newColumn);
+                                }
+                                //a border so you can see which piece is selected
+                                board[row][col].setBorder(new LineBorder(Color.orange, 5));
+                            } else { //player in check should only be able to move out of check
+                                ArrayList<Move> moves = model.movesToEscapeCheck(currentPlayer);
+                                if (moves.isEmpty()) { //if there are no moves to escape check, then checkmate
+                                    System.out.println("GAME OVER");
+                                    break;
+                                }
+                                for (Move move : moves) { //show border for moves that get player out of check
+                                    board[move.newRow][move.newColumn].setBorder(new LineBorder(Color.green, 5));
+                                }
+                                move.oldRow = moves.get(0).oldRow;
+                                move.oldColumn = moves.get(0).oldColumn;
+                                //outline the king
+                                board[moves.get(0).oldRow][moves.get(0).oldColumn].setBorder(new LineBorder(Color.red, 5));
                             }
-                            //a border so you can see which piece is selected
-							board[row][col].setBorder(new LineBorder(Color.orange, 5));
 							pieceChosen = true;
-						} else if (pieceChosen //stores the second pressed button.
+						} else if (pieceChosen && !check//stores the second pressed button.
                                     ){
 							move.newColumn = col;
 							move.newRow = row;
@@ -248,7 +265,6 @@ public class ChessPanel extends JPanel {
 							//not sure if he wants an invalid move to throw an error
                             try {
                                 model.move(move);//The move method that is called here will check for validity.
-                                model.addToMoveStack(move);
                                 model.switchPlayer();
                                 currentPlayer = model.currentPlayer();
                                 System.out.println(model.moveStack.size());
@@ -259,7 +275,33 @@ public class ChessPanel extends JPanel {
                             }
 							pieceChosen = false;
                             displayBoard();
-						}
+						} else if (pieceChosen && check) { //make sure move will escape check
+						    boolean moveWillEscape = false;
+						    move.newRow = row;
+						    move.newColumn = col;
+                            for (Move testMove :
+                                    model.movesToEscapeCheck(currentPlayer)) {
+                                //check if the move the player is trying to make is an escaping one
+                                if (testMove.newRow == move.newRow &&
+                                        testMove.newColumn == move.newColumn)
+                                    moveWillEscape = true;
+                            }
+                            if (moveWillEscape) {
+                                try {
+                                    model.move(move);
+                                    model.switchPlayer();
+                                    currentPlayer = model.currentPlayer();
+                                    move = new Move();
+                                } catch (Exception er) {
+                                    System.out.println("Illegal move");
+                                }
+                                pieceChosen = false;
+                                displayBoard();
+                            } else { //if the move will not escape check
+                                System.out.println("Please choose an escaping move.");
+                            }
+
+                        }
 					}
 		}
 	}

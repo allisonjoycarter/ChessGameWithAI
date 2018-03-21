@@ -116,7 +116,7 @@ public class ChessModel implements IChessModel {
                 ((Rook) temp).canCastle = false;
             if (temp.type().equals("Pawn"))
                 ((Pawn) temp).setFirstTurn(false);
-
+            moveStack.add(move);
         } else {
             throw new IllegalArgumentException();
         }
@@ -128,9 +128,11 @@ public class ChessModel implements IChessModel {
      * @author Allison
      *****************************************************************/
     public void undoLastMove() {
-        if (moveStack.empty())
+        if (moveStack.empty()) //if there were no moves made, exit the method
             return;
-        Move lastMove = moveStack.pop();
+        Move lastMove = moveStack.pop(); //remove and return the previous move
+
+        //setting piece back to old location
         board[lastMove.oldRow][lastMove.oldColumn] = board[lastMove.newRow][lastMove.newColumn];
         if (!captureMoveStack.empty() && lastMove == captureMoveStack.peek()) { //checking if the last move was a capture
             captureMoveStack.pop(); //remove the capture
@@ -142,19 +144,21 @@ public class ChessModel implements IChessModel {
             }
             //set the old location to the captured piece
             if (captures.size() > 0) {
-                if (lastMove.wasEnPassant()) {
+                if (lastMove.wasEnPassant()) { //en passant requires different locations for previous pieces
                     board[lastMove.oldRow][lastMove.newColumn] = captures.get(captures.size() - 1);
                     board[lastMove.newRow][lastMove.newColumn] = null;
-                } else
+                } else //otherwise just put the captured piece back where it was
                     board[lastMove.newRow][lastMove.newColumn] = captures.get(captures.size() - 1);
-                captures.remove(captures.size() - 1);
+                captures.remove(captures.size() - 1); //piece is no longer captured after undo
             }
         } else if (lastMove.wasCastle()) {
-            //reverting a castle
+            //TODO: reverting a castle
         } else //otherwise just set the old location to null
             board[lastMove.newRow][lastMove.newColumn] = null;
 
         //if the King or Rook move was undone, they should now be able to castle
+        //need to find a way to do this so that you can't move rook
+        //to old location, from old location, undo, and be able to castle
         IChessPiece temp = board[lastMove.oldRow][lastMove.oldColumn];
         if (temp.type().equals("King") &&
                 ((lastMove.oldColumn == 4 && lastMove.oldRow == 0 && //if the move started in starting position
@@ -179,10 +183,14 @@ public class ChessModel implements IChessModel {
         switchPlayer();
     }
 
-    public void addToMoveStack(Move move) {
-        moveStack.add(move);
-    }
-
+    /******************************************************************
+     * Finds player p's king's location and determines whether possible
+     * move for the opponent's pieces contains the king's location
+     *
+     * @author Allison
+     * @param  p {@link Move} the ChessW18.Player being checked
+     * @return true if an opponent's piece can capture player p's king
+     *****************************************************************/
     @Override
     public boolean inCheck(Player p) {
         int kingRow = 0;
@@ -194,6 +202,7 @@ public class ChessModel implements IChessModel {
                         board[row][col].type().equals("King")) {
                     kingRow = row;
                     kingColumn = col;
+                    break; //avoid useless lines of code after finding the king
                 }
             }
         }
@@ -205,7 +214,7 @@ public class ChessModel implements IChessModel {
                     for (int i = 0; i < moves.size(); i++) {
                         //check if valid moves includes capturing the king
                         if (moves.get(i).newRow == kingRow &&
-                                moves.get(i).newRow == kingColumn)
+                                moves.get(i).newColumn == kingColumn)
                             return true;
                     }
                 }
@@ -214,29 +223,54 @@ public class ChessModel implements IChessModel {
         return false;
     }
 
+    /******************************************************************
+     * Finds player p's king's location and moves it to see if that
+     * move will get it out of check. If it does, adds it to an array
+     * and returns that array.
+     *
+     * @author Allison
+     * @param p player that needs to escape check
+     * @return the moves that get the player out of check, checkmate if
+     *          this returns empty
+     *****************************************************************/
     public ArrayList<Move> movesToEscapeCheck (Player p) {
-        ArrayList<Move> moves = new ArrayList<>();
-        int kingRow = 0;
+        ArrayList<Move> moves = new ArrayList<>(); //array to hold escaping moves
+        int kingRow = 0; //storing the king's location
         int kingColumn = 0;
-        if (inCheck(p)) {
-            for (int row = 0; row < board.length; row++) {
-                for (int col = 0; col < board.length; col++) {
-                    if (board[row][col] != null &&
-                            board[row][col].player().equals(p) &&
-                            board[row][col].type().equals("King")) {
-                        kingRow = row;
-                        kingColumn = col;
-                    }
+        //finding the king
+        for (int row = 0; row < board.length; row++) {
+            for (int col = 0; col < board.length; col++) {
+                if (board[row][col] != null &&
+                        board[row][col].player().equals(p) &&
+                        board[row][col].type().equals("King")) {
+                    kingRow = row;
+                    kingColumn = col;
+                    break; //stop after finding king
                 }
             }
-            ArrayList<Move> movesToTest = findValidMoves(kingRow, kingColumn);
-            for (int i = 0; i < movesToTest.size(); i++) {
-                //do and undo move?
-            }
+        }
+        //check valid moves for the king
+        ArrayList<Move> movesToTest = findValidMoves(kingRow, kingColumn);
+        for (Move testMove : movesToTest) {
+            move(testMove);
+            //if the king isn't in check after the tested move, the move should be added to the array
+            if (!inCheck(p))
+                moves.add(testMove);
+            undoLastMove();
         }
         return moves;
     }
 
+    /******************************************************************
+     * Create moves from current location to all locations on the board
+     * and tests to see if those moves are valid. If they are, it adds
+     * it to an array and returns that array.
+     *
+     * @author Allison
+     * @param currentRow row of the piece to be tested
+     * @param currentCol column of the piece to be tested
+     * @return valid moves for that piece
+     *****************************************************************/
     public ArrayList<Move> findValidMoves(int currentRow, int currentCol) {
         ArrayList<Move> possibleMoves = new ArrayList<>();
         for (int row = 0; row < board.length; row++) {
