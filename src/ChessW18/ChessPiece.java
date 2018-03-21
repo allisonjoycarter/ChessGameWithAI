@@ -31,7 +31,7 @@ public abstract class ChessPiece implements IChessPiece {
         if (move.oldRow == move.newRow && move.oldColumn == move.newColumn)
             return false; //moving to the same spot
         else if (board[move.newRow][move.newColumn] == null)
-            return true;
+            return true; //the destination is empty
         return (!board[move.newRow][move.newColumn].player().equals(board[move.oldRow][move.oldColumn].player()));
     }
 
