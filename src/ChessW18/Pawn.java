@@ -43,15 +43,18 @@ public class Pawn extends ChessPiece {
                     board[move.oldRow][move.newColumn].type().equals("Pawn") && //if that piece is a pawn
                     (move.newColumn == move.oldColumn + 1 || //if it moves diagonally only one column
                     move.newColumn == move.oldColumn - 1) &&
-                    board[move.oldRow][move.newColumn].player(). //if en passanted piece belongs to opponent
-                            equals(board[move.oldRow][move.oldColumn].opponent()))
+                    board[move.oldRow][move.newColumn]. //if en passanted piece belongs to opponent
+                           player() == board[move.oldRow][move.oldColumn].opponent())
                 return true;
+            //if it's the first turn, the pawn can move two spaces up
             if (isFirstTurn && move.oldColumn == move.newColumn &&
-                    move.newRow == move.oldRow + (toCenter * 2))
+                    move.newRow == move.oldRow + (toCenter * 2) &&
+                    board[move.newRow][move.newColumn] == null)
                 return true;
             //if move is 1 square forward
             return move.oldColumn == move.newColumn &&
-                    move.newRow == move.oldRow + toCenter;
+                    move.newRow == move.oldRow + toCenter &&
+                    board[move.newRow][move.newColumn] == null;
         }
         return false;
     }
