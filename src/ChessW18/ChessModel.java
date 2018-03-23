@@ -100,7 +100,7 @@ public class ChessModel implements IChessModel {
         if (move.wasEnPassant())
             board[move.oldRow][move.newColumn] = null;
         else if (move.wasCastle())
-            ; //TODO: implement undoing castle
+            ; //TODO: implement castle
         board[move.oldRow][move.oldColumn] = null;
 
         //if the move placed ends up putting player in check, then return false
@@ -222,8 +222,8 @@ public class ChessModel implements IChessModel {
           means that the state popped will be the same as the current state. So if
           the current state is the same as the top of the stack, that should be
           removed in order to return back to a previous state */
-        if (Arrays.deepEquals(boardStates.peek(), board))
-            boardStates.pop();
+//        if (Arrays.deepEquals(boardStates.peek(), board))
+//            boardStates.pop();
         board = boardStates.pop();
         switchPlayer();
     }
@@ -302,12 +302,7 @@ public class ChessModel implements IChessModel {
                     for (Move test : testMoves)
                         //if player is not in check after move, it is an escaping move
                         if (isValidMove(test)) {
-                            move(test);
-                            if (!inCheck(p))
-                                moves.add(test);
-                            switchPlayer();
-//                            undoLastMove();
-                            undoState();
+                            moves.add(test);
                         }
 
                 }
@@ -329,7 +324,8 @@ public class ChessModel implements IChessModel {
         for (int row = 0; row < board.length; row++) {
             for (int col = 0; col < board.length; col++) {
                 Move temp = new Move(currentRow, currentCol, row, col);
-                if (board[currentRow][currentCol].isValidMove(temp, board))
+                if (board[currentRow][currentCol] != null &&
+                        board[currentRow][currentCol].isValidMove(temp, board))
                     possibleMoves.add(temp);
             }
         }
