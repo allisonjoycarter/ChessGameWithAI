@@ -1,32 +1,43 @@
 package ChessW18;
 
+import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Stack;
 
+/**
+ *
+ */
 public class ChessModel implements IChessModel {
 
+    /** holds the game model board */
     private IChessPiece[][] board = new IChessPiece[8][8];
+
+    /** holds the player of the current turn */
     private Player currentPlayer;
 
     /** holds the captures of players */
     private ArrayList<IChessPiece> whiteCaptures, blackCaptures;
 
-    /** holds moves so that undo method can easily reference last in */
-    Stack<Move> moveStack;
-
-    /** holds moves that captured a piece */
-    Stack<Move> captureMoveStack;
+    /** to hold copies of the board so undo method can reference the last board state */
+    private Stack<IChessPiece[][]> boardStates;
 
     private String message;
 
+    /**
+     * Constructor for ChessModel that initializes arrays
+     * and places starting pieces
+     */
     public ChessModel() {
-        placeStartingPieces();
+        boardStates = new Stack<>();
         whiteCaptures = new ArrayList<>();
         blackCaptures = new ArrayList<>();
-        moveStack = new Stack<>();
-        captureMoveStack = new Stack<>();
+        placeStartingPieces();
     }
 
+    /**
+     *
+     */
     private void placeStartingPieces() {
         //white player starts
         currentPlayer = Player.WHITE;
@@ -54,8 +65,13 @@ public class ChessModel implements IChessModel {
         board[7][5] = new Bishop(Player.WHITE);
         board[7][6] = new Knight(Player.WHITE);
         board[7][7] = new Rook(Player.WHITE);
+
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public boolean isComplete() {
         //if a player is in check and cannot get out of check, the game is complete
@@ -63,6 +79,11 @@ public class ChessModel implements IChessModel {
                 (inCheck(Player.BLACK) && movesToEscapeCheck(Player.BLACK).isEmpty()));
     }
 
+    /**
+     *
+     * @param move a {@link Move} object describing the move to be made.
+     * @return
+     */
     @Override
     public boolean isValidMove(Move move) { //overloaded
 
@@ -79,7 +100,7 @@ public class ChessModel implements IChessModel {
         if (move.wasEnPassant())
             board[move.oldRow][move.newColumn] = null;
         else if (move.wasCastle())
-            ; //TODO: implement castle
+            ; //TODO: implement undoing castle
         board[move.oldRow][move.oldColumn] = null;
 
         //if the move placed ends up putting player in check, then return false
@@ -108,7 +129,6 @@ public class ChessModel implements IChessModel {
     @Override
     public void move(Move move) {
         if (isValidMove(move)) {
-
             //check for a capture
             IChessPiece captured = null;
             //check if move is to an occupied location and if the occupying piece belongs to the opponent
@@ -124,15 +144,14 @@ public class ChessModel implements IChessModel {
                 move.setWasEnPassant(true);
                 captured = board[move.oldRow][move.newColumn]; //sets captured piece to row above/below moving pawn
             }
-            if (captured != null) {//if there is a piece to be captured
+            if (captured != null) //if there is a piece to be captured
                 //add to list of respective player's captures
                 if (currentPlayer.equals(Player.BLACK))
                     blackCaptures.add(captured);
                 else
                     whiteCaptures.add(captured);
 
-                captureMoveStack.add(move); //adding to see which moves were captures
-            }
+
 
             //transferring piece from old square to new square
             board[move.newRow][move.newColumn] = board[move.oldRow][move.oldColumn];
@@ -142,70 +161,70 @@ public class ChessModel implements IChessModel {
 
             //if the King or Rook is moved, Castling is no longer an option
             IChessPiece temp = board[move.newRow][move.newColumn];
-                if (temp.type().equals("King"))
-                    ((King) temp).canCastle = false;
-                if (temp.type().equals("Rook"))
-                    ((Rook) temp).canCastle = false;
-                if (temp.type().equals("Pawn"))
-                    ((Pawn) temp).setFirstTurn(false);
-            moveStack.add(move);
+            if (temp.type().equals("King"))
+                ((King) temp).canCastle = false;
+            if (temp.type().equals("Rook"))
+                ((Rook) temp).canCastle = false;
+            if (temp.type().equals("Pawn"))
+                ((Pawn) temp).setFirstTurn(false);
+
+            //if a pawn reaches the other side of the board
+            if (board[move.newRow][move.newColumn].type().equals("Pawn") &&
+                    ((board[move.newRow][move.newColumn].player() == Player.WHITE && move.newRow == 0) ||
+                    (board[move.newRow][move.newColumn].player() == Player.BLACK && move.newRow == 7))) {
+
+                //dialog to promote pawn
+                String[] options = {"Queen", "Rook", "Bishop", "Knight"};
+                int n = JOptionPane.showOptionDialog(null,
+                        "What rank would you like to promote this pawn to?",
+                        "Promotion", JOptionPane.DEFAULT_OPTION,
+                        JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+                if (n == 0) {
+                    board[move.newRow][move.newColumn] = new Queen(currentPlayer);
+                } else if (n == 1) {
+                    board[move.newRow][move.newColumn] = new Rook(currentPlayer);
+                } else if (n == 2) {
+                    board[move.newRow][move.newColumn] = new Bishop(currentPlayer);
+                } else if (n == 3) {
+                    board[move.newRow][move.newColumn] = new Knight(currentPlayer);
+                }
+            }
+
+            //for loop to prevent boardStates from storing the reference to board
+            IChessPiece[][] tempBoard = new IChessPiece[board.length][board.length];
+            for (int r = 0; r < tempBoard.length; r++)
+                for (int c = 0; c < tempBoard.length; c++)
+                    tempBoard[r][c] = board[r][c];
+            boardStates.push(tempBoard); //adding a copy of the board to the stack
         } else {
             throw new IllegalArgumentException();
         }
     }
 
     /******************************************************************
-     * Reverts board back to the position before the most recent move
-     * by popping the first element off the moveStack.
+     * Returns the board back to it's previous state. Although storing
+     * board states uses more data than storing moves, it allows for
+     * easier undoing of captures and special moves. The code that
+     * stored moves rather than board states was much longer and
+     * convoluted.
      *
      * @author Allison
      *****************************************************************/
-    public void undoLastMove() {
-        if (moveStack.empty()) //if there were no moves made, exit the method
+    public void undoState() {
+        //if there is no previous board state, set board back to starting position
+        if (boardStates.empty()) {
+            board = new IChessPiece[8][8];
+            placeStartingPieces();
             return;
-
-        Move lastMove = moveStack.pop(); //remove and return the previous move
-
-        //setting piece back to old location
-        board[lastMove.oldRow][lastMove.oldColumn] = board[lastMove.newRow][lastMove.newColumn];
-        if (!captureMoveStack.empty() && lastMove == captureMoveStack.peek()) { //checking if the last move was a capture
-            captureMoveStack.pop(); //remove the capture
-
-            ArrayList<IChessPiece> captures;
-            if (board[lastMove.oldRow][lastMove.oldColumn].player().equals(Player.WHITE)) {
-                captures = whiteCaptures;
-            } else {
-                captures = blackCaptures;
-            }
-
-            //set the old location to the captured piece
-            if (captures.size() > 0) {
-                if (lastMove.wasEnPassant()) { //en passant requires different locations for previous pieces
-                    board[lastMove.oldRow][lastMove.newColumn] = captures.get(captures.size() - 1);
-                    board[lastMove.newRow][lastMove.newColumn] = null;
-                } else //otherwise just put the captured piece back where it was
-                    board[lastMove.newRow][lastMove.newColumn] = captures.get(captures.size() - 1);
-                captures.remove(captures.size() - 1); //piece is no longer captured after undo
-            }
-        } else if (lastMove.wasCastle()) {
-            //TODO: reverting a castle
-        } else //otherwise just set the old location to null
-            board[lastMove.newRow][lastMove.newColumn] = null;
-
-        //if the King or Rook move was undone, they should now be able to castle
-        IChessPiece temp = board[lastMove.oldRow][lastMove.oldColumn];
-        if (temp.type().equals("King") &&
-                lastMove.wasCastle())
-            ((King) temp).canCastle = true;
-        if (temp.type().equals("Rook") &&
-                lastMove.wasCastle())
-            ((Rook) temp).canCastle = true;
-        if (temp.type().equals("Pawn") &&
-                //if move was from starting position for black
-                ((lastMove.oldRow == 1 && board[lastMove.oldRow][lastMove.oldColumn].player().equals(Player.BLACK)) ||
-                        //if move was from starting position for white
-                (lastMove.oldRow == 6 && board[lastMove.oldRow][lastMove.oldColumn].player().equals(Player.WHITE))))
-                ((Pawn) temp).setFirstTurn(true);
+        }
+        /*once a move is made, the state is saved. So the state that's on the
+          top of the stack is the state that contains the most current move. Which
+          means that the state popped will be the same as the current state. So if
+          the current state is the same as the top of the stack, that should be
+          removed in order to return back to a previous state */
+        if (Arrays.deepEquals(boardStates.peek(), board))
+            boardStates.pop();
+        board = boardStates.pop();
         switchPlayer();
     }
 
@@ -287,7 +306,8 @@ public class ChessModel implements IChessModel {
                             if (!inCheck(p))
                                 moves.add(test);
                             switchPlayer();
-                            undoLastMove();
+//                            undoLastMove();
+                            undoState();
                         }
 
                 }
@@ -360,12 +380,19 @@ public class ChessModel implements IChessModel {
         //clear all data from the game
         blackCaptures.clear();
         whiteCaptures.clear();
-        moveStack.clear();
-        captureMoveStack.clear();
+        boardStates.clear();
 
         //remake the board
         board = new IChessPiece[8][8];
         placeStartingPieces();
+    }
+
+    public ArrayList<IChessPiece> getWhiteCaptures() {
+        return whiteCaptures;
+    }
+
+    public ArrayList<IChessPiece> getBlackCaptures() {
+        return blackCaptures;
     }
 
     public String getMessage() {
@@ -377,3 +404,59 @@ public class ChessModel implements IChessModel {
     }
 
 }
+
+
+//    /******************************************************************
+//     * Reverts board back to the position before the most recent move
+//     * by popping the first element off the moveStack.
+//     *
+//     * @author Allison
+//     *****************************************************************/
+//    public void undoLastMove() {
+//        if (moveStack.empty()) //if there were no moves made, exit the method
+//            return;
+//
+//        Move lastMove = moveStack.pop(); //remove and return the previous move
+//
+//        //setting piece back to old location
+//        board[lastMove.oldRow][lastMove.oldColumn] = board[lastMove.newRow][lastMove.newColumn];
+//        if (!captureMoveStack.empty() && lastMove == captureMoveStack.peek()) { //checking if the last move was a capture
+//            captureMoveStack.pop(); //remove the capture
+//
+//            ArrayList<IChessPiece> captures;
+//            if (board[lastMove.oldRow][lastMove.oldColumn].player().equals(Player.WHITE)) {
+//                captures = whiteCaptures;
+//            } else {
+//                captures = blackCaptures;
+//            }
+//
+//            //set the old location to the captured piece
+//            if (captures.size() > 0) {
+//                if (lastMove.wasEnPassant()) { //en passant requires different locations for previous pieces
+//                    board[lastMove.oldRow][lastMove.newColumn] = captures.get(captures.size() - 1);
+//                    board[lastMove.newRow][lastMove.newColumn] = null;
+//                } else //otherwise just put the captured piece back where it was
+//                    board[lastMove.newRow][lastMove.newColumn] = captures.get(captures.size() - 1);
+//                captures.remove(captures.size() - 1); //piece is no longer captured after undo
+//            }
+//        } else if (lastMove.wasCastle()) {
+//            //TODO: reverting a castle
+//        } else //otherwise just set the old location to null
+//            board[lastMove.newRow][lastMove.newColumn] = null;
+//
+//        //if the King or Rook move was undone, they should now be able to castle
+//        IChessPiece temp = board[lastMove.oldRow][lastMove.oldColumn];
+//        if (temp.type().equals("King") &&
+//                lastMove.wasCastle())
+//            ((King) temp).canCastle = true;
+//        if (temp.type().equals("Rook") &&
+//                lastMove.wasCastle())
+//            ((Rook) temp).canCastle = true;
+//        if (temp.type().equals("Pawn") &&
+//                //if move was from starting position for black
+//                ((lastMove.oldRow == 1 && board[lastMove.oldRow][lastMove.oldColumn].player().equals(Player.BLACK)) ||
+//                        //if move was from starting position for white
+//                (lastMove.oldRow == 6 && board[lastMove.oldRow][lastMove.oldColumn].player().equals(Player.WHITE))))
+//                ((Pawn) temp).setFirstTurn(true);
+//        switchPlayer();
+//    }
