@@ -24,6 +24,31 @@ public class King extends ChessPiece {
 
     public boolean isValidMove(Move move, IChessPiece[][] board) {
         if (super.isValidMove(move, board)) {
+
+            if(canCastle) {
+                boolean valid = true;
+
+                if((move.oldRow == move.newRow) && (move.oldRow == 0 || move.oldRow == 7)
+                        && (move.newColumn == 1 || move.newColumn == 6)) {
+                    switch ((int) move.newColumn) {
+                        case 1:
+                            for (int i = 3; i > 0 && valid; i--)
+                                if (board[move.oldRow][i] != null)
+                                    valid = false;
+                            break;
+
+                        case 6:
+                            for (int i = 3; i > 0 && valid; i--)
+                                if (board[move.oldRow][i] != null)
+                                    valid = false;
+                            break;
+                        default:
+                            valid = false;
+                    }
+                    return valid;
+                }
+            }
+
             //if the move is more than 1 square out, return false
             //checks for out of bounds, but this may be unnecessary
             return (move.oldColumn >= board.length - 1 || move.newColumn <= move.oldColumn + 1) &&

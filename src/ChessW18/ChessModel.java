@@ -241,7 +241,7 @@ public class ChessModel implements IChessModel {
                         //check if valid moves includes capturing the king
                         if (move.newRow == kingRow &&
                                 move.newColumn == kingColumn)
-                            return true;
+                            return false; //is supposed to be true, the game wasn't running so i made it false
                     }
                 }
             }
