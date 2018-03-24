@@ -144,6 +144,35 @@ public class ChessModel implements IChessModel {
                 move.setWasEnPassant(true);
                 captured = board[move.oldRow][move.newColumn]; //sets captured piece to row above/below moving pawn
             }
+            else if (board[move.oldRow][move.oldColumn].type().equals("King") &&
+                     board[move.newRow][move.newColumn] == null)
+            {
+                boolean valid = true;
+                if(move.oldColumn < move.newColumn)
+                    for(int i = move.oldColumn+1; i < move.newColumn && valid; i++)
+                        if(board[move.newRow][i] != null)
+                            valid = false;
+                else if(move.oldColumn > move.newColumn)
+                    for(i = move.oldColumn-1; i > move.newColumn && valid; i--)
+                        if(board[move.newRow][i] != null)
+                            valid = false;
+                if(valid) {
+                    if(board[move.newRow][move.newColumn - 1] != null)
+                        if(board[move.newRow][move.newColumn - 1].type().equals("Rook")) {
+                            board[move.newRow][move.newColumn + 1] = board[move.newRow][move.newColumn - 1];
+                            board[move.newRow][move.newColumn - 1] = null;
+                            move.setWasCastle(true);
+                        }
+                    if(board[move.newRow][move.newColumn + 1] != null)
+                        if(board[move.newRow][move.newColumn + 1].type().equals("Rook")) {
+                        board[move.newRow][move.newColumn -1] = board[move.newRow][move.newColumn +1];
+                        board[move.newRow][move.newColumn +1] =  null;
+                        move.setWasCastle(true);
+                    }
+                }
+                captured = board[move.newRow][move.newColumn];
+            }
+
             if (captured != null) //if there is a piece to be captured
                 //add to list of respective player's captures
                 if (currentPlayer.equals(Player.BLACK))

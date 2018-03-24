@@ -28,22 +28,24 @@ public class King extends ChessPiece {
             if(canCastle) {
                 boolean valid = true;
 
-                if((move.oldRow == move.newRow) && (move.oldRow == 0 || move.oldRow == 7)
-                        && (move.newColumn == 1 || move.newColumn == 6)) {
-                    switch ((int) move.newColumn) {
-                        case 1:
-                            for (int i = 3; i > 0 && valid; i--)
-                                if (board[move.oldRow][i] != null)
-                                    valid = false;
-                            break;
+                if((move.oldRow == move.newRow)
+                        && (move.oldRow == 0 || move.oldRow == 7)
+                        && (move.newColumn == 2 || move.newColumn == 6)) {
 
-                        case 6:
+                    switch ((int) move.newColumn) {
+                        case 2:
                             for (int i = 3; i > 0 && valid; i--)
                                 if (board[move.oldRow][i] != null)
                                     valid = false;
                             break;
-                        default:
-                            valid = false;
+                        case 6:
+                            for (int i = 5; i > 7 && valid; i--)
+                                if (board[move.oldRow][i] != null)
+                                    valid = false;
+                            break;
+//                        default:
+//                            valid = false;
+
                     }
                     return valid;
                 }
@@ -62,4 +64,5 @@ public class King extends ChessPiece {
     public void setCanCastle(boolean canCastle) {
         this.canCastle = canCastle;
     }
+
 }
