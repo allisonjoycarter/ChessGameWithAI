@@ -13,33 +13,37 @@ import static java.lang.System.exit;
 public class ChessPanel extends JPanel {
 
 	private JMenuItem gameItem;
+
+	/** button to quit the game */
 	private JMenuItem quitItem;
+
+	/** button to undo the last move */
     private JMenuItem undoMove;
+
     /** because extra credit is key */
     private JCheckBoxMenuItem colorBlind;
 
+    /** holds the buttons that make up the game board */
 	private JButton[][] board;
+
+	/** holds the game engine */
 	private ChessModel model;
+
+	/** variable to hold the size of the board */
 	private final int BOARDSIZE = 8;
 
 	private JLabel outMessage;
     private String message;
 
-	private ImageIcon wPawn;
-	private ImageIcon wRook;
-	private ImageIcon wBishop;
-	private ImageIcon wKing;
-	private ImageIcon wQueen;
-	private ImageIcon wKnight;
+    /** images to represent white player pieces */
+	private ImageIcon wPawn, wRook, wBishop, wKnight, wKing, wQueen;
 
-	private ImageIcon bPawn;
-	private ImageIcon bRook;
-	private ImageIcon bBishop;
-	private ImageIcon bKing;
-	private ImageIcon bQueen;
-	private ImageIcon bKnight;
+	/** images to represent black player pieces */
+	private ImageIcon bPawn, bRook, bBishop, bKnight, bKing, bQueen;
 
+	/** the move attempted when selecting buttons on the board */
 	private Move move;
+
 	/** pieceChoice is used to tell if the player is choosing a piece
 	 * or a position. */
 	private boolean pieceChosen;
@@ -50,22 +54,29 @@ public class ChessPanel extends JPanel {
 
 	// declare other instance variables as needed
 
-    JPanel whiteCapturePanel;
-    JPanel blackCapturePanel;
+    /** panels to hold images of each player's captures */
+    JPanel whiteCapturePanel, blackCapturePanel;
+
+    /** holds labels that will have an icon set to represent captures for each player */
     ArrayList<JLabel> whiteCaptures = new ArrayList<>();
     ArrayList<JLabel> blackCaptures = new ArrayList<>();
 
     private JLabel timerLabel;
 
-    /** if true, will put the timer back to countDown when a move is made */
+    /** if true, competitive rules will apply on the timer */
     private boolean competitiveTimer = false;
+
+    /** timer to count up or down and time gameplay */
     private Timer timer;
+
+    /** variables to hold the amount of time on the timer */
     private int hours, minutes, seconds;
 
-    /** holds amount of time (seconds) for each player */
+    /** holds amount of time (seconds) left for each player */
     private int whiteTime, blackTime;
 
     public ChessPanel(JMenuItem pquitItem, JMenuItem pgameItem, JCheckBoxMenuItem colorBlind, JMenuItem undoMove) {
+        //instantiating variables
 		model = new ChessModel();
 		move = new Move();
 		currentPlayer = model.currentPlayer();
@@ -81,21 +92,24 @@ public class ChessPanel extends JPanel {
 		quitItem.addActionListener(e -> exit(0));
 		gameItem.addActionListener( e -> resetBoard());
 		this.undoMove.addActionListener(e -> {
-//            model.undoLastMove();
-            model.undoState();
-            currentPlayer = model.currentPlayer();
-
-            displayBoard();
+            model.undoLastMove(); //undo's previous move
+            currentPlayer = model.currentPlayer(); //make sure player is switched
+            displayBoard(); //set the icons
+            updateCaptures();
         });
 		this.colorBlind.addActionListener(e -> {
 		    if (this.colorBlind.isSelected())
-                    //Creating the grid of buttons
+		        //setting the color for the grid of icons
+		        //black and white is harsh on the eyes and doesn't
+		        //show the pieces very well
 		        for(int row = 0; row < BOARDSIZE; row++)
 		            for(int col = 0; col < BOARDSIZE; col++)
 		                if ((row % 2 == 1 && col % 2 == 1) ||
                         (row % 2 == 0 && col % 2 == 0)) {
+		                    //color blind friendly black
                             board[row][col].setBackground(new Color(0, 114, 178));
                         } else {
+		                    //color blind friendly white
                             board[row][col].setBackground(new Color(240, 228, 66));
                         }
 		    else
@@ -103,15 +117,20 @@ public class ChessPanel extends JPanel {
                     for (int col = 0; col < BOARDSIZE; col++)
                         if ((row % 2 == 1 && col % 2 == 1) ||
                                 (row % 2 == 0 && col % 2 == 0))
+                            //dark green to contrast black pieces
                             board[row][col].setBackground(new Color(72, 109, 42));
                         else
+                            //light yellow to contrast white pieces
                             board[row][col].setBackground(new Color(246, 249, 182));
 
             });
+		//setting the timer to start with a modest amount of time
+		minutes = 30;
 
         setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
 
+        //panel with the chess board
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridx = 0;
         constraints.gridy = 0;
@@ -120,6 +139,7 @@ public class ChessPanel extends JPanel {
         constraints.gridheight = 3;
         add(boardPanel, constraints);
 
+        //panel for the timer and its buttons
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridx = 2;
         constraints.gridy = 0;
@@ -127,6 +147,7 @@ public class ChessPanel extends JPanel {
         constraints.gridheight = 1;
         add(createTimerPanel(), constraints);
 
+        //panel for the captures
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridx = 2;
         constraints.gridy = 1;
@@ -144,21 +165,24 @@ public class ChessPanel extends JPanel {
     private JPanel createTimerPanel() {
 
         JPanel timerPanel = new JPanel();
-        timerLabel = new JLabel("0:00:00");
+        timerLabel = new JLabel("0:30:00");
         timer = new Timer(1000, new TimerListener());
-        timer.setActionCommand("Up");
+        timer.setActionCommand("Down"); //timer starts counting down
         timerPanel.add(timerLabel);
 
+        //to start the timer
         JButton start = new JButton("Start");
         start.addActionListener(e -> timer.start());
         timerPanel.add(start);
 
+        //to stop the timer
         JButton stop = new JButton("Stop");
         stop.addActionListener(e -> timer.stop());
         timerPanel.add(stop);
 
+        //to change whether timer counts up or down
         JCheckBox countUp = new JCheckBox("Count Up");
-        countUp.setSelected(true);
+//        countUp.setSelected(true);
         countUp.addActionListener(e -> {
             if (timer.getActionCommand().equals("Up"))
                 timer.setActionCommand("Down");
@@ -167,8 +191,10 @@ public class ChessPanel extends JPanel {
         });
         timerPanel.add(countUp);
 
+        //to set the timer
         JButton setTimer = new JButton("Set Timer");
         setTimer.addActionListener(e -> {
+            //TODO: change the timer dialog
             whiteTime = blackTime = seconds = 60 * Integer.parseInt(
                     JOptionPane.showInputDialog(null,
                             "Set the timer in minutes.", "Set Timer",
@@ -178,14 +204,13 @@ public class ChessPanel extends JPanel {
         });
         timerPanel.add(setTimer);
 
+        //to change whether using competitive timer mode or not
         JCheckBox useCompetitiveTimer = new JCheckBox("Competitive Timer");
         useCompetitiveTimer.addActionListener(e -> {
-            if (!competitiveTimer)
-                competitiveTimer = true;
-            else
-                competitiveTimer = false;
+            competitiveTimer = !competitiveTimer;
         });
         timerPanel.add(useCompetitiveTimer);
+
         return timerPanel;
     }
 
@@ -220,8 +245,13 @@ public class ChessPanel extends JPanel {
 
     }
 
+    /**
+     * Method to set the time to desired amount of seconds
+     *
+     * @param seconds
+     */
     private void setTime(int seconds) {
-        this.seconds = minutes = hours = 0;
+        minutes = hours = 0;
         this.seconds = seconds;
         fixTime();
     }
@@ -237,6 +267,8 @@ public class ChessPanel extends JPanel {
                 seconds++;
             } else if (timer.getActionCommand().equals("Down")) {
                     seconds--;
+                    //if using the competitive timer, time should be taken away
+                    //from the right player
                     if (competitiveTimer) {
                         if (currentPlayer == Player.WHITE)
                             whiteTime--;
@@ -245,6 +277,8 @@ public class ChessPanel extends JPanel {
                     }
             }
             fixTime();
+
+            //setting the label to take the form 0:00:00
             if (seconds < 0 || minutes < 0 || hours < 0)
                 timerLabel.setText(hours + ":" + minutes + ":" + seconds);
             else if (minutes >= 10 && seconds >= 10)
@@ -267,6 +301,10 @@ public class ChessPanel extends JPanel {
         }
     }
 
+    /**
+     *
+     * @return the panel that holds each player's captures
+     */
     private JPanel createCapturesPanel() {
 
         whiteCapturePanel = new JPanel();
@@ -288,22 +326,40 @@ public class ChessPanel extends JPanel {
         return captures;
     }
 
+    /**
+     * Adds to the panel of captures if a piece is taken
+     *
+     */
     private void updateCaptures() {
 
+        //adds the last element of the model.blackCaptures array if
+        //its size is bigger than the blackCaptures JLabel array
 	    if (model.getBlackCaptures().size() > blackCaptures.size())  {
 	        JLabel label = new JLabel();
 	        label.setIcon(getPieceIcon(Player.WHITE,
                     model.getBlackCaptures().get(model.getBlackCaptures().size() - 1).type()));
             blackCaptures.add(label);
 	        blackCapturePanel.add(label);
+	        //or remove if needed
+        } else if (model.getBlackCaptures().size() < blackCaptures.size()) {
+	        blackCapturePanel.remove(blackCaptures.size() - 1);
+	        blackCaptures.remove(blackCaptures.size() - 1);
         }
+
+        //adds to the white captures panel if needed
         if (model.getWhiteCaptures().size() > whiteCaptures.size()) {
 	        JLabel label = new JLabel();
 	        label.setIcon(getPieceIcon(Player.BLACK, model.getWhiteCaptures().get(
                             model.getWhiteCaptures().size() - 1).type()));
 	        whiteCaptures.add(label);
 	        whiteCapturePanel.add(label);
+	        //or remove if needed
+        } else if (model.getWhiteCaptures().size() < whiteCaptures.size()) {
+	        whiteCapturePanel.remove(whiteCaptures.size() - 1);
+	        whiteCaptures.remove(whiteCaptures.size() - 1);
         }
+        blackCapturePanel.repaint();
+	    whiteCapturePanel.repaint();
     }
 
 	/**
@@ -372,12 +428,20 @@ public class ChessPanel extends JPanel {
                     continue;
                 }
 
+                //set the icon to the correct piece and player
                 board[row][col].setIcon(getPieceIcon(temp.player(), temp.type()));
 			}
 		}
 //		outMessage.setText(message);
 	}
 
+    /**
+     * Returns the icon that matches a given player and piece type
+     *
+     * @param player player that owns the piece
+     * @param type type of piece to get an icon for
+     * @return the icon that matches a player and piece type
+     */
 	private ImageIcon getPieceIcon(Player player, String type) {
 	    ImageIcon icon = new ImageIcon();
 	    switch (type) {
@@ -457,11 +521,10 @@ public class ChessPanel extends JPanel {
 			            boolean check = model.inCheck(currentPlayer);
 						if(!pieceChosen &&
                                 model.pieceAt(row, col) != null && //need to make sure user is selecting an actual piece
-                                model.pieceAt(row, col).player().equals(currentPlayer))//prevents playing for opponent
-						    {
-						    if (!check) {
-                                move.oldRow = row;
+                                model.pieceAt(row, col).player().equals(currentPlayer)) {//prevents playing for opponent
+						        move.oldRow = row;
                                 move.oldColumn = col;
+						    if (!check) {
 
                                 ArrayList<Move> moves = model.filterLegalMoves(model.legalMoves(row, col));
                                 for (Move move : moves)
@@ -470,8 +533,6 @@ public class ChessPanel extends JPanel {
                                 //a border so you can see which piece is selected
                                 board[row][col].setBorder(new LineBorder(Color.orange, 5));
                             } else { //player in check should only be able to move out of check
-                                move.oldRow = row;
-                                move.oldColumn = col;
 
                                 ArrayList<Move> moves = model.movesToEscapeCheck(currentPlayer);
                                 if (moves.isEmpty()) { //if there are no moves to escape check, then checkmate
@@ -522,12 +583,10 @@ public class ChessPanel extends JPanel {
                                         move = new Move();
                                     }
                                 }
-                                if (competitiveTimer) {
-                                    if (currentPlayer == Player.WHITE)
-                                        setTime(whiteTime);
-                                    else
-                                        setTime(blackTime);
-                                }
+                                //set the timer to the current player's time
+                                if (competitiveTimer)
+                                    setTime(currentPlayer == Player.WHITE ? whiteTime : blackTime);
+
                             } catch (IllegalArgumentException e) {
                                 message = "Illegal Move"; //a JOptionPane is another option
                             }

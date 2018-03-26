@@ -4,9 +4,11 @@
     <list default="true" id="89c675a3-8600-4105-b6c1-16eb3af26b58" name="Default" comment="Made the ChessAI file but needs to be coded">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/out/production/ChessGameWithAI/ChessW18/ChessModel.class" afterPath="$PROJECT_DIR$/out/production/ChessGameWithAI/ChessW18/ChessModel.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessGameWithAI/ChessW18/King.class" afterPath="$PROJECT_DIR$/out/production/ChessGameWithAI/ChessW18/King.class" />
+      <change beforePath="$PROJECT_DIR$/out/production/ChessGameWithAI/ChessW18/Pawn.class" afterPath="$PROJECT_DIR$/out/production/ChessGameWithAI/ChessW18/Pawn.class" />
+      <change beforePath="$PROJECT_DIR$/src/ChessW18/ChessAI.java" afterPath="$PROJECT_DIR$/src/ChessW18/ChessAI.java" />
       <change beforePath="$PROJECT_DIR$/src/ChessW18/ChessModel.java" afterPath="$PROJECT_DIR$/src/ChessW18/ChessModel.java" />
-      <change beforePath="$PROJECT_DIR$/src/ChessW18/King.java" afterPath="$PROJECT_DIR$/src/ChessW18/King.java" />
+      <change beforePath="$PROJECT_DIR$/src/ChessW18/ChessPanel.java" afterPath="$PROJECT_DIR$/src/ChessW18/ChessPanel.java" />
+      <change beforePath="$PROJECT_DIR$/src/ChessW18/Pawn.java" afterPath="$PROJECT_DIR$/src/ChessW18/Pawn.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -23,11 +25,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
-      <file leaf-file-name="ChessPanel.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ChessPanel.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessPanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="13125">
-              <caret line="533" column="48" lean-forward="false" selection-start-line="533" selection-start-column="48" selection-end-line="533" selection-end-column="48" />
+            <state relative-caret-position="287">
+              <caret line="97" column="29" lean-forward="true" selection-start-line="97" selection-start-column="29" selection-end-line="97" selection-end-column="29" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -38,38 +40,40 @@
       <file leaf-file-name="ChessModel.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3175">
-              <caret line="130" column="0" lean-forward="false" selection-start-line="130" selection-start-column="0" selection-end-line="130" selection-end-column="0" />
+            <state relative-caret-position="218">
+              <caret line="489" column="27" lean-forward="false" selection-start-line="489" selection-start-column="18" selection-end-line="489" selection-end-column="27" />
               <folding>
-                <element signature="e#15292#15293#0" expanded="true" />
-                <element signature="e#15328#15329#0" expanded="true" />
-                <element signature="e#15548#15549#0" expanded="true" />
-                <element signature="e#15576#15577#0" expanded="true" />
-                <element signature="e#15631#15632#0" expanded="true" />
-                <element signature="e#15672#15673#0" expanded="true" />
-                <element signature="e#15974#15975#0" expanded="true" />
-                <element signature="e#16002#16003#0" expanded="true" />
-                <element signature="e#16058#16059#0" expanded="true" />
-                <element signature="e#16094#16095#0" expanded="true" />
-                <element signature="e#16150#16151#0" expanded="true" />
-                <element signature="e#16186#16187#0" expanded="true" />
-                <element signature="e#16220#16221#0" expanded="true" />
-                <element signature="e#16250#16251#0" expanded="true" />
-                <element signature="e#16296#16297#0" expanded="true" />
-                <element signature="e#16334#16335#0" expanded="true" />
+                <element signature="e#16326#16327#0" expanded="true" />
+                <element signature="e#16362#16363#0" expanded="true" />
+                <element signature="e#16582#16583#0" expanded="true" />
+                <element signature="e#16610#16611#0" expanded="true" />
+                <element signature="e#16665#16666#0" expanded="true" />
+                <element signature="e#16706#16707#0" expanded="true" />
+                <element signature="e#19832#19833#0" expanded="true" />
+                <element signature="e#19860#19861#0" expanded="true" />
+                <element signature="e#19916#19917#0" expanded="true" />
+                <element signature="e#19952#19953#0" expanded="true" />
+                <element signature="e#20008#20009#0" expanded="true" />
+                <element signature="e#20044#20045#0" expanded="true" />
+                <element signature="e#20078#20079#0" expanded="true" />
+                <element signature="e#20108#20109#0" expanded="true" />
+                <element signature="e#20154#20155#0" expanded="true" />
+                <element signature="e#20192#20193#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ChessAI.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ChessAI.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessAI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="469">
-              <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+            <state relative-caret-position="215">
+              <caret line="32" column="53" lean-forward="false" selection-start-line="32" selection-start-column="53" selection-end-line="32" selection-end-column="53" />
               <folding>
                 <element signature="e#408#409#0" expanded="true" />
                 <element signature="e#444#445#0" expanded="true" />
+                <element signature="e#1396#1397#0" expanded="true" />
+                <element signature="e#1473#1474#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -78,48 +82,8 @@
       <file leaf-file-name="ChessPiece.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessPiece.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="750">
+            <state relative-caret-position="505">
               <caret line="34" column="0" lean-forward="false" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Bishop.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ChessW18/Bishop.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2050">
-              <caret line="86" column="0" lean-forward="false" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Rook.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ChessW18/Rook.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="975">
-              <caret line="41" column="0" lean-forward="false" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Pawn.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ChessW18/Pawn.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1350">
-              <caret line="58" column="0" lean-forward="false" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Knight.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ChessW18/Knight.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1250">
-              <caret line="54" column="0" lean-forward="false" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -128,9 +92,26 @@
       <file leaf-file-name="ChessGUI.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessGUI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="750">
+            <state relative-caret-position="505">
               <caret line="30" column="68" lean-forward="false" selection-start-line="30" selection-start-column="68" selection-end-line="30" selection-end-column="68" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Pawn.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ChessW18/Pawn.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="280">
+              <caret line="42" column="28" lean-forward="false" selection-start-line="42" selection-start-column="28" selection-end-line="42" selection-end-column="28" />
+              <folding>
+                <element signature="e#3311#3312#0" expanded="true" />
+                <element signature="e#3357#3358#0" expanded="true" />
+                <element signature="e#3424#3425#0" expanded="true" />
+                <element signature="e#3482#3483#0" expanded="true" />
+                <element signature="e#3526#3527#0" expanded="true" />
+                <element signature="e#3566#3567#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -160,6 +141,11 @@
       <find>movestack</find>
       <find>countdown</find>
       <find>opponent</find>
+      <find>undosta</find>
+      <find>undoSt</find>
+      <find>undo</find>
+      <find>boardstate</find>
+      <find>undostate</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -182,7 +168,6 @@
         <option value="$PROJECT_DIR$/.idea/workspace.xml" />
         <option value="$PROJECT_DIR$/src/ChessW18/Bishop.java" />
         <option value="$PROJECT_DIR$/src/ChessW18/Rook.java" />
-        <option value="$PROJECT_DIR$/src/ChessW18/Pawn.java" />
         <option value="$PROJECT_DIR$/src/ChessW18/ChessPiece.java" />
         <option value="$PROJECT_DIR$/src/ChessW18/King.java" />
         <option value="$PROJECT_DIR$/src/ChessW18/IChessModel.java" />
@@ -190,8 +175,9 @@
         <option value="$PROJECT_DIR$/src/ChessW18/ChessGUI.java" />
         <option value="$USER_HOME$/Documents/CIS 163/Lab 9/SortByPhoneNumber.java" />
         <option value="$USER_HOME$/Documents/CIS 163/Lab 9/src/Student(1).java" />
-        <option value="$PROJECT_DIR$/src/ChessW18/ChessModel.java" />
         <option value="$PROJECT_DIR$/src/ChessW18/ChessAI.java" />
+        <option value="$PROJECT_DIR$/src/ChessW18/Pawn.java" />
+        <option value="$PROJECT_DIR$/src/ChessW18/ChessModel.java" />
         <option value="$PROJECT_DIR$/src/ChessW18/ChessPanel.java" />
       </list>
     </option>
@@ -244,10 +230,10 @@
           <select />
         </subPane>
       </pane>
-      <pane id="AndroidView" />
       <pane id="PackagesPane" />
       <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -397,6 +383,7 @@
       <workItem from="1521683537269" duration="20522000" />
       <workItem from="1521816027911" duration="17191000" />
       <workItem from="1522067054896" duration="61000" />
+      <workItem from="1522067394908" duration="8387000" />
     </task>
     <task id="LOCAL-00001" summary="Merged your changes and my changes to the panel class and fixed a few problems that I had when moving pieces. Also temporarily changed layout so we could test it">
       <created>1521564934354</created>
@@ -493,10 +480,11 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="80205000" />
+    <option name="totallyTimeSpent" value="88592000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-11" y="-11" width="1942" height="1102" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -506,7 +494,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32939914" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32618025" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32618025" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32939914" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -517,7 +505,7 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39270386" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3922414" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -599,7 +587,7 @@
       <breakpoints>
         <line-breakpoint type="java-method">
           <url>file://$PROJECT_DIR$/src/ChessW18/Pawn.java</url>
-          <line>24</line>
+          <line>28</line>
           <properties class="ChessW18.Pawn" method="isValidMove">
             <option name="EMULATED" value="true" />
           </properties>
@@ -609,11 +597,79 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="171" />
+      <option name="time" value="176" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessPiece.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="750">
+          <caret line="34" column="0" lean-forward="false" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ChessW18/Bishop.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2050">
+          <caret line="86" column="0" lean-forward="false" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ChessW18/Rook.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="975">
+          <caret line="41" column="0" lean-forward="false" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ChessW18/Pawn.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1350">
+          <caret line="58" column="0" lean-forward="false" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
+          <folding>
+            <element signature="e#3311#3312#0" expanded="true" />
+            <element signature="e#3357#3358#0" expanded="true" />
+            <element signature="e#3424#3425#0" expanded="true" />
+            <element signature="e#3482#3483#0" expanded="true" />
+            <element signature="e#3526#3527#0" expanded="true" />
+            <element signature="e#3566#3567#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ChessW18/Knight.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1250">
+          <caret line="54" column="0" lean-forward="false" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessGUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="750">
+          <caret line="30" column="68" lean-forward="false" selection-start-line="30" selection-start-column="68" selection-end-line="30" selection-end-column="68" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessAI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+          <folding>
+            <element signature="e#408#409#0" expanded="true" />
+            <element signature="e#444#445#0" expanded="true" />
+            <element signature="e#1396#1397#0" expanded="true" />
+            <element signature="e#1473#1474#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessPanel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="13125">
@@ -629,22 +685,22 @@
         <state relative-caret-position="3175">
           <caret line="130" column="0" lean-forward="false" selection-start-line="130" selection-start-column="0" selection-end-line="130" selection-end-column="0" />
           <folding>
-            <element signature="e#15292#15293#0" expanded="true" />
-            <element signature="e#15328#15329#0" expanded="true" />
-            <element signature="e#15548#15549#0" expanded="true" />
-            <element signature="e#15576#15577#0" expanded="true" />
-            <element signature="e#15631#15632#0" expanded="true" />
-            <element signature="e#15672#15673#0" expanded="true" />
-            <element signature="e#15974#15975#0" expanded="true" />
-            <element signature="e#16002#16003#0" expanded="true" />
-            <element signature="e#16058#16059#0" expanded="true" />
-            <element signature="e#16094#16095#0" expanded="true" />
-            <element signature="e#16150#16151#0" expanded="true" />
-            <element signature="e#16186#16187#0" expanded="true" />
-            <element signature="e#16220#16221#0" expanded="true" />
-            <element signature="e#16250#16251#0" expanded="true" />
-            <element signature="e#16296#16297#0" expanded="true" />
-            <element signature="e#16334#16335#0" expanded="true" />
+            <element signature="e#16326#16327#0" expanded="true" />
+            <element signature="e#16362#16363#0" expanded="true" />
+            <element signature="e#16582#16583#0" expanded="true" />
+            <element signature="e#16610#16611#0" expanded="true" />
+            <element signature="e#16665#16666#0" expanded="true" />
+            <element signature="e#16706#16707#0" expanded="true" />
+            <element signature="e#19832#19833#0" expanded="true" />
+            <element signature="e#19860#19861#0" expanded="true" />
+            <element signature="e#19916#19917#0" expanded="true" />
+            <element signature="e#19952#19953#0" expanded="true" />
+            <element signature="e#20008#20009#0" expanded="true" />
+            <element signature="e#20044#20045#0" expanded="true" />
+            <element signature="e#20078#20079#0" expanded="true" />
+            <element signature="e#20108#20109#0" expanded="true" />
+            <element signature="e#20154#20155#0" expanded="true" />
+            <element signature="e#20192#20193#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -677,7 +733,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1350">
           <caret line="58" column="0" lean-forward="false" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#3311#3312#0" expanded="true" />
+            <element signature="e#3357#3358#0" expanded="true" />
+            <element signature="e#3424#3425#0" expanded="true" />
+            <element signature="e#3482#3483#0" expanded="true" />
+            <element signature="e#3526#3527#0" expanded="true" />
+            <element signature="e#3566#3567#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -704,6 +767,8 @@
           <folding>
             <element signature="e#408#409#0" expanded="true" />
             <element signature="e#444#445#0" expanded="true" />
+            <element signature="e#1396#1397#0" expanded="true" />
+            <element signature="e#1473#1474#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -723,22 +788,22 @@
         <state relative-caret-position="4900">
           <caret line="196" column="27" lean-forward="false" selection-start-line="196" selection-start-column="16" selection-end-line="196" selection-end-column="27" />
           <folding>
-            <element signature="e#15292#15293#0" expanded="true" />
-            <element signature="e#15328#15329#0" expanded="true" />
-            <element signature="e#15548#15549#0" expanded="true" />
-            <element signature="e#15576#15577#0" expanded="true" />
-            <element signature="e#15631#15632#0" expanded="true" />
-            <element signature="e#15672#15673#0" expanded="true" />
-            <element signature="e#15974#15975#0" expanded="true" />
-            <element signature="e#16002#16003#0" expanded="true" />
-            <element signature="e#16058#16059#0" expanded="true" />
-            <element signature="e#16094#16095#0" expanded="true" />
-            <element signature="e#16150#16151#0" expanded="true" />
-            <element signature="e#16186#16187#0" expanded="true" />
-            <element signature="e#16220#16221#0" expanded="true" />
-            <element signature="e#16250#16251#0" expanded="true" />
-            <element signature="e#16296#16297#0" expanded="true" />
-            <element signature="e#16334#16335#0" expanded="true" />
+            <element signature="e#16326#16327#0" expanded="true" />
+            <element signature="e#16362#16363#0" expanded="true" />
+            <element signature="e#16582#16583#0" expanded="true" />
+            <element signature="e#16610#16611#0" expanded="true" />
+            <element signature="e#16665#16666#0" expanded="true" />
+            <element signature="e#16706#16707#0" expanded="true" />
+            <element signature="e#19832#19833#0" expanded="true" />
+            <element signature="e#19860#19861#0" expanded="true" />
+            <element signature="e#19916#19917#0" expanded="true" />
+            <element signature="e#19952#19953#0" expanded="true" />
+            <element signature="e#20008#20009#0" expanded="true" />
+            <element signature="e#20044#20045#0" expanded="true" />
+            <element signature="e#20078#20079#0" expanded="true" />
+            <element signature="e#20108#20109#0" expanded="true" />
+            <element signature="e#20154#20155#0" expanded="true" />
+            <element signature="e#20192#20193#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -763,7 +828,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1250">
           <caret line="54" column="0" lean-forward="false" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#3311#3312#0" expanded="true" />
+            <element signature="e#3357#3358#0" expanded="true" />
+            <element signature="e#3424#3425#0" expanded="true" />
+            <element signature="e#3482#3483#0" expanded="true" />
+            <element signature="e#3526#3527#0" expanded="true" />
+            <element signature="e#3566#3567#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -798,22 +870,22 @@
         <state relative-caret-position="6700">
           <caret line="268" column="21" lean-forward="false" selection-start-line="268" selection-start-column="21" selection-end-line="268" selection-end-column="21" />
           <folding>
-            <element signature="e#15292#15293#0" expanded="true" />
-            <element signature="e#15328#15329#0" expanded="true" />
-            <element signature="e#15548#15549#0" expanded="true" />
-            <element signature="e#15576#15577#0" expanded="true" />
-            <element signature="e#15631#15632#0" expanded="true" />
-            <element signature="e#15672#15673#0" expanded="true" />
-            <element signature="e#15974#15975#0" expanded="true" />
-            <element signature="e#16002#16003#0" expanded="true" />
-            <element signature="e#16058#16059#0" expanded="true" />
-            <element signature="e#16094#16095#0" expanded="true" />
-            <element signature="e#16150#16151#0" expanded="true" />
-            <element signature="e#16186#16187#0" expanded="true" />
-            <element signature="e#16220#16221#0" expanded="true" />
-            <element signature="e#16250#16251#0" expanded="true" />
-            <element signature="e#16296#16297#0" expanded="true" />
-            <element signature="e#16334#16335#0" expanded="true" />
+            <element signature="e#16326#16327#0" expanded="true" />
+            <element signature="e#16362#16363#0" expanded="true" />
+            <element signature="e#16582#16583#0" expanded="true" />
+            <element signature="e#16610#16611#0" expanded="true" />
+            <element signature="e#16665#16666#0" expanded="true" />
+            <element signature="e#16706#16707#0" expanded="true" />
+            <element signature="e#19832#19833#0" expanded="true" />
+            <element signature="e#19860#19861#0" expanded="true" />
+            <element signature="e#19916#19917#0" expanded="true" />
+            <element signature="e#19952#19953#0" expanded="true" />
+            <element signature="e#20008#20009#0" expanded="true" />
+            <element signature="e#20044#20045#0" expanded="true" />
+            <element signature="e#20078#20079#0" expanded="true" />
+            <element signature="e#20108#20109#0" expanded="true" />
+            <element signature="e#20154#20155#0" expanded="true" />
+            <element signature="e#20192#20193#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -855,7 +927,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1100">
           <caret line="48" column="69" lean-forward="false" selection-start-line="48" selection-start-column="69" selection-end-line="48" selection-end-column="69" />
-          <folding />
+          <folding>
+            <element signature="e#3311#3312#0" expanded="true" />
+            <element signature="e#3357#3358#0" expanded="true" />
+            <element signature="e#3424#3425#0" expanded="true" />
+            <element signature="e#3482#3483#0" expanded="true" />
+            <element signature="e#3526#3527#0" expanded="true" />
+            <element signature="e#3566#3567#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -963,14 +1042,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ChessW18/Pawn.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1350">
-          <caret line="58" column="0" lean-forward="false" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ChessW18/Knight.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1250">
@@ -995,64 +1066,81 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessPiece.java">
+    <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessAI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="750">
-          <caret line="34" column="0" lean-forward="false" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="13125">
-          <caret line="533" column="48" lean-forward="false" selection-start-line="533" selection-start-column="48" selection-end-line="533" selection-end-column="48" />
+        <state relative-caret-position="215">
+          <caret line="32" column="53" lean-forward="false" selection-start-line="32" selection-start-column="53" selection-end-line="32" selection-end-column="53" />
           <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3175">
-          <caret line="130" column="0" lean-forward="false" selection-start-line="130" selection-start-column="0" selection-end-line="130" selection-end-column="0" />
-          <folding>
-            <element signature="e#15292#15293#0" expanded="true" />
-            <element signature="e#15328#15329#0" expanded="true" />
-            <element signature="e#15548#15549#0" expanded="true" />
-            <element signature="e#15576#15577#0" expanded="true" />
-            <element signature="e#15631#15632#0" expanded="true" />
-            <element signature="e#15672#15673#0" expanded="true" />
-            <element signature="e#15974#15975#0" expanded="true" />
-            <element signature="e#16002#16003#0" expanded="true" />
-            <element signature="e#16058#16059#0" expanded="true" />
-            <element signature="e#16094#16095#0" expanded="true" />
-            <element signature="e#16150#16151#0" expanded="true" />
-            <element signature="e#16186#16187#0" expanded="true" />
-            <element signature="e#16220#16221#0" expanded="true" />
-            <element signature="e#16250#16251#0" expanded="true" />
-            <element signature="e#16296#16297#0" expanded="true" />
-            <element signature="e#16334#16335#0" expanded="true" />
+            <element signature="e#408#409#0" expanded="true" />
+            <element signature="e#444#445#0" expanded="true" />
+            <element signature="e#1396#1397#0" expanded="true" />
+            <element signature="e#1473#1474#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessGUI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="750">
+        <state relative-caret-position="505">
           <caret line="30" column="68" lean-forward="false" selection-start-line="30" selection-start-column="68" selection-end-line="30" selection-end-column="68" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessAI.java">
+    <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessPiece.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="469">
-          <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+        <state relative-caret-position="505">
+          <caret line="34" column="0" lean-forward="false" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ChessW18/Pawn.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="42" column="28" lean-forward="false" selection-start-line="42" selection-start-column="28" selection-end-line="42" selection-end-column="28" />
           <folding>
-            <element signature="e#408#409#0" expanded="true" />
-            <element signature="e#444#445#0" expanded="true" />
+            <element signature="e#3311#3312#0" expanded="true" />
+            <element signature="e#3357#3358#0" expanded="true" />
+            <element signature="e#3424#3425#0" expanded="true" />
+            <element signature="e#3482#3483#0" expanded="true" />
+            <element signature="e#3526#3527#0" expanded="true" />
+            <element signature="e#3566#3567#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="218">
+          <caret line="489" column="27" lean-forward="false" selection-start-line="489" selection-start-column="18" selection-end-line="489" selection-end-column="27" />
+          <folding>
+            <element signature="e#16326#16327#0" expanded="true" />
+            <element signature="e#16362#16363#0" expanded="true" />
+            <element signature="e#16582#16583#0" expanded="true" />
+            <element signature="e#16610#16611#0" expanded="true" />
+            <element signature="e#16665#16666#0" expanded="true" />
+            <element signature="e#16706#16707#0" expanded="true" />
+            <element signature="e#19832#19833#0" expanded="true" />
+            <element signature="e#19860#19861#0" expanded="true" />
+            <element signature="e#19916#19917#0" expanded="true" />
+            <element signature="e#19952#19953#0" expanded="true" />
+            <element signature="e#20008#20009#0" expanded="true" />
+            <element signature="e#20044#20045#0" expanded="true" />
+            <element signature="e#20078#20079#0" expanded="true" />
+            <element signature="e#20108#20109#0" expanded="true" />
+            <element signature="e#20154#20155#0" expanded="true" />
+            <element signature="e#20192#20193#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="287">
+          <caret line="97" column="29" lean-forward="true" selection-start-line="97" selection-start-column="29" selection-end-line="97" selection-end-column="29" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -18,14 +18,50 @@ public class ChessAI extends ChessModel{
         this.player = player;
     }
 
-    private void evaluateBoard() {
+    /**
+     * evaluates the score for a player based on the pieces they own
+     *
+     * @param player
+     * @return
+     */
+    private int evaluateScore(Player player) {
+        int score = 0;
+        for (int row = 0; row < board.length; row++)
+            for (int col = 0; col < board.length; col++) {
+                if (board[row][col] != null)
+                    if (board[row][col].player() == player)
+                        //add score for the player's existing pieces
+                        score += getPieceValue(board[row][col].type());
 
+                //remove score for their pieces that have been captured
+                ArrayList<IChessPiece> captures = (player == Player.BLACK ? getWhiteCaptures() : getBlackCaptures());
+                for (IChessPiece piece : captures) {
+                    score -= getPieceValue(piece.type());
+                }
+            }
+        return score;
     }
 
     private Player opponent() {
-        if (player == Player.BLACK)
-            return Player.WHITE;
-        return Player.BLACK;
+        return (player == Player.BLACK ? Player.WHITE : Player.BLACK);
+    }
+
+    private int getPieceValue(String type) {
+        switch (type) {
+            case "Pawn":
+                return PAWN;
+            case "Knight":
+                return KNIGHT;
+            case "Bishop":
+                return BISHOP;
+            case "Rook":
+                return ROOK;
+            case "Queen":
+                return QUEEN;
+            case "King":
+                return KING;
+        }
+        return 0;
     }
 
 }

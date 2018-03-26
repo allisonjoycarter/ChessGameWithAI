@@ -19,8 +19,11 @@ public class ChessModel implements IChessModel {
     /** holds the captures of players */
     private ArrayList<IChessPiece> whiteCaptures, blackCaptures;
 
-    /** to hold copies of the board so undo method can reference the last board state */
-    private Stack<IChessPiece[][]> boardStates;
+//    /** to hold copies of the board so undo method can reference the last board state */
+//    private Stack<IChessPiece[][]> boardStates;
+
+    private Stack<Move> moveStack;
+    private Stack<Move> captureMoveStack;
 
     private String message;
 
@@ -29,7 +32,9 @@ public class ChessModel implements IChessModel {
      * and places starting pieces
      */
     public ChessModel() {
-        boardStates = new Stack<>();
+        moveStack = new Stack<>();
+        captureMoveStack = new Stack<>();
+//        boardStates = new Stack<>();
         whiteCaptures = new ArrayList<>();
         blackCaptures = new ArrayList<>();
         placeStartingPieces();
@@ -136,15 +141,19 @@ public class ChessModel implements IChessModel {
             if (board[move.newRow][move.newColumn] != null &&
                     board[move.newRow][move.newColumn].player() == board[move.oldRow][move.oldColumn].opponent()) {
                 captured = board[move.newRow][move.newColumn];
+                captureMoveStack.push(move);
             } else if (board[move.oldRow][move.newColumn] != null && //deals with en passant
                     board[move.oldRow][move.oldColumn].type().equals("Pawn") && //piece moving is a pawn
                     board[move.oldRow][move.newColumn].type().equals("Pawn") && //piece passanted is pawn
                     board[move.oldRow][move.newColumn].player().
                             equals(board[move.oldRow][move.oldColumn].opponent())) {
+                ((Pawn) board[move.oldRow][move.newColumn]).setAbleToBePassanted(false);
                 move.setWasEnPassant(true);
                 captured = board[move.oldRow][move.newColumn]; //sets captured piece to row above/below moving pawn
+                captureMoveStack.push(move);
             }
-            else if (board[move.oldRow][move.oldColumn].type().equals("King") &&
+
+            if (board[move.oldRow][move.oldColumn].type().equals("King") &&
                      board[move.newRow][move.newColumn] == null)
             {
                 boolean valid = true;
@@ -170,7 +179,6 @@ public class ChessModel implements IChessModel {
                         move.setWasCastle(true);
                     }
                 }
-                captured = board[move.newRow][move.newColumn];
             }
 
             if (captured != null) //if there is a piece to be captured
@@ -219,42 +227,21 @@ public class ChessModel implements IChessModel {
                 }
             }
 
-            //for loop to prevent boardStates from storing the reference to board
-            IChessPiece[][] tempBoard = new IChessPiece[board.length][board.length];
-            for (int r = 0; r < tempBoard.length; r++)
-                for (int c = 0; c < tempBoard.length; c++)
-                    tempBoard[r][c] = board[r][c];
-            boardStates.push(tempBoard); //adding a copy of the board to the stack
+            if (board[move.newRow][move.newColumn].type().equals("Pawn") &&
+                    ((currentPlayer == Player.WHITE && move.newRow == move.oldRow - 2) ||
+                            (currentPlayer == Player.BLACK && move.newRow == move.oldRow + 2)))
+                ((Pawn) board[move.newRow][move.newColumn]).setAbleToBePassanted(true);
+            else
+                for (int row = 0; row < board.length; row++) {
+                    for (int col = 0; col < board.length; col++) {
+                        if (board[row][col] != null && board[row][col].type().equals("Pawn"))
+                            ((Pawn) board[row][col]).setAbleToBePassanted(false);
+                    }
+                }
+            moveStack.push(move);
         } else {
             throw new IllegalArgumentException();
         }
-    }
-
-    /******************************************************************
-     * Returns the board back to it's previous state. Although storing
-     * board states uses more data than storing moves, it allows for
-     * easier undoing of captures and special moves. The code that
-     * stored moves rather than board states was much longer and
-     * convoluted.
-     *
-     * @author Allison
-     *****************************************************************/
-    public void undoState() {
-        //if there is no previous board state, set board back to starting position
-        if (boardStates.empty()) {
-            board = new IChessPiece[8][8];
-            placeStartingPieces();
-            return;
-        }
-        /*once a move is made, the state is saved. So the state that's on the
-          top of the stack is the state that contains the most current move. Which
-          means that the state popped will be the same as the current state. So if
-          the current state is the same as the top of the stack, that should be
-          removed in order to return back to a previous state */
-//        if (Arrays.deepEquals(boardStates.peek(), board))
-//            boardStates.pop();
-        board = boardStates.pop();
-        switchPlayer();
     }
 
     /******************************************************************
@@ -289,7 +276,7 @@ public class ChessModel implements IChessModel {
                         //check if valid moves includes capturing the king
                         if (move.newRow == kingRow &&
                                 move.newColumn == kingColumn)
-                            return false; //is supposed to be true, the game wasn't running so i made it false
+                            return true; //is supposed to be true, the game wasn't running so i made it false
                     }
                 }
             }
@@ -406,11 +393,66 @@ public class ChessModel implements IChessModel {
         //clear all data from the game
         blackCaptures.clear();
         whiteCaptures.clear();
-        boardStates.clear();
+//        boardStates.clear();
 
         //remake the board
         board = new IChessPiece[8][8];
         placeStartingPieces();
+    }
+
+    /******************************************************************
+     * Reverts board back to the position before the most recent move
+     * by popping the first element off the moveStack.
+     *
+     * @author Allison
+     *****************************************************************/
+    public void undoLastMove() {
+        if (moveStack.empty()) //if there were no moves made, exit the method
+            return;
+
+        Move lastMove = moveStack.pop(); //remove and return the previous move
+
+        //setting piece back to old location
+        board[lastMove.oldRow][lastMove.oldColumn] = board[lastMove.newRow][lastMove.newColumn];
+        if (!captureMoveStack.empty() && lastMove == captureMoveStack.peek()) { //checking if the last move was a capture
+            captureMoveStack.pop(); //remove the capture
+
+            ArrayList<IChessPiece> captures;
+            if (board[lastMove.oldRow][lastMove.oldColumn].player().equals(Player.WHITE)) {
+                captures = whiteCaptures;
+            } else {
+                captures = blackCaptures;
+            }
+
+            //set the old location to the captured piece
+            if (captures.size() > 0) {
+                if (lastMove.wasEnPassant()) { //en passant requires different locations for previous pieces
+                    board[lastMove.oldRow][lastMove.newColumn] = captures.get(captures.size() - 1);
+                    board[lastMove.newRow][lastMove.newColumn] = null;
+                } else //otherwise just put the captured piece back where it was
+                    board[lastMove.newRow][lastMove.newColumn] = captures.get(captures.size() - 1);
+                captures.remove(captures.size() - 1); //piece is no longer captured after undo
+            }
+        } else if (lastMove.wasCastle()) {
+
+        } else //otherwise just set the old location to null
+            board[lastMove.newRow][lastMove.newColumn] = null;
+
+        //if the King or Rook move was undone, they should now be able to castle
+        IChessPiece temp = board[lastMove.oldRow][lastMove.oldColumn];
+        if (temp.type().equals("King") &&
+                lastMove.wasCastle())
+            ((King) temp).canCastle = true;
+        if (temp.type().equals("Rook") &&
+                lastMove.wasCastle())
+            ((Rook) temp).canCastle = true;
+        if (temp.type().equals("Pawn") &&
+                //if move was from starting position for black
+                ((lastMove.oldRow == 1 && board[lastMove.oldRow][lastMove.oldColumn].player().equals(Player.BLACK)) ||
+                        //if move was from starting position for white
+                        (lastMove.oldRow == 6 && board[lastMove.oldRow][lastMove.oldColumn].player().equals(Player.WHITE))))
+            ((Pawn) temp).setFirstTurn(true);
+        switchPlayer();
     }
 
     public IChessPiece[][] getBoard() {
@@ -436,57 +478,29 @@ public class ChessModel implements IChessModel {
 }
 
 
-//    /******************************************************************
-//     * Reverts board back to the position before the most recent move
-//     * by popping the first element off the moveStack.
-//     *
-//     * @author Allison
-//     *****************************************************************/
-//    public void undoLastMove() {
-//        if (moveStack.empty()) //if there were no moves made, exit the method
+///******************************************************************
+ //     * Returns the board back to it's previous state. Although storing
+ //     * board states uses more data than storing moves, it allows for
+ //     * easier undoing of captures and special moves. The code that
+ //     * stored moves rather than board states was much longer and
+ //     * convoluted.
+ //     *
+ //     * @author Allison
+ //     *****************************************************************/
+//    public void undoState() {
+//        //if there is no previous board state, set board back to starting position
+//        if (boardStates.empty()) {
+//            board = new IChessPiece[8][8];
+//            placeStartingPieces();
 //            return;
-//
-//        Move lastMove = moveStack.pop(); //remove and return the previous move
-//
-//        //setting piece back to old location
-//        board[lastMove.oldRow][lastMove.oldColumn] = board[lastMove.newRow][lastMove.newColumn];
-//        if (!captureMoveStack.empty() && lastMove == captureMoveStack.peek()) { //checking if the last move was a capture
-//            captureMoveStack.pop(); //remove the capture
-//
-//            ArrayList<IChessPiece> captures;
-//            if (board[lastMove.oldRow][lastMove.oldColumn].player().equals(Player.WHITE)) {
-//                captures = whiteCaptures;
-//            } else {
-//                captures = blackCaptures;
-//            }
-//
-//            //set the old location to the captured piece
-//            if (captures.size() > 0) {
-//                if (lastMove.wasEnPassant()) { //en passant requires different locations for previous pieces
-//                    board[lastMove.oldRow][lastMove.newColumn] = captures.get(captures.size() - 1);
-//                    board[lastMove.newRow][lastMove.newColumn] = null;
-//                } else //otherwise just put the captured piece back where it was
-//                    board[lastMove.newRow][lastMove.newColumn] = captures.get(captures.size() - 1);
-//                captures.remove(captures.size() - 1); //piece is no longer captured after undo
-//            }
-//        } else if (lastMove.wasCastle()) {
-//
-//        } else //otherwise just set the old location to null
-//            board[lastMove.newRow][lastMove.newColumn] = null;
-//
-//        //if the King or Rook move was undone, they should now be able to castle
-//        IChessPiece temp = board[lastMove.oldRow][lastMove.oldColumn];
-//        if (temp.type().equals("King") &&
-//                lastMove.wasCastle())
-//            ((King) temp).canCastle = true;
-//        if (temp.type().equals("Rook") &&
-//                lastMove.wasCastle())
-//            ((Rook) temp).canCastle = true;
-//        if (temp.type().equals("Pawn") &&
-//                //if move was from starting position for black
-//                ((lastMove.oldRow == 1 && board[lastMove.oldRow][lastMove.oldColumn].player().equals(Player.BLACK)) ||
-//                        //if move was from starting position for white
-//                (lastMove.oldRow == 6 && board[lastMove.oldRow][lastMove.oldColumn].player().equals(Player.WHITE))))
-//                ((Pawn) temp).setFirstTurn(true);
+//        }
+//        /*once a move is made, the state is saved. So the state that's on the
+//          top of the stack is the state that contains the most current move. Which
+//          means that the state popped will be the same as the current state. So if
+//          the current state is the same as the top of the stack, that should be
+//          removed in order to return back to a previous state */
+//        if (Arrays.deepEquals(boardStates.peek(), board))
+//            boardStates.pop();
+//        board = boardStates.pop();
 //        switchPlayer();
 //    }
