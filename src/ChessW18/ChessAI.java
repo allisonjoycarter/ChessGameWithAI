@@ -3,7 +3,7 @@ package ChessW18;
 import java.util.ArrayList;
 
 public class ChessAI extends ChessModel{
-//    IChessPiece[][] board = getBoard();
+    IChessPiece[][] board = getBoard();
     Player player;
 
     //for scoring moves?
@@ -40,6 +40,61 @@ public class ChessAI extends ChessModel{
                 }
             }
         return score;
+    }
+
+    /**
+     * If the king is in check, this method will check every black
+     * piece on the board to see if it can be moved to save the king.
+     *
+     * @return True if a move was made to save the king.
+     *
+     * @author George
+     * @version 3/26/18
+     */
+    private boolean saveKing() {
+        //If the AI is in check, get it out of check.
+        if (inCheck(Player.BLACK)) {
+            for (int row = 0; row < board.length; row++)
+                for (int col = 0; col < board.length; col++) {
+
+                    //Looks if this place on the board has a Black piece on it.
+                    if (board[row][col].player() == Player.BLACK) {
+                        ArrayList<Move> possibilities = legalMoves(row, col);
+
+                        //Goes through every possible move.
+                        for (int index = possibilities.size(); index >= 0; index--) {
+                            Move newMove = possibilities.get(index);
+
+                            //In case an opponents piece is going to be taken, we need to know what it was.
+                            IChessPiece oldPiece = board[newMove.newRow][newMove.newColumn];
+                            board[newMove.newRow][newMove.newColumn] = board[row][col];
+
+                            //If the AI is still in check, the move in excecuted with the Move method.
+                            if (inCheck(Player.BLACK)) {
+                                board[row][col] = oldPiece;
+                                move(newMove);
+                                return true;
+                            } else
+                                board[newMove.newRow][newMove.newColumn] = null;
+
+                        }
+                    }
+                }
+        }
+        return false;
+    }
+
+    /******************************************************************
+     * This can be used to determine if a black piece is in danger.
+     *
+     * @return True if a move was made to save a piece.
+     *
+     * @author George
+     * @version 3/26/18
+     *****************************************************************/
+    private boolean pieceInDanger() {
+    //I had to go program a gate so my 4-intersection would't have train accidents. I'll get back to this later.
+    return false;
     }
 
     private Player opponent() {
