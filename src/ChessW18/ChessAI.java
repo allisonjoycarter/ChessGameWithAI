@@ -3,7 +3,7 @@ package ChessW18;
 import java.util.ArrayList;
 
 public class ChessAI extends ChessModel{
-//    IChessPiece[][] board = getBoard();
+    IChessPiece[][] board = getBoard();
     Player player;
 
     //for scoring moves?
