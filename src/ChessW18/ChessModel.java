@@ -99,8 +99,6 @@ public class ChessModel implements IChessModel {
         board[move.newRow][move.newColumn] = board[move.oldRow][move.oldColumn];
         if (move.wasEnPassant())
             board[move.oldRow][move.newColumn] = null;
-        else if (move.wasCastle())
-            ; //TODO: implement castle
         board[move.oldRow][move.oldColumn] = null;
 
         //if the move placed ends up putting player in check, then return false
@@ -144,10 +142,14 @@ public class ChessModel implements IChessModel {
                 move.setWasEnPassant(true);
                 captured = board[move.oldRow][move.newColumn]; //sets captured piece to row above/below moving pawn
             }
+
+            //Checks for a if a castle was performed.
             else if (board[move.oldRow][move.oldColumn].type().equals("King") &&
                      board[move.newRow][move.newColumn] == null)
             {
                 boolean valid = true;
+
+                //Looks to see if the space between the king and rook is clear
                 if(move.oldColumn < move.newColumn)
                     for(int i = move.oldColumn+1; i < move.newColumn && valid; i++)
                         if(board[move.newRow][i] != null)
@@ -156,6 +158,8 @@ public class ChessModel implements IChessModel {
                     for(i = move.oldColumn-1; i > move.newColumn && valid; i--)
                         if(board[move.newRow][i] != null)
                             valid = false;
+
+                //If the path was clear
                 if(valid) {
                     if(board[move.newRow][move.newColumn - 1] != null)
                         if(board[move.newRow][move.newColumn - 1].type().equals("Rook")) {

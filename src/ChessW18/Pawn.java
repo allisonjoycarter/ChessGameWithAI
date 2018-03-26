@@ -5,11 +5,11 @@ package ChessW18;
  * type of piece it is, and whether a move is valid or invalid
  *
  * @author Allison
- * @version 3/14/2018
+ * @version 3/25/2018
  *********************************************************************/
 public class Pawn extends ChessPiece {
 
-    boolean isFirstTurn = true;
+    private boolean isFirstTurn = true;
 
 
     public Pawn(Player player) {
@@ -36,6 +36,7 @@ public class Pawn extends ChessPiece {
                     && board[move.newRow][move.newColumn]
                     .player() == opponent())
                 return true;
+        /* //The en passant needs to be adjusted so that it can see if the move just happened. */
             //if the move was an en passant
             //meaning the piece passed in front of another piece diagonally
             if (move.newRow == move.oldRow + toCenter && //if move was one towards center
@@ -49,7 +50,8 @@ public class Pawn extends ChessPiece {
             //if it's the first turn, the pawn can move two spaces up
             if (isFirstTurn && move.oldColumn == move.newColumn &&
                     move.newRow == move.oldRow + (toCenter * 2) &&
-                    board[move.newRow][move.newColumn] == null)
+                    board[move.newRow][move.newColumn] == null &&
+                    board[move.newRow - toCenter][move.newColumn] == null)
                 return true;
             //if move is 1 square forward
             return move.oldColumn == move.newColumn &&
