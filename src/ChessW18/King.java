@@ -6,7 +6,7 @@ package ChessW18;
  * whether a move proposed is valid given the general rules of Chess
  *
  * @author Allison
- * @version 3/15/2018
+ * @version 3/25/2018
  *********************************************************************/
 public class King extends ChessPiece {
 

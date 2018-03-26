@@ -19,6 +19,11 @@ public class ChessPanel extends JPanel {
 
 	/** button to undo the last move */
     private JMenuItem undoMove;
+    private JMenuItem timeItem;
+    private JMenuItem startItem;
+    private JMenuItem stopItem;
+    private JCheckBoxMenuItem countUpItem;
+    private JMenuItem setTimerItem;
 
     /** because extra credit is key */
     private JCheckBoxMenuItem colorBlind;
@@ -75,8 +80,11 @@ public class ChessPanel extends JPanel {
     /** holds amount of time (seconds) left for each player */
     private int whiteTime, blackTime;
 
-    public ChessPanel(JMenuItem pquitItem, JMenuItem pgameItem, JCheckBoxMenuItem colorBlind, JMenuItem undoMove) {
-        //instantiating variables
+    public ChessPanel(JMenuItem pquitItem, JMenuItem pgameItem,
+                      JCheckBoxMenuItem colorBlind, JMenuItem undoMove,
+                      JMenuItem pTime, JMenuItem pStart, JMenuItem pStop,
+                      JCheckBoxMenuItem pCountUp, JMenuItem pSetTimer) {
+
 		model = new ChessModel();
 		move = new Move();
 		currentPlayer = model.currentPlayer();
@@ -87,10 +95,44 @@ public class ChessPanel extends JPanel {
 
 		gameItem = pgameItem;
 		quitItem = pquitItem;
+		timeItem = pTime;
+		startItem = pStart;
+		stopItem = pStop;
+        countUpItem = pCountUp;
+        setTimerItem = pSetTimer;
 		this.undoMove = undoMove;
 		this.colorBlind = colorBlind;
+
+		startItem.setEnabled(true);
+
+        timer = new Timer(1000, new TimerListener());
+        timer.setActionCommand("Up");
+        countUpItem.setSelected(true);
+
 		quitItem.addActionListener(e -> exit(0));
 		gameItem.addActionListener( e -> resetBoard());
+        startItem.addActionListener(e -> timer.start());
+        stopItem.addActionListener(e -> timer.stop());
+        countUpItem.addActionListener(e -> {
+            if (timer.getActionCommand().equals("Up"))
+                timer.setActionCommand("Down");
+            else
+                timer.setActionCommand("Up");
+        });
+        setTimerItem.addActionListener(e -> {
+            try {
+                whiteTime = blackTime = seconds = 60 * Integer.parseInt(
+                        JOptionPane.showInputDialog(null,
+                                "Set the timer in minutes.", "Set Timer",
+                                JOptionPane.QUESTION_MESSAGE));
+            }
+            catch(NumberFormatException event) {
+                message = "Please enter a time of only minutes.";
+            }
+            fixTime();
+            timeItem.setText(hours + ":" + minutes + ":" + seconds);
+        });
+
 		this.undoMove.addActionListener(e -> {
             model.undoLastMove(); //undo's previous move
             currentPlayer = model.currentPlayer(); //make sure player is switched
@@ -124,6 +166,8 @@ public class ChessPanel extends JPanel {
                             board[row][col].setBackground(new Color(246, 249, 182));
 
             });
+// time, start, stop, countUp, setTimer
+
 		//setting the timer to start with a modest amount of time
 		minutes = 30;
 
@@ -134,26 +178,29 @@ public class ChessPanel extends JPanel {
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridx = 0;
         constraints.gridy = 0;
-        constraints.anchor = GridBagConstraints.NORTHWEST;
+        constraints.anchor = GridBagConstraints.EAST;
         constraints.gridwidth = 2;
         constraints.gridheight = 3;
         add(boardPanel, constraints);
 
-        //panel for the timer and its buttons
-        constraints.fill = GridBagConstraints.BOTH;
-        constraints.gridx = 2;
-        constraints.gridy = 0;
-        constraints.gridwidth = 1;
-        constraints.gridheight = 1;
-        add(createTimerPanel(), constraints);
+
+//I put everything into the JMenuBar.
+//        constraints.fill = GridBagConstraints.HORIZONTAL;
+//        constraints.gridx = 2;
+//        constraints.gridy = 0;
+//        constraints.anchor = GridBagConstraints.NORTHWEST;
+//        constraints.gridwidth = 1;
+//        constraints.gridheight = 1;
+//        add(createTimerPanel(), constraints);
 
         //panel for the captures
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridx = 2;
         constraints.gridy = 1;
+        constraints.anchor = GridBagConstraints.SOUTHWEST;
         constraints.gridwidth = 1;
         constraints.gridheight = 2;
-        constraints.weightx = 1;
+//        constraints.weightx = 1;
         add(createCapturesPanel(), constraints);
     }
 
@@ -242,7 +289,6 @@ public class ChessPanel extends JPanel {
             minutes -= 60;
             hours++;
         }
-
     }
 
     /**
@@ -280,15 +326,15 @@ public class ChessPanel extends JPanel {
 
             //setting the label to take the form 0:00:00
             if (seconds < 0 || minutes < 0 || hours < 0)
-                timerLabel.setText(hours + ":" + minutes + ":" + seconds);
+                timeItem.setText(hours + ":" + minutes + ":" + seconds);
             else if (minutes >= 10 && seconds >= 10)
-                timerLabel.setText(hours + ":" + minutes + ":" + seconds);
+                timeItem.setText(hours + ":" + minutes + ":" + seconds);
             else if (minutes >= 10 && seconds < 10)
-                timerLabel.setText(hours + ":" + minutes + ":0" + seconds);
+                timeItem.setText(hours + ":" + minutes + ":0" + seconds);
             else if (minutes < 10 && seconds >= 10)
-                timerLabel.setText(hours + ":0" + minutes + ":" + seconds);
+                timeItem.setText(hours + ":0" + minutes + ":" + seconds);
             else
-                timerLabel.setText(hours + ":0" + minutes + ":0" + seconds);
+                timeItem.setText(hours + ":0" + minutes + ":0" + seconds);
 
             if (competitiveTimer) {
                 if (whiteTime == 0) {
@@ -490,7 +536,7 @@ public class ChessPanel extends JPanel {
 	 *
 	 **************************************************************/
 	private void resetBoard() {
-		board = new JButton[BOARDSIZE][BOARDSIZE];
+//		board = new JButton[BOARDSIZE][BOARDSIZE];
 		boardInit();
 		displayBoard();
 		repaint();
@@ -588,7 +634,7 @@ public class ChessPanel extends JPanel {
                                     setTime(currentPlayer == Player.WHITE ? whiteTime : blackTime);
 
                             } catch (IllegalArgumentException e) {
-                                message = "Illegal Move"; //a JOptionPane is another option
+                                message = "Illegal Move";
                             }
 							pieceChosen = false;
                             displayBoard();
