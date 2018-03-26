@@ -329,10 +329,11 @@ public class ChessModel implements IChessModel {
                         board[row][col].player() == board[kingRow][kingColumn].player()) {
                     ArrayList<Move> testMoves = legalMoves(row, col);
                     for (Move test : testMoves)
-                        //if player is not in check after move, it is an escaping move
-                        if (isValidMove(test)) {
+                        //isValidMove checks for putting a player in check
+                        //so we can add this to the escaping moves
+                        if (isValidMove(test))
                             moves.add(test);
-                        }
+
 
                 }
         return moves;
@@ -412,6 +413,10 @@ public class ChessModel implements IChessModel {
         placeStartingPieces();
     }
 
+    public IChessPiece[][] getBoard() {
+        return board;
+    }
+
     public ArrayList<IChessPiece> getWhiteCaptures() {
         return whiteCaptures;
     }
@@ -465,7 +470,7 @@ public class ChessModel implements IChessModel {
 //                captures.remove(captures.size() - 1); //piece is no longer captured after undo
 //            }
 //        } else if (lastMove.wasCastle()) {
-//            //TODO: reverting a castle
+//
 //        } else //otherwise just set the old location to null
 //            board[lastMove.newRow][lastMove.newColumn] = null;
 //
