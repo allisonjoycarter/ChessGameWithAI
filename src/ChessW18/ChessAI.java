@@ -93,8 +93,140 @@ public class ChessAI extends ChessModel{
      * @version 3/26/18
      *****************************************************************/
     private boolean pieceInDanger() {
-    //I had to go program a gate so my 4-intersection would't have train accidents. I'll get back to this later.
+        /**
+         * We should make a list of moves that could take a piece
+         * so that the value of a piece can determine which piece should be saved.
+         * As it is right now, this will save the first piece it finds. Well, it
+         * will know that it can save a move, it can't actually make a move right
+         * now.
+         */
+        for(int row = 0; row < board.length; row++)
+            for(int col = 0; col < board.length; col++)
+                if(board[row][col].player() == player.BLACK) {
+
+                    for (int piecerow = 0; piecerow < board.length; piecerow++) {
+                        for (int piececol = 0; piececol < board.length; piececol++) {
+                            IChessPiece temp = board[piecerow][piececol];
+                            if (temp != null && !temp.player().equals(player.WHITE)) { //if piece exists and belongs to opponent
+                                ArrayList<Move> moves = legalMoves(piecerow, piececol); //find all valid moves for opponent
+                                for (Move move : moves) {
+                                    //check if valid moves includes capturing the piece
+                                    if (move.newRow == row &&
+                                            move.newColumn == col)
+
+                                        return true;
+                                }
+                            }
+                        }
+                    }
+                }
     return false;
+    }
+
+    /*******************************************************************
+     * Makes an array list of moves that the piece that needs to be
+     * saved can make. Then runs through every white piece on the board
+     * to see if the piece is still in danger after the piece was moved.
+     *
+     * @param pRow The row of the piece that should be saved.
+     * @param pCol The column of the piece that should be saved.
+     * @return True if a move was made to save the piece.
+     *
+     * @author George
+     * @version 3/28/2018
+     ******************************************************************/
+    private boolean savePiece(int pRow, int pCol) {
+        IChessPiece old = board[pRow][pCol]; //The piece that needs to be saved.
+        IChessPiece temp; //to save any piece in the destination before the official move.
+
+        ArrayList<Move> escapeMoves = legalMoves(pRow, pCol);
+        for(Move escape: escapeMoves) {
+
+            //This sorta makes the move happen. An an passant won't result from this, and neither will a castle.
+            //However, if the move method ends up being called later on, an an passant or castle could  occur.
+            temp = board[escape.newRow][escape.newColumn]; //Save what was there.
+            board[escape.newRow][escape.newColumn] = old; //Put the piece that needs to be saved there.
+            board[pRow][pCol] = null; //make the old spot empty.
+
+            for (int row = 0; row < board.length; row++) //Search the board
+                for (int col = 0; col < board.length; col++)
+
+                    if (board[row][col].player() == Player.WHITE) { //Find white pieces
+                        ArrayList<Move> moves = legalMoves(row, col); //See what their moves are
+                        boolean valid = true;
+
+                        for (Move move : moves) { //See if any of the moves are threatening
+
+                            if (move.newRow == escape.newRow && move.newColumn == escape.newColumn) {
+                                valid = false; //The move didn't work.
+                            }
+                        }
+
+                        if(valid && !inCheck(Player.BLACK)) { //A smarter AI would also check for if the pieces that we are the most about are in danger with this new move.
+                            board[escape.newRow][escape.newColumn] = temp; //Put it back to how it was.
+                            board[pRow][pCol] = old; //Put the piece back to where it was.
+                            move(escape); //Call the move method to officially make the move.
+                            return true;
+                        }
+                        else {
+                            board[escape.newRow][escape.newColumn] = temp; //Put it back to how it was.
+                            board[pRow][pCol] = old; //Put the piece back to where it was.
+                        }
+                    }
+        }
+
+        //If we get here, that means the piece wasn't able to save itself.
+        for(int row = 0; row < board.length; row++)
+            for(int col = 0; col < board.length; col++) {
+
+                //We only want to use black pieces to save the piece.
+                if(board[row][col].player() == Player.BLACK) {
+
+                    //Save the state of the pieces that are being manipulated.
+                    IChessPiece savior = board[row][col];
+                    IChessPiece dest;
+
+                    //This holds all of the moves that the savior piece cold make
+                    ArrayList<Move> saveMoves = legalMoves(row,col);
+
+                    for(Move move: saveMoves) {
+
+                        //This sorta makes the move happen. An an passant won't result from this, and neither will a castle.
+                        //However, if the move method ends up being called later on, an an passant or castle could  occur.
+                        dest = board[move.newRow][move.newColumn];
+                        board[move.newRow][move.newColumn] = savior;
+                        board[move.oldRow][move.oldColumn] = null;
+
+                        for (int tRow = 0; tRow < board.length; tRow++) //Search the board for pieces
+                            for (int tCol = 0; tCol < board.length; tCol++)
+
+                                if (board[tRow][tCol].player() == Player.WHITE) { //find white pieces
+
+                                    ArrayList<Move> killerMoves = legalMoves(tRow, tCol); //See what their moves are
+                                    boolean valid = true;
+
+                                    for (Move killer : killerMoves) { //See if any of the moves are threatening
+
+                                        if (killer.newRow == move.newRow && killer.newColumn == move.newColumn) {
+                                            valid = false; //The move of the piece that needs to be saved didn't work.
+                                        }
+                                    }
+                                    if(valid && !inCheck(Player.BLACK)) { //A smarter AI would also check for if the pieces that we are the most about are in danger with this new move.
+                                        board[move.newRow][move.newColumn] = dest; //Put it back to how it was.
+                                        board[pRow][pCol] = savior; //Put the piece back to where it was.
+                                        move(move); //Call the move method to officially make the move.
+                                        return true;
+                                    }
+                                    else {
+                                        board[move.newRow][move.newColumn] = dest; //Put it back to how it was.
+                                        board[pRow][pCol] = savior; //Put the piece back to where it was.
+                                    }
+                                }
+
+                    }
+                }
+            }
+        return false;
     }
 
     private Player opponent() {

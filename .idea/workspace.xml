@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="89c675a3-8600-4105-b6c1-16eb3af26b58" name="Default" comment="I moved the timer panel to the menu bar. This fixed my issue with window resizing.">
+    <list default="true" id="89c675a3-8600-4105-b6c1-16eb3af26b58" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessGameWithAI/ChessW18/ChessModel.class" afterPath="$PROJECT_DIR$/out/production/ChessGameWithAI/ChessW18/ChessModel.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessGameWithAI/ChessW18/Pawn.class" afterPath="$PROJECT_DIR$/out/production/ChessGameWithAI/ChessW18/Pawn.class" />
       <change beforePath="$PROJECT_DIR$/src/ChessW18/ChessAI.java" afterPath="$PROJECT_DIR$/src/ChessW18/ChessAI.java" />
-      <change beforePath="$PROJECT_DIR$/src/ChessW18/ChessModel.java" afterPath="$PROJECT_DIR$/src/ChessW18/ChessModel.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -38,8 +35,8 @@
       <file leaf-file-name="ChessAI.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessAI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="193">
-              <caret line="95" column="39" lean-forward="false" selection-start-line="95" selection-start-column="39" selection-end-line="95" selection-end-column="39" />
+            <state relative-caret-position="281">
+              <caret line="135" column="25" lean-forward="false" selection-start-line="135" selection-start-column="25" selection-end-line="135" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -123,8 +120,8 @@
       <file leaf-file-name="ChessModel.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="13" column="23" lean-forward="false" selection-start-line="13" selection-start-column="12" selection-end-line="13" selection-end-column="23" />
+            <state relative-caret-position="1258">
+              <caret line="275" column="27" lean-forward="true" selection-start-line="275" selection-start-column="27" selection-end-line="275" selection-end-column="27" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#16718#16719#0" expanded="true" />
@@ -607,7 +604,14 @@
       <option name="project" value="LOCAL" />
       <updated>1522072785423</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="I added a method in the AI class so that the AI would try to get out of check.">
+      <created>1522107667239</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1522107667239</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -731,7 +735,8 @@
     <MESSAGE value="I changed isValidMove to include returning false if a move will put the &#10;player in check. I had to change a lot of code layout to get this implemented,&#10;so I removed the capturing method and just included it in the move method,&#10;and changed the method that made an array of possible moves. I added a method&#10;that sorts through the array of possible moves and removes moves that put&#10;a player in check. I had to separate these (unfortunately). I also changed&#10;the actionlistener so that not being able to put yourself in check would not&#10;be prevented there, but only verified." />
     <MESSAGE value="The king and the rook can now castle. The only thing that still needs to be fixed is that when a castle move is undone, the stack does not know that a castle was done, and thus cannot allow for it to be done after the undo." />
     <MESSAGE value="I moved the timer panel to the menu bar. This fixed my issue with window resizing." />
-    <option name="LAST_COMMIT_MESSAGE" value="I moved the timer panel to the menu bar. This fixed my issue with window resizing." />
+    <MESSAGE value="I added a method in the AI class so that the AI would try to get out of check." />
+    <option name="LAST_COMMIT_MESSAGE" value="I added a method in the AI class so that the AI would try to get out of check." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1270,8 +1275,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="23" lean-forward="false" selection-start-line="13" selection-start-column="12" selection-end-line="13" selection-end-column="23" />
+        <state relative-caret-position="1258">
+          <caret line="275" column="27" lean-forward="true" selection-start-line="275" selection-start-column="27" selection-end-line="275" selection-end-column="27" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#16718#16719#0" expanded="true" />
@@ -1290,8 +1295,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ChessW18/ChessAI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="193">
-          <caret line="95" column="39" lean-forward="false" selection-start-line="95" selection-start-column="39" selection-end-line="95" selection-end-column="39" />
+        <state relative-caret-position="281">
+          <caret line="135" column="25" lean-forward="false" selection-start-line="135" selection-start-column="25" selection-end-line="135" selection-end-column="25" />
           <folding />
         </state>
       </provider>
