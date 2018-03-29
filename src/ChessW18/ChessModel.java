@@ -97,7 +97,8 @@ public class ChessModel implements IChessModel {
 
         IChessPiece temp = null; //to store a piece to be captured
         if (board[move.newRow][move.newColumn] != null &&
-                board[move.newRow][move.newColumn].player() != board[move.oldRow][move.oldColumn].player())
+                board[move.newRow][move.newColumn].player() !=
+                        board[move.oldRow][move.oldColumn].player())
             temp = board[move.newRow][move.newColumn];
 
         //placing the move that needs to be validated on the board
@@ -155,33 +156,7 @@ public class ChessModel implements IChessModel {
             else if (board[move.oldRow][move.oldColumn].type().equals("King") &&
                      board[move.newRow][move.newColumn] == null)
             {
-                boolean valid = true;
-
-                //Looks to see if the space between the king and rook is clear
-                if(move.oldColumn < move.newColumn)
-                    for(int i = move.oldColumn+1; i < move.newColumn && valid; i++)
-                        if(board[move.newRow][i] != null)
-                            valid = false;
-                else if(move.oldColumn > move.newColumn)
-                    for(i = move.oldColumn-1; i > move.newColumn && valid; i--)
-                        if(board[move.newRow][i] != null)
-                            valid = false;
-
-                //If the path was clear
-                if(valid) {
-                    if(board[move.newRow][move.newColumn - 1] != null)
-                        if(board[move.newRow][move.newColumn - 1].type().equals("Rook")) {
-                            board[move.newRow][move.newColumn + 1] = board[move.newRow][move.newColumn - 1];
-                            board[move.newRow][move.newColumn - 1] = null;
-                            move.setWasCastle(true);
-                        }
-                    if(board[move.newRow][move.newColumn + 1] != null)
-                        if(board[move.newRow][move.newColumn + 1].type().equals("Rook")) {
-                        board[move.newRow][move.newColumn -1] = board[move.newRow][move.newColumn +1];
-                        board[move.newRow][move.newColumn +1] =  null;
-                        move.setWasCastle(true);
-                    }
-                }
+                moveCastle(move);
             }
 
             if (captured != null) //if there is a piece to be captured
@@ -244,6 +219,46 @@ public class ChessModel implements IChessModel {
             moveStack.push(move);
         } else {
             throw new IllegalArgumentException();
+        }
+    }
+
+    /******************************************************************
+     * Will move the king and rook into the proper pieces if a castle
+     * is allowed to happen. This method checks for if it is allowed to
+     * happen.
+     *
+     * @param move
+     *
+     * @author George
+     * @version 3/26/18
+     *****************************************************************/
+    private void moveCastle(Move move) {
+        boolean valid = true;
+
+        //Looks to see if the space between the king and rook is clear
+        if(move.oldColumn < move.newColumn)
+            for(int i = move.oldColumn+1; i < move.newColumn && valid; i++)
+                if(board[move.newRow][i] != null)
+                    valid = false;
+        else if(move.oldColumn > move.newColumn)
+            for(i = move.oldColumn-1; i > move.newColumn && valid; i--)
+                if(board[move.newRow][i] != null)
+                    valid = false;
+
+        //If the path was clear
+        if(valid) {
+            if(board[move.newRow][move.newColumn - 1] != null)
+                if(board[move.newRow][move.newColumn - 1].type().equals("Rook")) {
+                    board[move.newRow][move.newColumn + 1] = board[move.newRow][move.newColumn - 1];
+                    board[move.newRow][move.newColumn - 1] = null;
+                    move.setWasCastle(true);
+                }
+            if(board[move.newRow][move.newColumn + 1] != null)
+                if(board[move.newRow][move.newColumn + 1].type().equals("Rook")) {
+                board[move.newRow][move.newColumn -1] = board[move.newRow][move.newColumn +1];
+                board[move.newRow][move.newColumn +1] =  null;
+                move.setWasCastle(true);
+            }
         }
     }
 
