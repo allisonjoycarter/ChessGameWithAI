@@ -19,13 +19,12 @@ public class ChessModel implements IChessModel {
     /** holds the captures of players */
     private ArrayList<IChessPiece> whiteCaptures, blackCaptures;
 
-//    /** to hold copies of the board so undo method can reference the last board state */
-//    private Stack<IChessPiece[][]> boardStates;
-
     private Stack<Move> moveStack;
     private Stack<Move> captureMoveStack;
 
     private String message;
+
+    private GameFileHandler handler;
     private String gameData;
 
     /**
@@ -35,20 +34,12 @@ public class ChessModel implements IChessModel {
     public ChessModel() {
         moveStack = new Stack<>();
         captureMoveStack = new Stack<>();
-//        boardStates = new Stack<>();
         whiteCaptures = new ArrayList<>();
         blackCaptures = new ArrayList<>();
         placeStartingPieces();
 
+        handler = new GameFileHandler(this);
         gameData = "";
-    }
-
-    public void setGameData(String gameData) {
-        this.gameData = gameData;
-    }
-
-    public String getGameData() {
-        return gameData;
     }
 
     /**
@@ -439,11 +430,13 @@ public class ChessModel implements IChessModel {
         //clear all data from the game
         blackCaptures.clear();
         whiteCaptures.clear();
-//        boardStates.clear();
+        moveStack.clear();
 
         //remake the board
         board = new IChessPiece[8][8];
         placeStartingPieces();
+        currentPlayer = Player.WHITE;
+        handler = new GameFileHandler(this);
     }
 
     /******************************************************************
@@ -479,9 +472,26 @@ public class ChessModel implements IChessModel {
                     board[lastMove.newRow][lastMove.newColumn] = captures.get(captures.size() - 1);
                 captures.remove(captures.size() - 1); //piece is no longer captured after undo
             }
+            //undoing castling can be hard coded
         } else if (lastMove.wasCastle()) {
-
-        } else //otherwise just set the old location to null
+            if (lastMove.oldRow == 0 && lastMove.newColumn == 2) {
+                board[0][4] = board[0][2];
+                board[0][0] = board[0][3];
+                board[0][2] = board[0][3] = null;
+            } else if (lastMove.oldRow == 0 && lastMove.newColumn == 6) {
+                board[0][4] = board[0][6];
+                board[0][7] = board[0][5];
+                board[0][6] = board[0][5] = null;
+            } else if (lastMove.oldRow == 7 && lastMove.newColumn == 2) {
+                board[7][4] = board[7][2];
+                board[7][0] = board[7][3];
+                board[7][2] = board[7][3] = null;
+            } else {
+                board[7][4] = board[7][6];
+                board[7][7] = board[7][5];
+                board[7][6] = board[7][5] = null;
+            }
+        } else //otherwise just set the previous location to null
             board[lastMove.newRow][lastMove.newColumn] = null;
 
         //if the King or Rook move was undone, they should now be able to castle
@@ -498,7 +508,11 @@ public class ChessModel implements IChessModel {
                         //if move was from starting position for white
                         (lastMove.oldRow == 6 && board[lastMove.oldRow][lastMove.oldColumn].player().equals(Player.WHITE))))
             ((Pawn) temp).setFirstTurn(true);
+        //go back to previous player
         switchPlayer();
+
+        //remove move from game data
+        gameData = handler.removeLastMove();
     }
 
     public IChessPiece[][] getBoard() {
@@ -513,6 +527,14 @@ public class ChessModel implements IChessModel {
         return blackCaptures;
     }
 
+    public void setGameData(String gameData) {
+        this.gameData = gameData;
+    }
+
+    public String getGameData() {
+        return gameData;
+    }
+
     public String getMessage() {
         return message;
     }
@@ -521,6 +543,9 @@ public class ChessModel implements IChessModel {
         this.message = message;
     }
 
+    public GameFileHandler getHandler() {
+        return handler;
+    }
 }
 
 

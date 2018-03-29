@@ -1,11 +1,12 @@
 package ChessW18;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class ChessAI {
-    ChessModel model;
-    IChessPiece[][] board;
-    Player player;
+    private ChessModel model;
+    private IChessPiece[][] board;
+    private Player player;
 
     public ChessAI(Player player, ChessModel model) {
         this.player = player;
@@ -13,65 +14,90 @@ public class ChessAI {
         board = model.getBoard();
     }
 
+    /******************************************************************
+     * Searches through the database of moves and attempts to find and
+     * return a move to add to a similar move sequence
+     *
+     * @return a new Move if no similar move sequence is found,
+     *         otherwise returns the next move in the matching
+     *         sequence
+     *****************************************************************/
     public Move scanDatabase() {
-        System.out.println(model.getGameData());
         Move nextMove = new Move();
         GameFileHandler handler = new GameFileHandler(model);
-        ArrayList<String> moveCodes = handler.databaseGames();
-        System.out.println(moveCodes.size());
-        for (String moveCode : moveCodes) {
+        //separating the games into individual move sequences
+        ArrayList<String> sequences = handler.databaseGames();
+
+        //iterate through each sequence to find similar moves
+        for (String moves : sequences) {
+            //moves from the database
             ArrayList<String> databaseMoves = handler.separateMoves(
-                    moveCode);
+                    moves);
+            //moves from the current game
             ArrayList<String> gameMoves = handler.separateMoves(
                     model.getGameData());
+
             //while gameMoves has similar moves to databaseMoves
             //AI should execute response from the database
-            boolean flag = true;
-            if (gameMoves.size() < 8) {
-                for (int j = 0; j < gameMoves.size(); j++) {
-                    if (!databaseMoves.get(j).contains(gameMoves.get(j)) &&
-                            !databaseMoves.get(j).equals(gameMoves.get(j))) {
-                        flag = false;
-                        break;
-                    }
+            boolean flag = true; //for similar moves, set to false when moves aren't similar
+            boolean secondFlag; //when 3 of the same moves can't be found, use 2
+            if (gameMoves.size() < 3) {
+                //if opening is the same
+                if (!databaseMoves.get(0).contains(gameMoves.get(0)))
+                    flag = false;
+                if (flag)
+                    nextMove = handler.decodeMove(databaseMoves.get(1));
+            } else if (gameMoves.size() < 5) {
+                //if first 2 move are the same
+                if (!databaseMoves.get(0).contains(gameMoves.get(0)) &&
+                        !databaseMoves.get(2).contains(gameMoves.get(0)))
+                    flag = false;
+                if (flag)
+                    nextMove = handler.decodeMove(databaseMoves.get(3));
+            } else
+                //when game is at least 5 moves in
+                for (int i = 4; i < databaseMoves.size(); i++) {
+                    //if last two moves are the same
+                    secondFlag = databaseMoves.get(i - 2).contains(gameMoves.get(gameMoves.size() - 3)) &&
+                            databaseMoves.get(i).contains(gameMoves.get(gameMoves.size() - 1));
 
-                }
-            } else {
-                for (int j = gameMoves.size() - 8; j < gameMoves.size(); j+=2) {
-                    if (!databaseMoves.get(j).contains(gameMoves.get(j)) &&
-                            !databaseMoves.get(j).equals(gameMoves.get(j))) {
-                        flag = false;
-                        break;
-                    }
+                    //if the past three moves are the same
+                    flag = databaseMoves.get(i - 4).contains(gameMoves.get(gameMoves.size() - 5)) &&
+                            secondFlag;
+                    //check if the next move in a sequence of 3 similar ones is valid
+                    if (flag && i + 1 < databaseMoves.size() &&
+                            model.isValidMove(handler.decodeMove(databaseMoves.get(i + 1)))) {
+                        nextMove = handler.decodeMove(databaseMoves.get(i + 1));
 
-                }
-                if (!flag) {
-                    flag = true;
-                    for (int j = gameMoves.size() - 6; j < gameMoves.size(); j+=2) {
-                        if (!databaseMoves.get(j).contains(gameMoves.get(j)) &&
-                                !databaseMoves.get(j).equals(gameMoves.get(j))) {
-                            flag = false;
-                            break;
-                        }
+                        //check if the next move in a sequence of 2 similar ones is valid
+                    } else if (secondFlag &&
+                            model.isValidMove(handler.decodeMove(databaseMoves.get(i + 1)))) {
+                        nextMove = handler.decodeMove(databaseMoves.get(i + 1));
                     }
                 }
-                if (!flag) {
-                    flag = true;
-                    for (int j = gameMoves.size() - 4; j < gameMoves.size(); j+=2) {
-                        if (!databaseMoves.get(j).contains(gameMoves.get(j)) &&
-                                !databaseMoves.get(j).equals(gameMoves.get(j))) {
-                            flag = false;
-                            break;
-                        }
-                    }
-                }
-            }
-            if (flag)
-                nextMove = handler.decodeMove(databaseMoves.get(gameMoves.size()));
-
         }
         System.out.println(nextMove.newColumn);
-        return nextMove;
+        return nextMove; //will return (0, 0, 0, 0) if nothing was found
+    }
+
+    /**
+     * Performs a random move out of all possible moves
+     *
+     * @return
+     */
+    public Move randomMove() {
+        ArrayList<Move> allMoves = new ArrayList<>();
+        Random random = new Random();
+
+        for (int row = 0; row < board.length; row++) {
+            for (int col = 0; col < board.length; col++) {
+                if (board[row][col] != null &&
+                        board[row][col].player() == player)
+                    allMoves.addAll(model.legalMoves(row,col));
+            }
+        }
+
+        return allMoves.get(random.nextInt(allMoves.size() - 1));
     }
 
     /**

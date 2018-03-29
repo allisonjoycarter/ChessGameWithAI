@@ -1,7 +1,6 @@
 package ChessW18;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class ChessGUI {
 
@@ -21,9 +20,13 @@ public class ChessGUI {
   frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
   fileMenu = new JMenu("File");
-  quitItem = new JMenuItem("quit");
-  gameItem = new JMenuItem("new game");
+  quitItem = new JMenuItem("Quit");
+  quitItem.addActionListener(e -> System.exit(0));
+  gameItem = new JMenuItem("New Game");
   undoMove = new JMenuItem("Undo Move");
+  JMenuItem saveGame = new JMenuItem("Save Game");
+  JMenuItem loadGame = new JMenuItem("Load Game");
+
   time = new JMenuItem("0:00:00");
   start = new JMenuItem("Start");
   stop = new JMenuItem("Stop");
@@ -34,19 +37,21 @@ public class ChessGUI {
 
   fileMenu.add(gameItem);
   fileMenu.add(quitItem);
+  fileMenu.add(saveGame);
+  fileMenu.add(loadGame);
   fileMenu.add(colorBlind);
 
   menus = new JMenuBar();
   frame.setJMenuBar(menus);
   menus.add(fileMenu);
   menus.add(undoMove);
-  menus.add(time);
-  menus.add(start);
-  menus.add(stop);
-  menus.add(countUp);
-  menus.add(setTimer);
+//  menus.add(time);
+//  menus.add(start);
+//  menus.add(stop);
+//  menus.add(countUp);
+//  menus.add(setTimer);
 
-  ChessPanel panel = new ChessPanel(quitItem, gameItem, colorBlind, undoMove, time, start, stop, countUp, setTimer);
+  ChessPanel panel = new ChessPanel(gameItem, saveGame, loadGame, colorBlind, undoMove);
 
   frame.getContentPane().add(panel);
 
