@@ -2,44 +2,76 @@ package ChessW18;
 
 import java.util.ArrayList;
 
-public class ChessAI extends ChessModel{
-    IChessPiece[][] board = getBoard();
+public class ChessAI {
+    ChessModel model;
+    IChessPiece[][] board;
     Player player;
 
-    //for scoring moves?
-    private final int PAWN = 1;
-    private final int KNIGHT = 3;
-    private final int BISHOP = 3;
-    private final int ROOK = 5;
-    private final int QUEEN = 9;
-    private final int KING = 100;
-
-    public ChessAI(Player player) {
+    public ChessAI(Player player, ChessModel model) {
         this.player = player;
+        this.model = model;
+        board = model.getBoard();
     }
 
-    /**
-     * evaluates the score for a player based on the pieces they own
-     *
-     * @param player
-     * @return
-     */
-    private int evaluateScore(Player player) {
-        int score = 0;
-        for (int row = 0; row < board.length; row++)
-            for (int col = 0; col < board.length; col++) {
-                if (board[row][col] != null)
-                    if (board[row][col].player() == player)
-                        //add score for the player's existing pieces
-                        score += getPieceValue(board[row][col].type());
+    public Move scanDatabase() {
+        System.out.println(model.getGameData());
+        Move nextMove = new Move();
+        GameFileHandler handler = new GameFileHandler(model);
+        ArrayList<String> moveCodes = handler.databaseGames();
+        System.out.println(moveCodes.size());
+        for (String moveCode : moveCodes) {
+            ArrayList<String> databaseMoves = handler.separateMoves(
+                    moveCode);
+            ArrayList<String> gameMoves = handler.separateMoves(
+                    model.getGameData());
+            //while gameMoves has similar moves to databaseMoves
+            //AI should execute response from the database
+            boolean flag = true;
+            if (gameMoves.size() < 8) {
+                for (int j = 0; j < gameMoves.size(); j++) {
+                    if (!databaseMoves.get(j).contains(gameMoves.get(j)) &&
+                            !databaseMoves.get(j).equals(gameMoves.get(j))) {
+                        flag = false;
+                        break;
+                    }
 
-                //remove score for their pieces that have been captured
-                ArrayList<IChessPiece> captures = (player == Player.BLACK ? getWhiteCaptures() : getBlackCaptures());
-                for (IChessPiece piece : captures) {
-                    score -= getPieceValue(piece.type());
+                }
+            } else {
+                for (int j = gameMoves.size() - 8; j < gameMoves.size(); j+=2) {
+                    if (!databaseMoves.get(j).contains(gameMoves.get(j)) &&
+                            !databaseMoves.get(j).equals(gameMoves.get(j))) {
+                        flag = false;
+                        break;
+                    }
+
+                }
+                if (!flag) {
+                    flag = true;
+                    for (int j = gameMoves.size() - 6; j < gameMoves.size(); j+=2) {
+                        if (!databaseMoves.get(j).contains(gameMoves.get(j)) &&
+                                !databaseMoves.get(j).equals(gameMoves.get(j))) {
+                            flag = false;
+                            break;
+                        }
+                    }
+                }
+                if (!flag) {
+                    flag = true;
+                    for (int j = gameMoves.size() - 4; j < gameMoves.size(); j+=2) {
+                        if (!databaseMoves.get(j).contains(gameMoves.get(j)) &&
+                                !databaseMoves.get(j).equals(gameMoves.get(j))) {
+                            flag = false;
+                            break;
+                        }
+                    }
                 }
             }
-        return score;
+            if (flag)
+                nextMove = handler.decodeMove(databaseMoves.get(gameMoves.size()));
+
+        }
+        System.out.println(nextMove.newColumn);
+        return nextMove;
     }
 
     /**
@@ -53,13 +85,13 @@ public class ChessAI extends ChessModel{
      */
     private boolean saveKing() {
         //If the AI is in check, get it out of check.
-        if (inCheck(Player.BLACK)) {
+        if (model.inCheck(Player.BLACK)) {
             for (int row = 0; row < board.length; row++)
                 for (int col = 0; col < board.length; col++) {
 
                     //Looks if this place on the board has a Black piece on it.
                     if (board[row][col].player() == Player.BLACK) {
-                        ArrayList<Move> possibilities = legalMoves(row, col);
+                        ArrayList<Move> possibilities = model.legalMoves(row, col);
 
                         //Goes through every possible move.
                         for (int index = possibilities.size(); index >= 0; index--) {
@@ -70,9 +102,9 @@ public class ChessAI extends ChessModel{
                             board[newMove.newRow][newMove.newColumn] = board[row][col];
 
                             //If the AI is still in check, the move in excecuted with the Move method.
-                            if (inCheck(Player.BLACK)) {
+                            if (model.inCheck(Player.BLACK)) {
                                 board[row][col] = oldPiece;
-                                move(newMove);
+                                model.move(newMove);
                                 return true;
                             } else
                                 board[newMove.newRow][newMove.newColumn] = null;
@@ -108,7 +140,7 @@ public class ChessAI extends ChessModel{
                         for (int piececol = 0; piececol < board.length; piececol++) {
                             IChessPiece temp = board[piecerow][piececol];
                             if (temp != null && !temp.player().equals(player.WHITE)) { //if piece exists and belongs to opponent
-                                ArrayList<Move> moves = legalMoves(piecerow, piececol); //find all valid moves for opponent
+                                ArrayList<Move> moves = model.legalMoves(piecerow, piececol); //find all valid moves for opponent
                                 for (Move move : moves) {
                                     //check if valid moves includes capturing the piece
                                     if (move.newRow == row &&
@@ -139,7 +171,7 @@ public class ChessAI extends ChessModel{
         IChessPiece old = board[pRow][pCol]; //The piece that needs to be saved.
         IChessPiece temp; //to save any piece in the destination before the official move.
 
-        ArrayList<Move> escapeMoves = legalMoves(pRow, pCol);
+        ArrayList<Move> escapeMoves = model.legalMoves(pRow, pCol);
         for(Move escape: escapeMoves) {
 
             //This sorta makes the move happen. An an passant won't result from this, and neither will a castle.
@@ -152,7 +184,7 @@ public class ChessAI extends ChessModel{
                 for (int col = 0; col < board.length; col++)
 
                     if (board[row][col].player() == Player.WHITE) { //Find white pieces
-                        ArrayList<Move> moves = legalMoves(row, col); //See what their moves are
+                        ArrayList<Move> moves = model.legalMoves(row, col); //See what their moves are
                         boolean valid = true;
 
                         for (Move move : moves) { //See if any of the moves are threatening
@@ -162,10 +194,10 @@ public class ChessAI extends ChessModel{
                             }
                         }
 
-                        if(valid && !inCheck(Player.BLACK)) { //A smarter AI would also check for if the pieces that we are the most about are in danger with this new move.
+                        if(valid && !model.inCheck(Player.BLACK)) { //A smarter AI would also check for if the pieces that we are the most about are in danger with this new move.
                             board[escape.newRow][escape.newColumn] = temp; //Put it back to how it was.
                             board[pRow][pCol] = old; //Put the piece back to where it was.
-                            move(escape); //Call the move method to officially make the move.
+                            model.move(escape); //Call the move method to officially make the move.
                             return true;
                         }
                         else {
@@ -187,7 +219,7 @@ public class ChessAI extends ChessModel{
                     IChessPiece dest;
 
                     //This holds all of the moves that the savior piece cold make
-                    ArrayList<Move> saveMoves = legalMoves(row,col);
+                    ArrayList<Move> saveMoves = model.legalMoves(row,col);
 
                     for(Move move: saveMoves) {
 
@@ -202,7 +234,7 @@ public class ChessAI extends ChessModel{
 
                                 if (board[tRow][tCol].player() == Player.WHITE) { //find white pieces
 
-                                    ArrayList<Move> killerMoves = legalMoves(tRow, tCol); //See what their moves are
+                                    ArrayList<Move> killerMoves = model.legalMoves(tRow, tCol); //See what their moves are
                                     boolean valid = true;
 
                                     for (Move killer : killerMoves) { //See if any of the moves are threatening
@@ -211,10 +243,10 @@ public class ChessAI extends ChessModel{
                                             valid = false; //The move of the piece that needs to be saved didn't work.
                                         }
                                     }
-                                    if(valid && !inCheck(Player.BLACK)) { //A smarter AI would also check for if the pieces that we are the most about are in danger with this new move.
+                                    if(valid && !model.inCheck(Player.BLACK)) { //A smarter AI would also check for if the pieces that we are the most about are in danger with this new move.
                                         board[move.newRow][move.newColumn] = dest; //Put it back to how it was.
                                         board[pRow][pCol] = savior; //Put the piece back to where it was.
-                                        move(move); //Call the move method to officially make the move.
+                                        model.move(move); //Call the move method to officially make the move.
                                         return true;
                                     }
                                     else {
@@ -228,27 +260,4 @@ public class ChessAI extends ChessModel{
             }
         return false;
     }
-
-    private Player opponent() {
-        return (player == Player.BLACK ? Player.WHITE : Player.BLACK);
-    }
-
-    private int getPieceValue(String type) {
-        switch (type) {
-            case "Pawn":
-                return PAWN;
-            case "Knight":
-                return KNIGHT;
-            case "Bishop":
-                return BISHOP;
-            case "Rook":
-                return ROOK;
-            case "Queen":
-                return QUEEN;
-            case "King":
-                return KING;
-        }
-        return 0;
-    }
-
 }

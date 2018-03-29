@@ -8,6 +8,8 @@ public class Move {
 
     private boolean wasCastle;
     private boolean wasEnPassant;
+    private IChessPiece capturedPiece;
+    private IChessPiece promotion;
 
     /******************************************************************
      * Object to store a move
@@ -30,6 +32,8 @@ public class Move {
         this.newColumn = newColumn;
         wasCastle = false;
         wasEnPassant = false;
+        capturedPiece = null;
+        promotion = null;
     }
 
     public Move() {
@@ -39,6 +43,8 @@ public class Move {
         this.newColumn = 0;
         wasCastle = false;
         wasEnPassant = false;
+        capturedPiece = null;
+        promotion = null;
     }
 
     public boolean wasCastle() {
@@ -55,5 +61,21 @@ public class Move {
 
     public void setWasEnPassant(boolean wasEnPassant) {
         this.wasEnPassant = wasEnPassant;
+    }
+
+    public IChessPiece getCapturedPiece() {
+        return capturedPiece;
+    }
+
+    public void setCapturedPiece(IChessPiece capturedPiece) {
+        this.capturedPiece = capturedPiece;
+    }
+
+    public IChessPiece getPromotion() {
+        return promotion;
+    }
+
+    public void setPromotion(IChessPiece promotion) {
+        this.promotion = promotion;
     }
 }

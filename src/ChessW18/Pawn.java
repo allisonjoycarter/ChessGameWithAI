@@ -39,7 +39,6 @@ public class Pawn extends ChessPiece {
                             || move.newColumn == move.oldColumn - 1)
                     && board[move.newRow][move.newColumn]
                     .player() == opponent()) {
-//                ableToBePassanted = false;
                 return true;
             }
             //if the move was an en passant
@@ -52,23 +51,25 @@ public class Pawn extends ChessPiece {
                     move.newColumn == move.oldColumn - 1) &&
                     board[move.oldRow][move.newColumn]. //if en passanted piece belongs to opponent
                            player() == board[move.oldRow][move.oldColumn].opponent()) {
-//                ableToBePassanted = false;
                 return true;
             }
                 //if it's the first turn, the pawn can move two spaces up
             if (isFirstTurn && move.oldColumn == move.newColumn &&
                     move.newRow == move.oldRow + (toCenter * 2) &&
+                    board[move.oldRow + toCenter][move.oldColumn] == null &&
                     board[move.newRow][move.newColumn] == null) {
-//                ableToBePassanted = true;
                 return true;
             }
             //if move is 1 square forward
             if (move.oldColumn == move.newColumn &&
                     move.newRow == move.oldRow + toCenter &&
                     board[move.newRow][move.newColumn] == null) {
-//                ableToBePassanted = false;
                 return true;
             }
+
+            if ((player() == Player.WHITE && move.oldRow < move.newRow) ||
+                    (player() == Player.BLACK && move.oldRow > move.newRow))
+                return false;
         }
         return false;
     }

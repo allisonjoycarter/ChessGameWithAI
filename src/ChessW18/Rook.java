@@ -60,7 +60,10 @@ public class Rook extends ChessPiece {
                     return false;
             }
         }
-		
+//        //TODO: fix the problem where this is a valid move at the beginning of a game
+//        if (move.oldRow == 0 && move.oldColumn == 0 && move.newRow == 0 && move.newColumn == 1)
+//            return false;
+
 		//Makes sure the piece stayed within a column or row.
         return move.oldColumn == move.newColumn ^
                 move.oldRow == move.newRow;

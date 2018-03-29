@@ -32,7 +32,8 @@ public abstract class ChessPiece implements IChessPiece {
             return false; //moving to the same spot
         else if (board[move.newRow][move.newColumn] == null)
             return true; //the destination is empty
-        return (!board[move.newRow][move.newColumn].player().equals(board[move.oldRow][move.oldColumn].player()));
+        return (board[move.newRow][move.newColumn] != null &&
+                board[move.newRow][move.newColumn].player() != board[move.oldRow][move.oldColumn].player());
     }
 
 

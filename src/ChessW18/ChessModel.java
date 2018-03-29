@@ -26,6 +26,7 @@ public class ChessModel implements IChessModel {
     private Stack<Move> captureMoveStack;
 
     private String message;
+    private String gameData;
 
     /**
      * Constructor for ChessModel that initializes arrays
@@ -38,6 +39,16 @@ public class ChessModel implements IChessModel {
         whiteCaptures = new ArrayList<>();
         blackCaptures = new ArrayList<>();
         placeStartingPieces();
+
+        gameData = "";
+    }
+
+    public void setGameData(String gameData) {
+        this.gameData = gameData;
+    }
+
+    public String getGameData() {
+        return gameData;
     }
 
     /**
@@ -92,6 +103,7 @@ public class ChessModel implements IChessModel {
     @Override
     public boolean isValidMove(Move move) { //overloaded
 
+        //check if the move is valid
         if (!board[move.oldRow][move.oldColumn].isValidMove(move, board))
             return false;
 
@@ -134,12 +146,11 @@ public class ChessModel implements IChessModel {
     public void move(Move move) {
         if (isValidMove(move)) {
             //check for a capture
-            IChessPiece captured = null;
             //check if move is to an occupied location and if the occupying piece belongs to the opponent
             //if so, set that piece to be captured
             if (board[move.newRow][move.newColumn] != null &&
                     board[move.newRow][move.newColumn].player() == board[move.oldRow][move.oldColumn].opponent()) {
-                captured = board[move.newRow][move.newColumn];
+                move.setCapturedPiece(board[move.newRow][move.newColumn]);
                 captureMoveStack.push(move);
             } else if (board[move.oldRow][move.newColumn] != null && //deals with en passant
                     board[move.oldRow][move.oldColumn].type().equals("Pawn") && //piece moving is a pawn
@@ -148,7 +159,7 @@ public class ChessModel implements IChessModel {
                             equals(board[move.oldRow][move.oldColumn].opponent())) {
                 ((Pawn) board[move.oldRow][move.newColumn]).setAbleToBePassanted(false);
                 move.setWasEnPassant(true);
-                captured = board[move.oldRow][move.newColumn]; //sets captured piece to row above/below moving pawn
+                move.setCapturedPiece(board[move.oldRow][move.newColumn]); //sets captured piece to row above/below moving pawn
                 captureMoveStack.push(move);
             }
 
@@ -159,12 +170,12 @@ public class ChessModel implements IChessModel {
                 moveCastle(move);
             }
 
-            if (captured != null) //if there is a piece to be captured
+            if (move.getCapturedPiece() != null) //if there is a piece to be captured
                 //add to list of respective player's captures
                 if (currentPlayer.equals(Player.BLACK))
-                    blackCaptures.add(captured);
+                    blackCaptures.add(move.getCapturedPiece());
                 else
-                    whiteCaptures.add(captured);
+                    whiteCaptures.add(move.getCapturedPiece());
 
 
 
@@ -188,21 +199,25 @@ public class ChessModel implements IChessModel {
                     ((board[move.newRow][move.newColumn].player() == Player.WHITE && move.newRow == 0) ||
                     (board[move.newRow][move.newColumn].player() == Player.BLACK && move.newRow == 7))) {
 
-                //dialog to promote pawn
-                String[] options = {"Queen", "Rook", "Bishop", "Knight"};
-                int n = JOptionPane.showOptionDialog(null,
-                        "What rank would you like to promote this pawn to?",
-                        "Promotion", JOptionPane.DEFAULT_OPTION,
-                        JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-                if (n == 0) {
-                    board[move.newRow][move.newColumn] = new Queen(currentPlayer);
-                } else if (n == 1) {
-                    board[move.newRow][move.newColumn] = new Rook(currentPlayer);
-                } else if (n == 2) {
-                    board[move.newRow][move.newColumn] = new Bishop(currentPlayer);
-                } else if (n == 3) {
-                    board[move.newRow][move.newColumn] = new Knight(currentPlayer);
-                }
+                if (move.getPromotion() == null) {
+                    //dialog to promote pawn
+                    String[] options = {"Queen", "Rook", "Bishop", "Knight"};
+                    int n = JOptionPane.showOptionDialog(null,
+                            "What rank would you like to promote this pawn to?",
+                            "Promotion", JOptionPane.DEFAULT_OPTION,
+                            JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+                    if (n == 0) {
+                        board[move.newRow][move.newColumn] = new Queen(currentPlayer);
+                    } else if (n == 1) {
+                        board[move.newRow][move.newColumn] = new Rook(currentPlayer);
+                    } else if (n == 2) {
+                        board[move.newRow][move.newColumn] = new Bishop(currentPlayer);
+                    } else if (n == 3) {
+                        board[move.newRow][move.newColumn] = new Knight(currentPlayer);
+                    }
+                    move.setPromotion(board[move.newRow][move.newColumn]);
+                } else
+                    board[move.newRow][move.newColumn] = move.getPromotion();
             }
 
             if (board[move.newRow][move.newColumn].type().equals("Pawn") &&
@@ -210,12 +225,11 @@ public class ChessModel implements IChessModel {
                             (currentPlayer == Player.BLACK && move.newRow == move.oldRow + 2)))
                 ((Pawn) board[move.newRow][move.newColumn]).setAbleToBePassanted(true);
             else
-                for (int row = 0; row < board.length; row++) {
-                    for (int col = 0; col < board.length; col++) {
+                for (int row = 0; row < board.length; row++)
+                    for (int col = 0; col < board.length; col++)
                         if (board[row][col] != null && board[row][col].type().equals("Pawn"))
                             ((Pawn) board[row][col]).setAbleToBePassanted(false);
-                    }
-                }
+
             moveStack.push(move);
         } else {
             throw new IllegalArgumentException();
@@ -237,23 +251,23 @@ public class ChessModel implements IChessModel {
 
         //Looks to see if the space between the king and rook is clear
         if(move.oldColumn < move.newColumn)
-            for(int i = move.oldColumn+1; i < move.newColumn && valid; i++)
+            for(int i = move.oldColumn+1; i < 7 && valid; i++)
                 if(board[move.newRow][i] != null)
                     valid = false;
         else if(move.oldColumn > move.newColumn)
-            for(i = move.oldColumn-1; i > move.newColumn && valid; i--)
+            for(i = move.oldColumn-1; i > 0 && valid; i--)
                 if(board[move.newRow][i] != null)
                     valid = false;
 
         //If the path was clear
         if(valid) {
-            if(board[move.newRow][move.newColumn - 1] != null)
-                if(board[move.newRow][move.newColumn - 1].type().equals("Rook")) {
-                    board[move.newRow][move.newColumn + 1] = board[move.newRow][move.newColumn - 1];
-                    board[move.newRow][move.newColumn - 1] = null;
+            if(board[move.newRow][0] != null && move.newColumn == 2)
+                if(board[move.newRow][0].type().equals("Rook")) {
+                    board[move.newRow][3] = board[move.newRow][0];
+                    board[move.newRow][0] = null;
                     move.setWasCastle(true);
                 }
-            if(board[move.newRow][move.newColumn + 1] != null)
+            if(board[move.newRow][move.newColumn + 1] != null && move.newColumn == 6)
                 if(board[move.newRow][move.newColumn + 1].type().equals("Rook")) {
                 board[move.newRow][move.newColumn -1] = board[move.newRow][move.newColumn +1];
                 board[move.newRow][move.newColumn +1] =  null;
@@ -400,7 +414,21 @@ public class ChessModel implements IChessModel {
     }
 
     public boolean gameOver() {
-        return false;
+        //if there are no moves to escape check
+        if ((inCheck(Player.WHITE) && movesToEscapeCheck(Player.WHITE).isEmpty()) ||
+                inCheck(Player.BLACK) && movesToEscapeCheck(Player.BLACK).isEmpty())
+            return true;
+
+        //if there are only kings left
+        boolean check = true;
+        for (int row = 0; row < board.length; row++) {
+            for (int col = 0; col < board.length; col++) {
+                if (board[row][col] != null && !board[row][col].type().equals("King"))
+                    check = false;
+            }
+        }
+
+        return check;
     }
 
     public IChessPiece pieceAt(int row, int column) {
@@ -432,8 +460,8 @@ public class ChessModel implements IChessModel {
 
         //setting piece back to old location
         board[lastMove.oldRow][lastMove.oldColumn] = board[lastMove.newRow][lastMove.newColumn];
-        if (!captureMoveStack.empty() && lastMove == captureMoveStack.peek()) { //checking if the last move was a capture
-            captureMoveStack.pop(); //remove the capture
+        if (lastMove.getCapturedPiece() != null) { //checking if the last move was a capture
+//            captureMoveStack.pop(); //remove the capture
 
             ArrayList<IChessPiece> captures;
             if (board[lastMove.oldRow][lastMove.oldColumn].player().equals(Player.WHITE)) {
