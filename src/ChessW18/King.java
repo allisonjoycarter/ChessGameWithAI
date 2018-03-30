@@ -28,26 +28,27 @@ public class King extends ChessPiece {
             if(canCastle) {
                 boolean valid = true;
 
-                if((move.oldRow == move.newRow)
-                        && (move.oldRow == 0 || move.oldRow == 7)
-                        && (move.newColumn == 2 || move.newColumn == 6)) {
+                if (move.oldRow == move.newRow &&
+                        (move.oldRow == 0 || move.oldRow == 7) &&
+                        (move.newColumn == 2 || move.newColumn == 6)) {
 
-                    switch ((int) move.newColumn) {
-                        case 2:
-                            for (int i = 3; i > 0 && valid; i--)
-                                if (board[move.oldRow][i] != null)
+                        switch (move.newColumn) {
+                            case 2:
+                                if (board[move.oldRow][1] != null ||
+                                        board[move.oldRow][2] != null ||
+                                        board[move.oldRow][3] != null)
                                     valid = false;
-                            break;
-                        case 6:
-                            for (int i = 5; i > 7 && valid; i--)
-                                if (board[move.oldRow][i] != null)
+                                break;
+                            case 6:
+                                if (board[move.oldRow][5] != null ||
+                                        board[move.oldRow][6] != null)
                                     valid = false;
-                            break;
+                                break;
 //                        default:
 //                            valid = false;
 
-                    }
-                    return valid;
+                        }
+                        return valid;
                 }
             }
 

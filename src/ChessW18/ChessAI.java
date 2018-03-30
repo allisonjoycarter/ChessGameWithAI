@@ -1,13 +1,125 @@
 package ChessW18;
 
-import java.beans.beancontext.BeanContext;
 import java.util.ArrayList;
+import java.util.Random;
 
+public class ChessAI {
+    private ChessModel model;
+    private IChessPiece[][] board;
+    private Player player;
 public class ChessAI {
     ChessModel model;
     IChessPiece[][] board;
     Player player = Player.BLACK;
 
+    public ChessAI(Player player, ChessModel model) {
+        this.player = player;
+        this.model = model;
+        board = model.getBoard();
+    }
+
+    //TODO: I made this method to return a move but some of the AI methods return boolean
+    //should this return something else?
+    public Move aiMove() {
+        Move bestMove = scanDatabase();
+        if (bestMove.oldRow == 0 && bestMove.oldColumn == 0 &&
+                bestMove.newRow == 0 && bestMove.newColumn == 0)
+            bestMove = randomMove();
+        //get out of check
+        if (model.inCheck(Player.BLACK))
+            bestMove = model.movesToEscapeCheck(Player.BLACK).get(
+                    new Random().nextInt(
+                            model.movesToEscapeCheck(Player.BLACK).size() - 1));
+
+        for (int row = 0; row < board.length; row++) {
+            for (int col = 0; col < board.length; col++) {
+                //saving a piece in danger
+                if (pieceInDanger() && board[row][col] != null &&
+                        board[row][col].player() == Player.BLACK) {
+                    if(savePiece(row, col))
+                        return null;
+                }
+
+                //block off escape to checkmate opponent
+                if (model.inCheck(Player.WHITE)&&
+                        board[row][col] != null &&
+                            board[row][col].player() == Player.BLACK){
+                        ArrayList<Move> escapingMoves = model.movesToEscapeCheck(Player.WHITE);
+                        for (Move escape :
+                                escapingMoves) {
+                            if (model.isValidMove(new Move(row, col, escape.newRow, escape.newColumn)))
+                                bestMove = new Move(row, col, escape.newRow, escape.newColumn);
+                        }
+                }
+            }
+        }
+
+        return bestMove;
+    }
+
+    /******************************************************************
+     * Searches through the database of moves and attempts to find and
+     * return a move to add to a similar move sequence
+     *
+     * @return a new Move if no similar move sequence is found,
+     *         otherwise returns the next move in the matching
+     *         sequence
+     *****************************************************************/
+    public Move scanDatabase() {
+        Move nextMove = new Move();
+        GameFileHandler handler = new GameFileHandler(model);
+        //separating the games into individual move sequences
+        ArrayList<String> sequences = handler.databaseGames();
+
+        //iterate through each sequence to find similar moves
+        for (String moves : sequences) {
+            //moves from the database
+            ArrayList<String> databaseMoves = handler.separateMoves(
+                    moves);
+            //moves from the current game
+            ArrayList<String> gameMoves = handler.separateMoves(
+                    model.getGameData());
+
+            //while gameMoves has similar moves to databaseMoves
+            //AI should execute response from the database
+            boolean flag = true; //for similar moves, set to false when moves aren't similar
+            boolean secondFlag; //when 3 of the same moves can't be found, use 2
+            if (gameMoves.size() < 3) {
+                //if opening is the same
+                if (!databaseMoves.get(0).contains(gameMoves.get(0)))
+                    flag = false;
+                if (flag)
+                    nextMove = handler.decodeMove(databaseMoves.get(1));
+            } else if (gameMoves.size() < 5) {
+                //if first 2 move are the same
+                if (!databaseMoves.get(0).contains(gameMoves.get(0)) &&
+                        !databaseMoves.get(2).contains(gameMoves.get(0)))
+                    flag = false;
+                if (flag)
+                    nextMove = handler.decodeMove(databaseMoves.get(3));
+            } else
+                //when game is at least 5 moves in
+                for (int i = 4; i < databaseMoves.size(); i++) {
+                    //if last two moves are the same
+                    secondFlag = databaseMoves.get(i - 2).contains(gameMoves.get(gameMoves.size() - 3)) &&
+                            databaseMoves.get(i).contains(gameMoves.get(gameMoves.size() - 1));
+
+                    //if the past three moves are the same
+                    flag = databaseMoves.get(i - 4).contains(gameMoves.get(gameMoves.size() - 5)) &&
+                            secondFlag;
+                    //check if the next move in a sequence of 3 similar ones is valid
+                    if (flag && i + 1 < databaseMoves.size() &&
+                            model.isValidMove(handler.decodeMove(databaseMoves.get(i + 1)))) {
+                        nextMove = handler.decodeMove(databaseMoves.get(i + 1));
+
+                        //check if the next move in a sequence of 2 similar ones is valid
+                    } else if (secondFlag &&
+                            model.isValidMove(handler.decodeMove(databaseMoves.get(i + 1)))) {
+                        nextMove = handler.decodeMove(databaseMoves.get(i + 1));
+                    }
+                }
+        }
+        return nextMove; //will return (0, 0, 0, 0) if nothing was found
     //for scoring moves?
     private final int PAWN = 1;
     private final int KNIGHT = 3;
@@ -56,6 +168,8 @@ public class ChessAI {
 
     /******************************************************************
      * evaluates the score for a player based on the pieces they own
+    /**
+     * Performs a random move out of all possible moves
      *
      * @param player The player for which a score will be calculated.
      * @return The score of the player based upon the board.
@@ -65,6 +179,13 @@ public class ChessAI {
     private int evaluateScore(Player player) {
         int score = 0;
         for (int row = 0; row < board.length; row++)
+     * @return move from all valid moves
+     */
+    public Move randomMove() {
+        ArrayList<Move> allMoves = new ArrayList<>();
+        Random random = new Random();
+
+        for (int row = 0; row < board.length; row++) {
             for (int col = 0; col < board.length; col++) {
                 if (board[row][col] != null)
                     if (board[row][col].player() == player)
@@ -81,6 +202,12 @@ public class ChessAI {
                 }
             }
         return score;
+                if (board[row][col] != null &&
+                        board[row][col].player() == player)
+                    allMoves.addAll(model.filterLegalMoves(model.legalMoves(row,col)));
+            }
+        }
+        return allMoves.get(random.nextInt(allMoves.size() - 1));
     }
 
     /**

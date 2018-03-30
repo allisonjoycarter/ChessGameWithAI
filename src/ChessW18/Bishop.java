@@ -49,15 +49,21 @@ public class Bishop extends ChessPiece {
             if (move.oldRow > move.newRow) {
                 for (int row = move.oldRow; row > move.newRow; row--)
                     if (move.oldColumn > move.newColumn) {
-                        for (int column = move.oldColumn; column > move.newColumn; column--) {
-                            if (board[row][column] != null && board[move.oldRow][move.oldColumn] != board[row][column])
+                        for (int column = move.oldColumn; column >
+                                move.newColumn; column--) {
+                            if (board[row][column] != null &&
+                                    board[move.oldRow][move.oldColumn]
+                                            != board[row][column])
                                 return false;
                             if (row > 0)
                                 row--;
                         }
                     } else {
-                        for (int column = move.oldColumn; column < move.newColumn; column++) {
-                            if (board[row][column] != null && board[move.oldRow][move.oldColumn] != board[row][column])
+                        for (int column = move.oldColumn; column <
+                                move.newColumn; column++) {
+                            if (board[row][column] != null &&
+                                    board[move.oldRow][move.oldColumn]
+                                            != board[row][column])
                                 return false;
                             if (row > 0)
                                 row--;
@@ -67,22 +73,30 @@ public class Bishop extends ChessPiece {
             } else if (move.oldRow < move.newRow) {
                 for (int row = move.oldRow; row < move.newRow; row++)
                     if (move.oldColumn > move.newColumn) {
-                        for (int column = move.oldColumn; column > move.newColumn; column--) {
-                            if (board[row][column] != null && board[move.oldRow][move.oldColumn] != board[row][column])
+                        for (int column = move.oldColumn; column >
+                                move.newColumn; column--) {
+                            if (board[row][column] != null &&
+                                    board[move.oldRow][move.oldColumn]
+                                            != board[row][column])
                                 return false;
                             if (row < board.length - 1)
                                 row++;
                         }
                     } else
-                        for (int column = move.oldColumn; column < move.newColumn; column++) {
-                            if (board[row][column] != null && board[move.oldRow][move.oldColumn] != board[row][column])
+                        for (int column = move.oldColumn; column <
+                                move.newColumn; column++) {
+                            if (board[row][column] != null &&
+                                    board[move.oldRow][move.oldColumn]
+                                            != board[row][column])
                                 return false;
                             if (row < board.length - 1)
                                 row++;
                         }
             }
-            //if the amount of rows moved is equal to the amount of columns moved
-            return Math.abs(move.oldRow - move.newRow) == Math.abs(move.oldColumn - move.newColumn);
+            //if the amount of rows moved is equal
+            //to the amount of columns moved
+            return Math.abs(move.oldRow - move.newRow) ==
+                    Math.abs(move.oldColumn - move.newColumn);
         }
         return false;
     }

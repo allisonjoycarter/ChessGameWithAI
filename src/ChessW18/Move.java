@@ -8,20 +8,16 @@ public class Move {
 
     private boolean wasCastle;
     private boolean wasEnPassant;
+    private IChessPiece capturedPiece;
+    private IChessPiece promotion;
 
     /******************************************************************
      * Object to store a move
-     * Could use this to make an undo function?
      *
-     * Ferguson used fromRow and toRow as names for these ints
-     * Same thing, I just happened to use these names
-     * We can change it if necessary
-     *
-     *
-     * @param oldRow
-     * @param oldColumn
-     * @param newRow
-     * @param newColumn
+     * @param oldRow the row a piece is moving from
+     * @param oldColumn the column a piece is moving from
+     * @param newRow the row a piece is moving to
+     * @param newColumn the column a piece is moving to
      *****************************************************************/
     public Move(int oldRow, int oldColumn, int newRow, int newColumn) {
         this.oldRow = oldRow;
@@ -30,6 +26,8 @@ public class Move {
         this.newColumn = newColumn;
         wasCastle = false;
         wasEnPassant = false;
+        capturedPiece = null;
+        promotion = null;
     }
 
     public Move() {
@@ -39,6 +37,8 @@ public class Move {
         this.newColumn = 0;
         wasCastle = false;
         wasEnPassant = false;
+        capturedPiece = null;
+        promotion = null;
     }
 
     public boolean wasCastle() {
@@ -55,5 +55,21 @@ public class Move {
 
     public void setWasEnPassant(boolean wasEnPassant) {
         this.wasEnPassant = wasEnPassant;
+    }
+
+    public IChessPiece getCapturedPiece() {
+        return capturedPiece;
+    }
+
+    public void setCapturedPiece(IChessPiece capturedPiece) {
+        this.capturedPiece = capturedPiece;
+    }
+
+    public IChessPiece getPromotion() {
+        return promotion;
+    }
+
+    public void setPromotion(IChessPiece promotion) {
+        this.promotion = promotion;
     }
 }
