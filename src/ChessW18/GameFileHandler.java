@@ -67,13 +67,15 @@ public class GameFileHandler {
      * @return gameData without the last move
      *****************************************************************/
     public String removeLastMove() {
-
+        player = model.currentPlayer();
         //white's turn includes a turn number in the move sequence
         //so that also needs to be removed
         if (player == Player.WHITE) {
             //removing from number to whitespace
-            moveCodes.replace(moveCodes.lastIndexOf(String.valueOf(--turn)), moveCodes.length(), "");
-//            turn--; //going back a turn, needed when undoing a turn
+            moveCodes.replace(moveCodes.lastIndexOf(
+                    //go back a turn for undoing
+                    String.valueOf(--turn) + "."),
+                    moveCodes.length(), "");
         } else {
             //removing the space at the end of the string
             moveCodes.replace(moveCodes.length() - 1, moveCodes.length(), "");
@@ -337,6 +339,7 @@ public class GameFileHandler {
      * @return a String that represents the executed move
      *****************************************************************/
     public String moveAndGenerateCode(Move move) {
+        player = model.currentPlayer();
         //string to create
         StringBuilder moveCode = new StringBuilder();
 
@@ -414,8 +417,7 @@ public class GameFileHandler {
 
 
         } catch (Exception e) {
-            System.out.println("Unable to write and execute move");
-            return "null"; //the word null should help if the moves are put into a database
+            throw new IllegalArgumentException();
         }
 
         //adding the code to the string of all moves

@@ -70,6 +70,8 @@ public class ChessPanel extends JPanel {
 
     private JLabel timerLabel;
 
+    private JTextArea moveSequence;
+
     public ChessPanel(JMenuItem pgameItem, JMenuItem saveGame, JMenuItem loadGame,
                       JCheckBoxMenuItem colorBlind, JMenuItem undoMove) {
 
@@ -111,6 +113,7 @@ public class ChessPanel extends JPanel {
                         }
                         displayBoard();
                         updateCaptures();
+                        moveSequence.setText(model.getGameData());
                 } catch (IllegalArgumentException err) {
                     JOptionPane.showMessageDialog(null,
                             "Illegal moves in document. Failed to load moves.",
@@ -130,6 +133,7 @@ public class ChessPanel extends JPanel {
 		this.undoMove.addActionListener(e -> {
             model.undoLastMove(); //undo's previous move
             currentPlayer = model.currentPlayer(); //make sure player is switched
+            moveSequence.setText(model.getGameData());
             displayBoard(); //set the icons
             updateCaptures();
         });
@@ -173,7 +177,7 @@ public class ChessPanel extends JPanel {
         constraints.gridy = 0;
         constraints.anchor = GridBagConstraints.EAST;
         constraints.gridwidth = 2;
-        constraints.gridheight = 3;
+        constraints.gridheight = 2;
         add(boardPanel, constraints);
 
         constraints.fill = GridBagConstraints.BOTH;
@@ -188,21 +192,28 @@ public class ChessPanel extends JPanel {
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridx = 2;
         constraints.gridy = 1;
-        constraints.anchor = GridBagConstraints.SOUTHWEST;
+        constraints.anchor = GridBagConstraints.SOUTHEAST;
         constraints.gridwidth = 1;
         constraints.gridheight = 2;
         add(createCapturesPanel(), constraints);
 
-//        ArrayList<String> moveCodes = model.getHandler().separateMoves(
-//                        model.getHandler().readGameFile("SampleGame"));
-//        for (int i = 0; i < moveCodes.size(); i++) {
-//            Move temp = model.getHandler().decodeMove(moveCodes.get(i));
-//            model.move(temp);
-//            model.switchPlayer();
-//            currentPlayer = model.currentPlayer();
-//        }
-//        displayBoard();
-//        updateCaptures();
+        moveSequence = new JTextArea();
+        moveSequence.setBackground(new Color(189, 221, 175));
+        moveSequence.setFont(new Font(UIManager.getDefaults().getFont("Label.font").getName(), Font.PLAIN, 25));
+        moveSequence.setWrapStyleWord(true);
+        JScrollPane movesPane = new JScrollPane(moveSequence);
+        movesPane.setPreferredSize(new Dimension(this.getWidth(), 100));
+        movesPane.setBorder(new LineBorder(new Color(0, 114, 178), 5));
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.gridx = 0;
+        constraints.gridy = 3;
+        constraints.anchor = GridBagConstraints.SOUTHWEST;
+        constraints.gridwidth = 3;
+        constraints.gridheight = 1;
+        add(movesPane, constraints);
+
+
+
     }
 
     /**
@@ -524,6 +535,7 @@ public class ChessPanel extends JPanel {
 		blackCapturePanel.repaint();
 		whiteCapturePanel.removeAll();
 		whiteCapturePanel.repaint();
+		moveSequence.setText(model.getGameData());
 		displayBoard();
 		repaint();
 	}
@@ -639,43 +651,17 @@ public class ChessPanel extends JPanel {
 
 							//not sure if he wants an invalid move to throw an error
                             try {
-                                if (!check) {
-
-                                    //this moves the pieces
-                                    //also creates a string in standard chess pieces to represent the move
-                                    if (model.isValidMove(move)) {
-                                        //this also moves the piece
-                                        model.getHandler().moveAndGenerateCode(move);
-                                        model.switchPlayer();
-                                        currentPlayer = model.currentPlayer();
-                                        move = new Move(); //to prevent null pointer errors from trying to move a piece that isn't there anymore
-                                    }
-
-                                } else {
-                                    boolean moveWillEscape = false;
-                                    move.newRow = row;
-                                    move.newColumn = col;
-                                    for (Move testMove :
-                                            model.movesToEscapeCheck(currentPlayer))
-                                        //check if the move the player is trying to make is an escaping one
-                                        if (testMove.oldRow == move.oldRow &&
-                                                testMove.oldColumn == move.oldColumn &&
-                                                testMove.newRow == move.newRow &&
-                                                testMove.newColumn == move.newColumn) {
-                                            moveWillEscape = true;
-                                        }
-
-                                    if (moveWillEscape) {
-                                        model.getHandler().moveAndGenerateCode(move);
-                                        model.switchPlayer();
-                                        currentPlayer = model.currentPlayer();
-                                        move = new Move();
-                                    }
-                                }
+                                //this moves the pieces
+                                //also creates a string in standard chess pieces to represent the move
+                                //this also moves the piece
+                                model.getHandler().moveAndGenerateCode(move);
+                                moveSequence.setText(model.getGameData());
+                                model.switchPlayer();
+                                currentPlayer = model.currentPlayer();
+                                move = new Move(); //to prevent null pointer errors from trying to move a piece that isn't there anymore
                                 //set the timer to the current player's time
                                 if (competitiveTimer)
                                     setTime(currentPlayer == Player.WHITE ? whiteTime : blackTime);
-                                System.out.println(model.getGameData());
 
 //                                ChessAI ai = new ChessAI(Player.BLACK, model);
 //                                Move aiMove = ai.scanDatabase();

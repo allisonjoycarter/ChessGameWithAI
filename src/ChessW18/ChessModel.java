@@ -437,6 +437,7 @@ public class ChessModel implements IChessModel {
         placeStartingPieces();
         currentPlayer = Player.WHITE;
         handler = new GameFileHandler(this);
+        gameData = "";
     }
 
     /******************************************************************
