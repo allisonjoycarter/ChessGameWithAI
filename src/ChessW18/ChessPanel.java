@@ -12,12 +12,12 @@ import static java.lang.System.exit;
 
 public class ChessPanel extends JPanel {
 
-	private JMenuItem gameItem;
+    private JMenuItem gameItem;
 
-	/** button to quit the game */
-	private JMenuItem quitItem;
+    /** button to quit the game */
+    private JMenuItem quitItem;
 
-	/** button to undo the last move */
+    /** button to undo the last move */
     private JMenuItem undoMove;
     private JMenuItem timeItem;
     private JMenuItem startItem;
@@ -29,35 +29,32 @@ public class ChessPanel extends JPanel {
     private JCheckBoxMenuItem colorBlind;
 
     /** holds the buttons that make up the game board */
-	private JButton[][] board;
+    private JButton[][] board;
 
-	/** holds the game engine */
-	private ChessModel model;
+    /** holds the game engine */
+    private ChessModel model;
 
-	/** variable to hold the size of the board */
-	private final int BOARDSIZE = 8;
+    /** variable to hold the size of the board */
+    private final int BOARDSIZE = 8;
 
-	private JLabel outMessage;
+    private JLabel outMessage;
     private String message;
 
     /** images to represent white player pieces */
-	private ImageIcon wPawn, wRook, wBishop, wKnight, wKing, wQueen;
+    private ImageIcon wPawn, wRook, wBishop, wKnight, wKing, wQueen;
 
-	/** images to represent black player pieces */
-	private ImageIcon bPawn, bRook, bBishop, bKnight, bKing, bQueen;
+    /** images to represent black player pieces */
+    private ImageIcon bPawn, bRook, bBishop, bKnight, bKing, bQueen;
 
-	/** the move attempted when selecting buttons on the board */
-	private Move move;
+    /** the move attempted when selecting buttons on the board */
+    private Move move;
 
-	/** pieceChoice is used to tell if the player is choosing a piece
-	 * or a position. */
-	private boolean pieceChosen;
+    /** pieceChoice is used to tell if the player is choosing a piece
+     * or a position. */
+    private boolean pieceChosen;
 
-	/** the current player */
-	private Player currentPlayer;
-
-
-	// declare other instance variables as needed
+    /** the current player */
+    private Player currentPlayer;
 
     /** panels to hold images of each player's captures */
     JPanel whiteCapturePanel, blackCapturePanel;
@@ -85,32 +82,32 @@ public class ChessPanel extends JPanel {
                       JMenuItem pTime, JMenuItem pStart, JMenuItem pStop,
                       JCheckBoxMenuItem pCountUp, JMenuItem pSetTimer) {
 
-		model = new ChessModel();
-		move = new Move();
-		currentPlayer = model.currentPlayer();
-		pieceChosen = false;
-		board = new JButton[BOARDSIZE][BOARDSIZE];
+        model = new ChessModel();
+        move = new Move();
+        currentPlayer = model.currentPlayer();
+        pieceChosen = false;
+        board = new JButton[BOARDSIZE][BOARDSIZE];
         JPanel boardPanel = boardInit();
         displayBoard();
 
-		gameItem = pgameItem;
-		quitItem = pquitItem;
-		timeItem = pTime;
-		startItem = pStart;
-		stopItem = pStop;
+        gameItem = pgameItem;
+        quitItem = pquitItem;
+        timeItem = pTime;
+        startItem = pStart;
+        stopItem = pStop;
         countUpItem = pCountUp;
         setTimerItem = pSetTimer;
-		this.undoMove = undoMove;
-		this.colorBlind = colorBlind;
+        this.undoMove = undoMove;
+        this.colorBlind = colorBlind;
 
-		startItem.setEnabled(true);
+        startItem.setEnabled(true);
 
         timer = new Timer(1000, new TimerListener());
         timer.setActionCommand("Up");
         countUpItem.setSelected(true);
 
-		quitItem.addActionListener(e -> exit(0));
-		gameItem.addActionListener( e -> resetBoard());
+        quitItem.addActionListener(e -> exit(0));
+        gameItem.addActionListener( e -> resetBoard());
         startItem.addActionListener(e -> timer.start());
         stopItem.addActionListener(e -> timer.stop());
         countUpItem.addActionListener(e -> {
@@ -133,28 +130,28 @@ public class ChessPanel extends JPanel {
             timeItem.setText(hours + ":" + minutes + ":" + seconds);
         });
 
-		this.undoMove.addActionListener(e -> {
+        this.undoMove.addActionListener(e -> {
             model.undoLastMove(); //undo's previous move
             currentPlayer = model.currentPlayer(); //make sure player is switched
             displayBoard(); //set the icons
             updateCaptures();
         });
-		this.colorBlind.addActionListener(e -> {
-		    if (this.colorBlind.isSelected())
-		        //setting the color for the grid of icons
-		        //black and white is harsh on the eyes and doesn't
-		        //show the pieces very well
-		        for(int row = 0; row < BOARDSIZE; row++)
-		            for(int col = 0; col < BOARDSIZE; col++)
-		                if ((row % 2 == 1 && col % 2 == 1) ||
-                        (row % 2 == 0 && col % 2 == 0)) {
-		                    //color blind friendly black
+        this.colorBlind.addActionListener(e -> {
+            if (this.colorBlind.isSelected())
+                //setting the color for the grid of icons
+                //black and white is harsh on the eyes and doesn't
+                //show the pieces very well
+                for(int row = 0; row < BOARDSIZE; row++)
+                    for(int col = 0; col < BOARDSIZE; col++)
+                        if ((row % 2 == 1 && col % 2 == 1) ||
+                                (row % 2 == 0 && col % 2 == 0)) {
+                            //color blind friendly black
                             board[row][col].setBackground(new Color(0, 114, 178));
                         } else {
-		                    //color blind friendly white
+                            //color blind friendly white
                             board[row][col].setBackground(new Color(240, 228, 66));
                         }
-		    else
+            else
                 for (int row = 0; row < BOARDSIZE; row++)
                     for (int col = 0; col < BOARDSIZE; col++)
                         if ((row % 2 == 1 && col % 2 == 1) ||
@@ -165,11 +162,11 @@ public class ChessPanel extends JPanel {
                             //light yellow to contrast white pieces
                             board[row][col].setBackground(new Color(246, 249, 182));
 
-            });
+        });
 // time, start, stop, countUp, setTimer
 
-		//setting the timer to start with a modest amount of time
-		minutes = 30;
+        //setting the timer to start with a modest amount of time
+        minutes = 30;
 
         setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
@@ -312,15 +309,15 @@ public class ChessPanel extends JPanel {
             if (timer.getActionCommand().equals("Up")) {
                 seconds++;
             } else if (timer.getActionCommand().equals("Down")) {
-                    seconds--;
-                    //if using the competitive timer, time should be taken away
-                    //from the right player
-                    if (competitiveTimer) {
-                        if (currentPlayer == Player.WHITE)
-                            whiteTime--;
-                        else
-                            blackTime--;
-                    }
+                seconds--;
+                //if using the competitive timer, time should be taken away
+                //from the right player
+                if (competitiveTimer) {
+                    if (currentPlayer == Player.WHITE)
+                        whiteTime--;
+                    else
+                        blackTime--;
+                }
             }
             fixTime();
 
@@ -380,106 +377,106 @@ public class ChessPanel extends JPanel {
 
         //adds the last element of the model.blackCaptures array if
         //its size is bigger than the blackCaptures JLabel array
-	    if (model.getBlackCaptures().size() > blackCaptures.size())  {
-	        JLabel label = new JLabel();
-	        label.setIcon(getPieceIcon(Player.WHITE,
+        if (model.getBlackCaptures().size() > blackCaptures.size())  {
+            JLabel label = new JLabel();
+            label.setIcon(getPieceIcon(Player.WHITE,
                     model.getBlackCaptures().get(model.getBlackCaptures().size() - 1).type()));
             blackCaptures.add(label);
-	        blackCapturePanel.add(label);
-	        //or remove if needed
+            blackCapturePanel.add(label);
+            //or remove if needed
         } else if (model.getBlackCaptures().size() < blackCaptures.size()) {
-	        blackCapturePanel.remove(blackCaptures.size() - 1);
-	        blackCaptures.remove(blackCaptures.size() - 1);
+            blackCapturePanel.remove(blackCaptures.size() - 1);
+            blackCaptures.remove(blackCaptures.size() - 1);
         }
 
         //adds to the white captures panel if needed
         if (model.getWhiteCaptures().size() > whiteCaptures.size()) {
-	        JLabel label = new JLabel();
-	        label.setIcon(getPieceIcon(Player.BLACK, model.getWhiteCaptures().get(
-                            model.getWhiteCaptures().size() - 1).type()));
-	        whiteCaptures.add(label);
-	        whiteCapturePanel.add(label);
-	        //or remove if needed
+            JLabel label = new JLabel();
+            label.setIcon(getPieceIcon(Player.BLACK, model.getWhiteCaptures().get(
+                    model.getWhiteCaptures().size() - 1).type()));
+            whiteCaptures.add(label);
+            whiteCapturePanel.add(label);
+            //or remove if needed
         } else if (model.getWhiteCaptures().size() < whiteCaptures.size()) {
-	        whiteCapturePanel.remove(whiteCaptures.size() - 1);
-	        whiteCaptures.remove(whiteCaptures.size() - 1);
+            whiteCapturePanel.remove(whiteCaptures.size() - 1);
+            whiteCaptures.remove(whiteCaptures.size() - 1);
         }
         blackCapturePanel.repaint();
-	    whiteCapturePanel.repaint();
+        whiteCapturePanel.repaint();
     }
 
-	/**
-	 * Sets up the board, a two dimensional matrix of JButtons,
-	 * to contain an icon for a chess piece in each button. The
-	 * icons are specific to each button.
-	 *
-	 * @author George
-	 * @version 3/18
-	 */
-	private JPanel boardInit() {
+    /**
+     * Sets up the board, a two dimensional matrix of JButtons,
+     * to contain an icon for a chess piece in each button. The
+     * icons are specific to each button.
+     *
+     * @author George
+     * @version 3/18
+     */
+    private JPanel boardInit() {
 
-	    JPanel boardPanel = new JPanel();
+        JPanel boardPanel = new JPanel();
 
-		wPawn = new ImageIcon("wPawn.png");
-		wRook = new ImageIcon("wRook.png");
-		wBishop = new ImageIcon("wBishop.png");
-		wKnight = new ImageIcon("wKnight.png");
-		wKing = new ImageIcon("wKing.png");
-		wQueen = new ImageIcon("wQueen.png");
+        wPawn = new ImageIcon("wPawn.png");
+        wRook = new ImageIcon("wRook.png");
+        wBishop = new ImageIcon("wBishop.png");
+        wKnight = new ImageIcon("wKnight.png");
+        wKing = new ImageIcon("wKing.png");
+        wQueen = new ImageIcon("wQueen.png");
 
-		bPawn = new ImageIcon("bPawn.png");
-		bRook = new ImageIcon("bRook.png");
-		bBishop = new ImageIcon("bBishop.png");
-		bKnight = new ImageIcon("bKnight.png");
-		bKing = new ImageIcon("bKing.png");
-		bQueen = new ImageIcon("bQueen.png");
+        bPawn = new ImageIcon("bPawn.png");
+        bRook = new ImageIcon("bRook.png");
+        bBishop = new ImageIcon("bBishop.png");
+        bKnight = new ImageIcon("bKnight.png");
+        bKing = new ImageIcon("bKing.png");
+        bQueen = new ImageIcon("bQueen.png");
 
-		ButtonListener listener = new ButtonListener();
+        ButtonListener listener = new ButtonListener();
 
 //		setLayout(new GridBagLayout()); /** I'm setting this up so that
 //		 the buttons will fall into place when created */
         boardPanel.setLayout(new GridLayout(BOARDSIZE, BOARDSIZE)); //this can be changed back, just temporary for seeing the grid
         boardPanel.setPreferredSize(new Dimension(700, 700));
 
-		//Creating the grid of buttons
-		for(int row = 0; row < BOARDSIZE; row++)
-			for(int col = 0; col < BOARDSIZE; col++) {
-		        board[row][col] = new JButton();
-				board[row][col].addActionListener(listener);
-				//making a grid. maybe it should have its own panel?
+        //Creating the grid of buttons
+        for(int row = 0; row < BOARDSIZE; row++)
+            for(int col = 0; col < BOARDSIZE; col++) {
+                board[row][col] = new JButton();
+                board[row][col].addActionListener(listener);
+                //making a grid. maybe it should have its own panel?
                 if ((row % 2 == 1 && col % 2 == 1) ||
                         (row % 2 == 0 && col % 2 == 0))
                     board[row][col].setBackground(new Color(72, 109, 42));
                 else
                     board[row][col].setBackground(new Color(246, 249, 182));
-				boardPanel.add(board[row][col]);
-			}
+                boardPanel.add(board[row][col]);
+            }
 
-		outMessage = new JLabel("");
+        outMessage = new JLabel("");
         return boardPanel;
-	}
+    }
 
 
-	/******************************************************************
-	 * Method that updates the board by setting the correct icons.
-	 *
-	 * @author Allison
-	 *****************************************************************/
-	private void displayBoard() {
-		for (int row = 0; row < BOARDSIZE; row++) {
-			for (int col = 0; col < BOARDSIZE; col++) {
-				IChessPiece temp = model.pieceAt(row,col); //variable to improve readability
-				if (temp == null) { //if there is no piece, keep going on the loop
+    /******************************************************************
+     * Method that updates the board by setting the correct icons.
+     *
+     * @author Allison
+     *****************************************************************/
+    private void displayBoard() {
+        for (int row = 0; row < BOARDSIZE; row++) {
+            for (int col = 0; col < BOARDSIZE; col++) {
+                IChessPiece temp = model.pieceAt(row,col); //variable to improve readability
+                if (temp == null) { //if there is no piece, keep going on the loop
                     board[row][col].setIcon(null);
                     continue;
                 }
 
                 //set the icon to the correct piece and player
                 board[row][col].setIcon(getPieceIcon(temp.player(), temp.type()));
-			}
-		}
+            }
+        }
 //		outMessage.setText(message);
-	}
+    }
 
     /**
      * Returns the icon that matches a given player and piece type
@@ -488,9 +485,9 @@ public class ChessPanel extends JPanel {
      * @param type type of piece to get an icon for
      * @return the icon that matches a player and piece type
      */
-	private ImageIcon getPieceIcon(Player player, String type) {
-	    ImageIcon icon = new ImageIcon();
-	    switch (type) {
+    private ImageIcon getPieceIcon(Player player, String type) {
+        ImageIcon icon = new ImageIcon();
+        switch (type) {
             case "Pawn":
                 if (player == Player.BLACK)
                     icon = bPawn;
@@ -531,46 +528,46 @@ public class ChessPanel extends JPanel {
         return icon;
     }
 
-	/***************************************************************
-	 * Puts the board in the starting setup.
-	 *
-	 **************************************************************/
-	private void resetBoard() {
+    /***************************************************************
+     * Puts the board in the starting setup.
+     *
+     **************************************************************/
+    private void resetBoard() {
 //		board = new JButton[BOARDSIZE][BOARDSIZE];
-		boardInit();
-		displayBoard();
-		repaint();
-	}
+        boardInit();
+        displayBoard();
+        repaint();
+    }
 
 
-	/**
-	 * Inner class that represents action listener for buttons
-	 */
-	private class ButtonListener implements ActionListener {
+    /**
+     * Inner class that represents action listener for buttons
+     */
+    private class ButtonListener implements ActionListener {
 
-		@Override
-		public void actionPerformed(ActionEvent event) {
-			/*
-			 * We need to store the location of the first button, and
-			 * then store the location of the second button.
-			 * -If the player chooses the first button, this will be
-			 * dealt with through the move in ChessModel. The player
-			 * must choose another button.
-			 * -If the player chooses a different button, then this will
-			 * be stored and model.move is called. The turn will be
-			 * switched in chessModel.
-			 *
-			 * */
-			for (int row = 0; row < board.length; row++)
-				for (int col = 0; col < board.length; col++)
-					if (event.getSource() == board[row][col]) {
-			            boolean check = model.inCheck(currentPlayer);
-						if(!pieceChosen &&
+        @Override
+        public void actionPerformed(ActionEvent event) {
+            /*
+             * We need to store the location of the first button, and
+             * then store the location of the second button.
+             * -If the player chooses the first button, this will be
+             * dealt with through the move in ChessModel. The player
+             * must choose another button.
+             * -If the player chooses a different button, then this will
+             * be stored and model.move is called. The turn will be
+             * switched in chessModel.
+             *
+             * */
+            for (int row = 0; row < board.length; row++)
+                for (int col = 0; col < board.length; col++)
+                    if (event.getSource() == board[row][col]) {
+                        boolean check = model.inCheck(currentPlayer);
+                        if(!pieceChosen &&
                                 model.pieceAt(row, col) != null && //need to make sure user is selecting an actual piece
                                 model.pieceAt(row, col).player().equals(currentPlayer)) {//prevents playing for opponent
-						        move.oldRow = row;
-                                move.oldColumn = col;
-						    if (!check) {
+                            move.oldRow = row;
+                            move.oldColumn = col;
+                            if (!check) {
 
                                 ArrayList<Move> moves = model.filterLegalMoves(model.legalMoves(row, col));
                                 for (Move move : moves)
@@ -591,16 +588,16 @@ public class ChessPanel extends JPanel {
                                 board[row][col].setBorder(new LineBorder(Color.red, 5));
 
                             }
-                                pieceChosen = true;
-						} else if (pieceChosen){ //stores the second pressed button.
-							move.newColumn = col;
-							move.newRow = row;
+                            pieceChosen = true;
+                        } else if (pieceChosen){ //stores the second pressed button.
+                            move.newColumn = col;
+                            move.newRow = row;
                             for (int r = 0; r < board.length; r++)
                                 for (int c = 0; c < board.length; c++)
                                     if (board[r][c].getBorder() != null)
                                         board[r][c].setBorder(null);
 
-							//not sure if he wants an invalid move to throw an error
+                            //not sure if he wants an invalid move to throw an error
                             try {
                                 if (!check) {
                                     model.move(move);//The move method that is called here will check for validity.
@@ -636,11 +633,11 @@ public class ChessPanel extends JPanel {
                             } catch (IllegalArgumentException e) {
                                 message = "Illegal Move";
                             }
-							pieceChosen = false;
+                            pieceChosen = false;
                             displayBoard();
-						}
-						updateCaptures();
-					}
-		}
-	}
+                        }
+                        updateCaptures();
+                    }
+        }
+    }
 }
