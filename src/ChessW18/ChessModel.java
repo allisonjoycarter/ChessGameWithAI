@@ -2,7 +2,6 @@ package ChessW18;
 
 import javax.swing.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Stack;
 
 /**
@@ -19,21 +18,24 @@ public class ChessModel implements IChessModel {
     /** holds the captures of players */
     private ArrayList<IChessPiece> whiteCaptures, blackCaptures;
 
+    /** holds the moves in a stack so they can be referenced
+     * first in last out */
     private Stack<Move> moveStack;
-    private Stack<Move> captureMoveStack;
 
     private String message;
 
+    /** holds all the methods for reading and writing game files */
     private GameFileHandler handler;
+
+    /** holds the sequence of moves in standard chess formation */
     private String gameData;
 
-    /**
+    /******************************************************************
      * Constructor for ChessModel that initializes arrays
      * and places starting pieces
-     */
+     *****************************************************************/
     public ChessModel() {
         moveStack = new Stack<>();
-        captureMoveStack = new Stack<>();
         whiteCaptures = new ArrayList<>();
         blackCaptures = new ArrayList<>();
         placeStartingPieces();
@@ -42,9 +44,9 @@ public class ChessModel implements IChessModel {
         gameData = "";
     }
 
-    /**
-     *
-     */
+    /******************************************************************
+     * Places pieces on the board in their correct starting positions
+     ******************************************************************/
     private void placeStartingPieces() {
         //white player starts
         currentPlayer = Player.WHITE;
@@ -75,27 +77,34 @@ public class ChessModel implements IChessModel {
 
     }
 
-    /**
+    /******************************************************************
+     * Checks for a player in checkmate
      *
-     * @return
-     */
+     * @return true the game is completed, false if not
+     *****************************************************************/
     @Override
     public boolean isComplete() {
         //if a player is in check and cannot get out of check, the game is complete
-        return ((inCheck(Player.WHITE) && movesToEscapeCheck(Player.WHITE).isEmpty()) ||
-                (inCheck(Player.BLACK) && movesToEscapeCheck(Player.BLACK).isEmpty()));
+        return ((inCheck(Player.WHITE) &&
+                movesToEscapeCheck(Player.WHITE).isEmpty()) ||
+                (inCheck(Player.BLACK) &&
+                        movesToEscapeCheck(Player.BLACK).isEmpty()));
     }
 
-    /**
+    /*****************************************************************
+     * Accepts a move and returns false based on whether the move will
+     * put them in check or if isValidMove for the specific piece is
+     * valid
      *
-     * @param move a {@link Move} object describing the move to be made.
-     * @return
-     */
+     * @param move a {@link Move} object describing the move to be made
+     * @return true if the move is valid, false otherwise
+     *****************************************************************/
     @Override
     public boolean isValidMove(Move move) { //overloaded
 
         //check if the move is valid
-        if (!board[move.oldRow][move.oldColumn].isValidMove(move, board))
+        if (!board[move.oldRow][move.oldColumn].
+                isValidMove(move, board))
             return false;
 
         IChessPiece temp = null; //to store a piece to be captured
@@ -105,7 +114,8 @@ public class ChessModel implements IChessModel {
             temp = board[move.newRow][move.newColumn];
 
         //placing the move that needs to be validated on the board
-        board[move.newRow][move.newColumn] = board[move.oldRow][move.oldColumn];
+        board[move.newRow][move.newColumn] =
+                board[move.oldRow][move.oldColumn];
         if (move.wasEnPassant())
             board[move.oldRow][move.newColumn] = null;
         board[move.oldRow][move.oldColumn] = null;
@@ -114,7 +124,8 @@ public class ChessModel implements IChessModel {
         if (inCheck(currentPlayer)){
 
             //putting piece back to old location
-            board[move.oldRow][move.oldColumn] = board[move.newRow][move.newColumn];
+            board[move.oldRow][move.oldColumn] =
+                    board[move.newRow][move.newColumn];
             if (temp != null)
                 board[move.newRow][move.newColumn] = temp; //replacing captured piece
             else
@@ -123,45 +134,61 @@ public class ChessModel implements IChessModel {
         } else {
 
             //putting pieces back
-            board[move.oldRow][move.oldColumn] = board[move.newRow][move.newColumn];
+            board[move.oldRow][move.oldColumn] =
+                    board[move.newRow][move.newColumn];
             if (temp != null)
                 board[move.newRow][move.newColumn] = temp;
             else
                 board[move.newRow][move.newColumn] = null;
-            return true; //move is okay if it did not put player in check
+            return true;//move is okay if it didn't put player in check
         }
 
     }
 
+    /******************************************************************
+     * Moves a piece from a previous location to a new location if the
+     * move is valid
+     *
+     * @param move {@link Move} object describing the move to be made
+     *****************************************************************/
     @Override
     public void move(Move move) {
         if (isValidMove(move)) {
-            //check for a capture
-            //check if move is to an occupied location and if the occupying piece belongs to the opponent
+            //check if move is to an occupied location and
+            //if the occupying piece belongs to the opponent
             //if so, set that piece to be captured
             if (board[move.newRow][move.newColumn] != null &&
-                    board[move.newRow][move.newColumn].player() == board[move.oldRow][move.oldColumn].opponent()) {
+                    board[move.newRow][move.newColumn].player() ==
+                            board[move.oldRow][move.oldColumn].opponent()) {
                 move.setCapturedPiece(board[move.newRow][move.newColumn]);
-                captureMoveStack.push(move);
-            } else if (board[move.oldRow][move.newColumn] != null && //deals with en passant
-                    board[move.oldRow][move.oldColumn].type().equals("Pawn") && //piece moving is a pawn
-                    board[move.oldRow][move.newColumn].type().equals("Pawn") && //piece passanted is pawn
+
+                //deals with en passant
+            } else if (board[move.oldRow][move.newColumn] != null &&
+                    //piece moving is a pawn
+                    board[move.oldRow][move.oldColumn].
+                            type().equals("Pawn") &&
+                    //piece passanted is pawn
+                    board[move.oldRow][move.newColumn].
+                            type().equals("Pawn") &&
                     board[move.oldRow][move.newColumn].player().
-                            equals(board[move.oldRow][move.oldColumn].opponent())) {
-                ((Pawn) board[move.oldRow][move.newColumn]).setAbleToBePassanted(false);
+                            equals(board[move.oldRow][move.oldColumn].
+                                    opponent())) {
+                ((Pawn) board[move.oldRow][move.newColumn]).
+                        setAbleToBePassanted(false);
                 move.setWasEnPassant(true);
-                move.setCapturedPiece(board[move.oldRow][move.newColumn]); //sets captured piece to row above/below moving pawn
-                captureMoveStack.push(move);
+                //sets captured piece to row above/below moving pawn
+                move.setCapturedPiece(
+                        board[move.oldRow][move.newColumn]);
             }
 
             //Checks for a if a castle was performed.
-            else if (board[move.oldRow][move.oldColumn].type().equals("King") &&
+            else if (board[move.oldRow][move.oldColumn].type().
+                    equals("King") &&
                      board[move.newRow][move.newColumn] == null)
-            {
                 moveCastle(move);
-            }
 
-            if (move.getCapturedPiece() != null) //if there is a piece to be captured
+            //if there is a piece to be captured
+            if (move.getCapturedPiece() != null)
                 //add to list of respective player's captures
                 if (currentPlayer.equals(Player.BLACK))
                     blackCaptures.add(move.getCapturedPiece());
@@ -171,12 +198,16 @@ public class ChessModel implements IChessModel {
 
 
             //transferring piece from old square to new square
-            board[move.newRow][move.newColumn] = board[move.oldRow][move.oldColumn];
+            board[move.newRow][move.newColumn] =
+                    board[move.oldRow][move.oldColumn];
+
             if (move.wasEnPassant()) //removing pawn if en passanted
                 board[move.oldRow][move.newColumn] = null;
+
+            //removing piece from old square
             board[move.oldRow][move.oldColumn] = null;
 
-            //if the King or Rook is moved, Castling is no longer an option
+            //if the King or Rook is moved, can't castle anymore
             IChessPiece temp = board[move.newRow][move.newColumn];
             if (temp.type().equals("King"))
                 ((King) temp).canCastle = false;
@@ -186,41 +217,61 @@ public class ChessModel implements IChessModel {
                 ((Pawn) temp).setFirstTurn(false);
 
             //if a pawn reaches the other side of the board
-            if (board[move.newRow][move.newColumn].type().equals("Pawn") &&
-                    ((board[move.newRow][move.newColumn].player() == Player.WHITE && move.newRow == 0) ||
-                    (board[move.newRow][move.newColumn].player() == Player.BLACK && move.newRow == 7))) {
+            if (board[move.newRow][move.newColumn].type().
+                    equals("Pawn") &&
+                    ((board[move.newRow][move.newColumn].player() ==
+                            Player.WHITE && move.newRow == 0) ||
+                    (board[move.newRow][move.newColumn].player() ==
+                            Player.BLACK && move.newRow == 7))) {
 
+                //for loading games, a dialog shouldn't appear
+                //during loading
                 if (move.getPromotion() == null) {
                     //dialog to promote pawn
                     String[] options = {"Queen", "Rook", "Bishop", "Knight"};
                     int n = JOptionPane.showOptionDialog(null,
-                            "What rank would you like to promote this pawn to?",
+                            "What rank would you like " +
+                                    "to promote this pawn to?",
                             "Promotion", JOptionPane.DEFAULT_OPTION,
-                            JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+                            JOptionPane.QUESTION_MESSAGE, null,
+                            options, options[0]);
                     if (n == 0) {
-                        board[move.newRow][move.newColumn] = new Queen(currentPlayer);
+                        board[move.newRow][move.newColumn] =
+                                new Queen(currentPlayer);
                     } else if (n == 1) {
-                        board[move.newRow][move.newColumn] = new Rook(currentPlayer);
+                        board[move.newRow][move.newColumn] =
+                                new Rook(currentPlayer);
                     } else if (n == 2) {
-                        board[move.newRow][move.newColumn] = new Bishop(currentPlayer);
+                        board[move.newRow][move.newColumn] =
+                                new Bishop(currentPlayer);
                     } else if (n == 3) {
-                        board[move.newRow][move.newColumn] = new Knight(currentPlayer);
+                        board[move.newRow][move.newColumn] =
+                                new Knight(currentPlayer);
                     }
-                    move.setPromotion(board[move.newRow][move.newColumn]);
+                    move.setPromotion(
+                            board[move.newRow][move.newColumn]);
                 } else
-                    board[move.newRow][move.newColumn] = move.getPromotion();
+                    board[move.newRow][move.newColumn] =
+                            move.getPromotion();
             }
 
-            if (board[move.newRow][move.newColumn].type().equals("Pawn") &&
-                    ((currentPlayer == Player.WHITE && move.newRow == move.oldRow - 2) ||
-                            (currentPlayer == Player.BLACK && move.newRow == move.oldRow + 2)))
-                ((Pawn) board[move.newRow][move.newColumn]).setAbleToBePassanted(true);
+            if (board[move.newRow][move.newColumn].type().
+                    equals("Pawn") &&
+                    ((currentPlayer == Player.WHITE &&
+                            move.newRow == move.oldRow - 2) ||
+                            (currentPlayer == Player.BLACK &&
+                                    move.newRow == move.oldRow + 2)))
+                ((Pawn) board[move.newRow][move.newColumn]).
+                        setAbleToBePassanted(true);
             else
                 for (int row = 0; row < board.length; row++)
                     for (int col = 0; col < board.length; col++)
-                        if (board[row][col] != null && board[row][col].type().equals("Pawn"))
-                            ((Pawn) board[row][col]).setAbleToBePassanted(false);
+                        if (board[row][col] != null &&
+                                board[row][col].type().equals("Pawn"))
+                            ((Pawn) board[row][col]).
+                                    setAbleToBePassanted(false);
 
+            //adding move to the stack for undoing later
             moveStack.push(move);
         } else {
             throw new IllegalArgumentException();
@@ -232,7 +283,7 @@ public class ChessModel implements IChessModel {
      * is allowed to happen. This method checks for if it is allowed to
      * happen.
      *
-     * @param move
+     * @param move the move to castle
      *
      * @author George
      * @version 3/26/18
@@ -249,6 +300,8 @@ public class ChessModel implements IChessModel {
             for(i = move.oldColumn-1; i > 0 && valid; i--)
                 if(board[move.newRow][i] != null)
                     valid = false;
+        if (inCheck(currentPlayer))
+            valid = false;
 
         //If the path was clear
         if(valid) {
@@ -258,9 +311,12 @@ public class ChessModel implements IChessModel {
                     board[move.newRow][0] = null;
                     move.setWasCastle(true);
                 }
-            if(board[move.newRow][move.newColumn + 1] != null && move.newColumn == 6)
-                if(board[move.newRow][move.newColumn + 1].type().equals("Rook")) {
-                board[move.newRow][move.newColumn -1] = board[move.newRow][move.newColumn +1];
+            if(board[move.newRow][move.newColumn + 1] != null &&
+                    move.newColumn == 6)
+                if(board[move.newRow][move.newColumn + 1].type().
+                        equals("Rook")) {
+                board[move.newRow][move.newColumn -1] =
+                        board[move.newRow][move.newColumn +1];
                 board[move.newRow][move.newColumn +1] =  null;
                 move.setWasCastle(true);
             }
@@ -286,24 +342,26 @@ public class ChessModel implements IChessModel {
                         board[row][col].type().equals("King")) {
                     kingRow = row;
                     kingColumn = col;
-                    break; //avoid useless lines of code after finding the king
+                    break; //stop after finding the king
                 }
             }
         }
-        for (int row = 0; row < board.length; row++) {
+        for (int row = 0; row < board.length; row++)
             for (int col = 0; col < board.length; col++) {
                 IChessPiece temp = board[row][col];
-                if (temp != null && !temp.player().equals(p)) { //if piece exists and belongs to opponent
-                    ArrayList<Move> moves = legalMoves(row, col); //find all valid moves for opponent
-                    for (Move move : moves) {
-                        //check if valid moves includes capturing the king
+
+                //if piece exists and belongs to opponent
+                if (temp != null && !temp.player().equals(p)) {
+
+                    //find all valid moves for opponent
+                    ArrayList<Move> moves = legalMoves(row, col);
+                    for (Move move : moves)
+                        //check if moves includes capturing the king
                         if (move.newRow == kingRow &&
                                 move.newColumn == kingColumn)
-                            return true; //is supposed to be true, the game wasn't running so i made it false
-                    }
+                            return true;
                 }
             }
-        }
         return false;
     }
 
@@ -318,7 +376,8 @@ public class ChessModel implements IChessModel {
      *          this returns empty
      *****************************************************************/
     public ArrayList<Move> movesToEscapeCheck (Player p) {
-        ArrayList<Move> moves = new ArrayList<>(); //array to hold escaping moves
+        //array to hold escaping moves
+        ArrayList<Move> moves = new ArrayList<>();
         int kingRow = 0; //storing the king's location
         int kingColumn = 0;
         //finding the king
@@ -332,14 +391,16 @@ public class ChessModel implements IChessModel {
                     break; //stop after finding king
                 }
 
-        //check all current player pieces to see if there's a move to get out of check
+        //check all current player pieces to see
+        //if there's a move to get out of check
         for (int row = 0; row < board.length; row++)
             for (int col = 0; col < board.length; col++)
-                if (board[row][col] != null && //if there is a piece and it is the current player's
-                        board[row][col].player() == board[kingRow][kingColumn].player()) {
+                if (board[row][col] != null &&
+                        board[row][col].player() ==
+                                board[kingRow][kingColumn].player()) {
                     ArrayList<Move> testMoves = legalMoves(row, col);
                     for (Move test : testMoves)
-                        //isValidMove checks for putting a player in check
+                        //isValidMove checks for putting in check
                         //so we can add this to the escaping moves
                         if (isValidMove(test))
                             moves.add(test);
@@ -365,7 +426,8 @@ public class ChessModel implements IChessModel {
             for (int col = 0; col < board.length; col++) {
                 Move temp = new Move(currentRow, currentCol, row, col);
                 if (board[currentRow][currentCol] != null &&
-                        board[currentRow][currentCol].isValidMove(temp, board))
+                        board[currentRow][currentCol].
+                                isValidMove(temp, board))
                     possibleMoves.add(temp);
             }
         }
@@ -392,11 +454,19 @@ public class ChessModel implements IChessModel {
         return betterMoves;
     }
 
+    /******************************************************************
+     * Getter for the current player
+     *
+     * @return the player whose turn it is
+     *****************************************************************/
     @Override
     public Player currentPlayer() {
         return currentPlayer;
     }
 
+    /******************************************************************
+     * Switches the current player
+     *****************************************************************/
     public void switchPlayer() {
         if (currentPlayer().equals(Player.BLACK))
             currentPlayer = Player.WHITE;
@@ -404,28 +474,21 @@ public class ChessModel implements IChessModel {
             currentPlayer = Player.BLACK;
     }
 
-    public boolean gameOver() {
-        //if there are no moves to escape check
-        if ((inCheck(Player.WHITE) && movesToEscapeCheck(Player.WHITE).isEmpty()) ||
-                inCheck(Player.BLACK) && movesToEscapeCheck(Player.BLACK).isEmpty())
-            return true;
-
-        //if there are only kings left
-        boolean check = true;
-        for (int row = 0; row < board.length; row++) {
-            for (int col = 0; col < board.length; col++) {
-                if (board[row][col] != null && !board[row][col].type().equals("King"))
-                    check = false;
-            }
-        }
-
-        return check;
-    }
-
+    /*****************************************************************
+     * Getter for the piece at a specific location
+     *
+     * @param row the row of the piece to be returned
+     * @param column the column of the piece to be returned
+     * @return the IChessPiece at the given row and column
+     *****************************************************************/
     public IChessPiece pieceAt(int row, int column) {
         return board[row][column];
     }
 
+    /******************************************************************
+     * Clears all data and ArrayLists and places pieces back into their
+     * starting position
+     *****************************************************************/
     public void reset() {
         //clear all data from the game
         blackCaptures.clear();
@@ -447,18 +510,22 @@ public class ChessModel implements IChessModel {
      * @author Allison
      *****************************************************************/
     public void undoLastMove() {
-        if (moveStack.empty()) //if there were no moves made, exit the method
+        //if there were no moves made, exit the method
+        if (moveStack.empty())
             return;
 
-        Move lastMove = moveStack.pop(); //remove and return the previous move
+        //remove and return the previous move
+        Move lastMove = moveStack.pop();
 
         //setting piece back to old location
-        board[lastMove.oldRow][lastMove.oldColumn] = board[lastMove.newRow][lastMove.newColumn];
-        if (lastMove.getCapturedPiece() != null) { //checking if the last move was a capture
-//            captureMoveStack.pop(); //remove the capture
+        board[lastMove.oldRow][lastMove.oldColumn] =
+                board[lastMove.newRow][lastMove.newColumn];
 
+        //checking if the last move was a capture
+        if (lastMove.getCapturedPiece() != null) {
             ArrayList<IChessPiece> captures;
-            if (board[lastMove.oldRow][lastMove.oldColumn].player().equals(Player.WHITE)) {
+            if (board[lastMove.oldRow][lastMove.oldColumn].
+                    player().equals(Player.WHITE)) {
                 captures = whiteCaptures;
             } else {
                 captures = blackCaptures;
@@ -466,24 +533,32 @@ public class ChessModel implements IChessModel {
 
             //set the old location to the captured piece
             if (captures.size() > 0) {
-                if (lastMove.wasEnPassant()) { //en passant requires different locations for previous pieces
-                    board[lastMove.oldRow][lastMove.newColumn] = captures.get(captures.size() - 1);
+                //en passant requires different locations
+                if (lastMove.wasEnPassant()) {
+                    board[lastMove.oldRow][lastMove.newColumn] =
+                            captures.get(captures.size() - 1);
                     board[lastMove.newRow][lastMove.newColumn] = null;
-                } else //otherwise just put the captured piece back where it was
-                    board[lastMove.newRow][lastMove.newColumn] = captures.get(captures.size() - 1);
-                captures.remove(captures.size() - 1); //piece is no longer captured after undo
+                } else //otherwise just put the captured piece back
+                    board[lastMove.newRow][lastMove.newColumn] =
+                            captures.get(captures.size() - 1);
+
+                //piece is no longer captured after undo
+                captures.remove(captures.size() - 1);
             }
             //undoing castling can be hard coded
         } else if (lastMove.wasCastle()) {
-            if (lastMove.oldRow == 0 && lastMove.newColumn == 2) {
+            if (lastMove.oldRow == 0 &&
+                    lastMove.newColumn == 2) {
                 board[0][4] = board[0][2];
                 board[0][0] = board[0][3];
                 board[0][2] = board[0][3] = null;
-            } else if (lastMove.oldRow == 0 && lastMove.newColumn == 6) {
+            } else if (lastMove.oldRow == 0 &&
+                    lastMove.newColumn == 6) {
                 board[0][4] = board[0][6];
                 board[0][7] = board[0][5];
                 board[0][6] = board[0][5] = null;
-            } else if (lastMove.oldRow == 7 && lastMove.newColumn == 2) {
+            } else if (lastMove.oldRow == 7 &&
+                    lastMove.newColumn == 2) {
                 board[7][4] = board[7][2];
                 board[7][0] = board[7][3];
                 board[7][2] = board[7][3] = null;
@@ -495,7 +570,8 @@ public class ChessModel implements IChessModel {
         } else //otherwise just set the previous location to null
             board[lastMove.newRow][lastMove.newColumn] = null;
 
-        //if the King or Rook move was undone, they should now be able to castle
+        //if the King or Rook move was undone
+        //they should now be able to castle
         IChessPiece temp = board[lastMove.oldRow][lastMove.oldColumn];
         if (temp.type().equals("King") &&
                 lastMove.wasCastle())
@@ -505,9 +581,14 @@ public class ChessModel implements IChessModel {
             ((Rook) temp).canCastle = true;
         if (temp.type().equals("Pawn") &&
                 //if move was from starting position for black
-                ((lastMove.oldRow == 1 && board[lastMove.oldRow][lastMove.oldColumn].player().equals(Player.BLACK)) ||
+                ((lastMove.oldRow == 1 &&
+                        board[lastMove.oldRow][lastMove.oldColumn].
+                                player().equals(Player.BLACK)) ||
                         //if move was from starting position for white
-                        (lastMove.oldRow == 6 && board[lastMove.oldRow][lastMove.oldColumn].player().equals(Player.WHITE))))
+                        (lastMove.oldRow == 6 &&
+                                board[lastMove.oldRow]
+                                        [lastMove.oldColumn].
+                                       player().equals(Player.WHITE))))
             ((Pawn) temp).setFirstTurn(true);
         //go back to previous player
         switchPlayer();
@@ -516,22 +597,48 @@ public class ChessModel implements IChessModel {
         gameData = handler.removeLastMove();
     }
 
+
+    /******************************************************************
+     * Getter for the board
+     *
+     * @return the board that contains the chess pieces
+     *****************************************************************/
     public IChessPiece[][] getBoard() {
         return board;
     }
 
+    /******************************************************************
+     * Getter for the list of pieces white has captured
+     *
+     * @return the list of pieces captured by white
+     ******************************************************************/
     public ArrayList<IChessPiece> getWhiteCaptures() {
         return whiteCaptures;
     }
 
+    /******************************************************************
+     * Getter for the list of pieces black has captured
+     *
+     * @return the list of pieces captured by white
+     *****************************************************************/
     public ArrayList<IChessPiece> getBlackCaptures() {
         return blackCaptures;
     }
 
+    /******************************************************************
+     * Setter for the string of moves in chess notation
+     *
+     * @param gameData the move sequence to use
+     *****************************************************************/
     public void setGameData(String gameData) {
         this.gameData = gameData;
     }
 
+    /******************************************************************
+     * Getter for the string of move sequences
+     *
+     * @return String of moves in chess notation
+     *****************************************************************/
     public String getGameData() {
         return gameData;
     }
@@ -544,6 +651,12 @@ public class ChessModel implements IChessModel {
         this.message = message;
     }
 
+    /******************************************************************
+     * Getter for the class that contains methods pertaining to reading
+     * and writing files
+     *
+     * @return the instance of GameFileHandler used for this ChessModel
+     *****************************************************************/
     public GameFileHandler getHandler() {
         return handler;
     }

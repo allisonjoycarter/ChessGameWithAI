@@ -1,5 +1,7 @@
 package ChessW18;
 
+import jdk.nashorn.internal.scripts.JO;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -72,8 +74,10 @@ public class ChessPanel extends JPanel {
 
     private JTextArea moveSequence;
 
+    private boolean AIEnabled;
+
     public ChessPanel(JMenuItem pgameItem, JMenuItem saveGame, JMenuItem loadGame,
-                      JCheckBoxMenuItem colorBlind, JMenuItem undoMove) {
+                      JCheckBoxMenuItem colorBlind, JMenuItem undoMove, JCheckBoxMenuItem enableAI) {
 
         model = new ChessModel();
 		move = new Move();
@@ -107,7 +111,7 @@ public class ChessPanel extends JPanel {
                                     fileChooser.getSelectedFile().getAbsolutePath()));
                         for (String move : moves) {
                             Move temp = model.getHandler().decodeMove(move);
-                            model.getHandler().moveAndGenerateCode(temp);
+                            model.getHandler().moveAndAddToSequence(temp);
                             model.switchPlayer();
                             currentPlayer = model.currentPlayer();
                         }
@@ -123,8 +127,12 @@ public class ChessPanel extends JPanel {
         });
 		this.undoMove = undoMove;
 		this.colorBlind = colorBlind;
-
-//		startItem.setEnabled(true);
+		AIEnabled = false;
+		enableAI.setSelected(false);
+		enableAI.addActionListener(e -> {
+		    AIEnabled = !AIEnabled;
+		    resetBoard();
+        });
 
         timer = new Timer(1000, new TimerListener());
         timer.setActionCommand("Down");
@@ -631,8 +639,14 @@ public class ChessPanel extends JPanel {
 
                                 ArrayList<Move> moves = model.movesToEscapeCheck(currentPlayer);
                                 if (model.isComplete()) { //if there are no moves to escape check, then checkmate
-                                    System.out.println("GAME OVER");
-                                    break;
+                                    if (currentPlayer == Player.WHITE)
+                                        JOptionPane.showMessageDialog(null,
+                                                "Black has won!", "Checkmate",
+                                                JOptionPane.INFORMATION_MESSAGE);
+                                    else
+                                        JOptionPane.showMessageDialog(null,
+                                                "White has won!", "Checkmate",
+                                                JOptionPane.INFORMATION_MESSAGE);
                                 }
                                 for (Move move : moves) {//show border for moves that get player out of check
                                     board[move.newRow][move.newColumn].setBorder(new LineBorder(Color.green, 5));
@@ -654,7 +668,7 @@ public class ChessPanel extends JPanel {
                                 //this moves the pieces
                                 //also creates a string in standard chess pieces to represent the move
                                 //this also moves the piece
-                                model.getHandler().moveAndGenerateCode(move);
+                                model.getHandler().moveAndAddToSequence(move);
                                 moveSequence.setText(model.getGameData());
                                 model.switchPlayer();
                                 currentPlayer = model.currentPlayer();
@@ -663,22 +677,16 @@ public class ChessPanel extends JPanel {
                                 if (competitiveTimer)
                                     setTime(currentPlayer == Player.WHITE ? whiteTime : blackTime);
 
-//                                ChessAI ai = new ChessAI(Player.BLACK, model);
-//                                Move aiMove = ai.scanDatabase();
-//                                if (aiMove.oldRow == 0 && aiMove.oldColumn == 0 &&
-//                                        aiMove.newRow == 0 && aiMove.newColumn == 0) {
-//                                    aiMove = ai.randomMove();
-//                                    game = model.getHandler().buildGameData(model.getHandler().moveAndGenerateCode(aiMove));
-//                                    model.setGameData(game);
-//                                    model.switchPlayer();
-//                                    currentPlayer = model.currentPlayer();
-//                                } else {
-//                                    game = model.getHandler().buildGameData(model.getHandler().moveAndGenerateCode(aiMove));
-//                                    model.setGameData(game);
-//                                    model.switchPlayer();
-//                                    currentPlayer = model.currentPlayer();
-//                                }
-                            } catch (IllegalArgumentException e) {
+                                if (AIEnabled) {
+                                    ChessAI ai = new ChessAI(Player.BLACK, model);
+                                    Move aiMove = ai.aiMove();
+                                    if (aiMove != null)
+                                        model.getHandler().moveAndAddToSequence(aiMove);
+                                    model.switchPlayer();
+                                    currentPlayer = model.currentPlayer();
+
+                                }
+                            } catch (Exception e) {
                                 message = "Illegal Move";
                             }
 

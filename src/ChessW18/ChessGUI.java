@@ -24,6 +24,7 @@ public class ChessGUI {
   quitItem.addActionListener(e -> System.exit(0));
   gameItem = new JMenuItem("New Game");
   undoMove = new JMenuItem("Undo Move");
+  JCheckBoxMenuItem enableAI = new JCheckBoxMenuItem("Enable AI");
   JMenuItem saveGame = new JMenuItem("Save Game");
   JMenuItem loadGame = new JMenuItem("Load Game");
 
@@ -45,13 +46,9 @@ public class ChessGUI {
   frame.setJMenuBar(menus);
   menus.add(fileMenu);
   menus.add(undoMove);
-//  menus.add(time);
-//  menus.add(start);
-//  menus.add(stop);
-//  menus.add(countUp);
-//  menus.add(setTimer);
+  menus.add(enableAI);
 
-  ChessPanel panel = new ChessPanel(gameItem, saveGame, loadGame, colorBlind, undoMove);
+  ChessPanel panel = new ChessPanel(gameItem, saveGame, loadGame, colorBlind, undoMove, enableAI);
 
   frame.getContentPane().add(panel);
 

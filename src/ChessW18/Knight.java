@@ -6,7 +6,7 @@ package ChessW18;
  * the ability to check whether the piece can execute a specified
  * move.
  * 
- * @author
+ * @author George
  * @version 3/14
  *********************************************************************/
 public class Knight extends ChessPiece {

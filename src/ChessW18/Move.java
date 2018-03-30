@@ -13,17 +13,11 @@ public class Move {
 
     /******************************************************************
      * Object to store a move
-     * Could use this to make an undo function?
      *
-     * Ferguson used fromRow and toRow as names for these ints
-     * Same thing, I just happened to use these names
-     * We can change it if necessary
-     *
-     *
-     * @param oldRow
-     * @param oldColumn
-     * @param newRow
-     * @param newColumn
+     * @param oldRow the row a piece is moving from
+     * @param oldColumn the column a piece is moving from
+     * @param newRow the row a piece is moving to
+     * @param newColumn the column a piece is moving to
      *****************************************************************/
     public Move(int oldRow, int oldColumn, int newRow, int newColumn) {
         this.oldRow = oldRow;

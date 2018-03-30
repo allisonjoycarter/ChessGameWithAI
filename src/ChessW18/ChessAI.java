@@ -14,6 +14,45 @@ public class ChessAI {
         board = model.getBoard();
     }
 
+    //TODO: I made this method to return a move but some of the AI methods return boolean
+    //should this return something else?
+    public Move aiMove() {
+        Move bestMove = scanDatabase();
+        if (bestMove.oldRow == 0 && bestMove.oldColumn == 0 &&
+                bestMove.newRow == 0 && bestMove.newColumn == 0)
+            bestMove = randomMove();
+        //get out of check
+        if (model.inCheck(Player.BLACK))
+            bestMove = model.movesToEscapeCheck(Player.BLACK).get(
+                    new Random().nextInt(
+                            model.movesToEscapeCheck(Player.BLACK).size() - 1));
+
+        for (int row = 0; row < board.length; row++) {
+            for (int col = 0; col < board.length; col++) {
+                //saving a piece in danger
+                if (pieceInDanger() && board[row][col] != null &&
+                        board[row][col].player() == Player.BLACK) {
+                    if(savePiece(row, col))
+                        return null;
+                }
+
+                //block off escape to checkmate opponent
+                if (model.inCheck(Player.WHITE)&&
+                        board[row][col] != null &&
+                            board[row][col].player() == Player.BLACK){
+                        ArrayList<Move> escapingMoves = model.movesToEscapeCheck(Player.WHITE);
+                        for (Move escape :
+                                escapingMoves) {
+                            if (model.isValidMove(new Move(row, col, escape.newRow, escape.newColumn)))
+                                bestMove = new Move(row, col, escape.newRow, escape.newColumn);
+                        }
+                }
+            }
+        }
+
+        return bestMove;
+    }
+
     /******************************************************************
      * Searches through the database of moves and attempts to find and
      * return a move to add to a similar move sequence
@@ -76,14 +115,13 @@ public class ChessAI {
                     }
                 }
         }
-        System.out.println(nextMove.newColumn);
         return nextMove; //will return (0, 0, 0, 0) if nothing was found
     }
 
     /**
      * Performs a random move out of all possible moves
      *
-     * @return
+     * @return move from all valid moves
      */
     public Move randomMove() {
         ArrayList<Move> allMoves = new ArrayList<>();
@@ -93,10 +131,9 @@ public class ChessAI {
             for (int col = 0; col < board.length; col++) {
                 if (board[row][col] != null &&
                         board[row][col].player() == player)
-                    allMoves.addAll(model.legalMoves(row,col));
+                    allMoves.addAll(model.filterLegalMoves(model.legalMoves(row,col)));
             }
         }
-
         return allMoves.get(random.nextInt(allMoves.size() - 1));
     }
 
@@ -117,20 +154,20 @@ public class ChessAI {
 
                     //Looks if this place on the board has a Black piece on it.
                     if (board[row][col].player() == Player.BLACK) {
-                        ArrayList<Move> possibilities = model.legalMoves(row, col);
+                        ArrayList<Move> possibilities = model.filterLegalMoves(model.legalMoves(row, col));
 
                         //Goes through every possible move.
-                        for (int index = possibilities.size(); index >= 0; index--) {
+                        for (int index = possibilities.size() - 1; index >= 0; index--) {
                             Move newMove = possibilities.get(index);
 
                             //In case an opponents piece is going to be taken, we need to know what it was.
                             IChessPiece oldPiece = board[newMove.newRow][newMove.newColumn];
                             board[newMove.newRow][newMove.newColumn] = board[row][col];
 
-                            //If the AI is still in check, the move in excecuted with the Move method.
+                            //If the AI is still in check, the move in executed with the Move method.
                             if (model.inCheck(Player.BLACK)) {
                                 board[row][col] = oldPiece;
-                                model.move(newMove);
+                                model.getHandler().moveAndAddToSequence(newMove);
                                 return true;
                             } else
                                 board[newMove.newRow][newMove.newColumn] = null;
@@ -151,12 +188,12 @@ public class ChessAI {
      * @version 3/26/18
      *****************************************************************/
     private boolean pieceInDanger() {
-        /**
-         * We should make a list of moves that could take a piece
-         * so that the value of a piece can determine which piece should be saved.
-         * As it is right now, this will save the first piece it finds. Well, it
-         * will know that it can save a move, it can't actually make a move right
-         * now.
+        /*
+          We should make a list of moves that could take a piece
+          so that the value of a piece can determine which piece should be saved.
+          As it is right now, this will save the first piece it finds. Well, it
+          will know that it can save a move, it can't actually make a move right
+          now.
          */
         for(int row = 0; row < board.length; row++)
             for(int col = 0; col < board.length; col++)
@@ -223,7 +260,7 @@ public class ChessAI {
                         if(valid && !model.inCheck(Player.BLACK)) { //A smarter AI would also check for if the pieces that we are the most about are in danger with this new move.
                             board[escape.newRow][escape.newColumn] = temp; //Put it back to how it was.
                             board[pRow][pCol] = old; //Put the piece back to where it was.
-                            model.move(escape); //Call the move method to officially make the move.
+                            model.getHandler().moveAndAddToSequence(escape);//Call the move method to officially make the move.
                             return true;
                         }
                         else {
@@ -272,7 +309,7 @@ public class ChessAI {
                                     if(valid && !model.inCheck(Player.BLACK)) { //A smarter AI would also check for if the pieces that we are the most about are in danger with this new move.
                                         board[move.newRow][move.newColumn] = dest; //Put it back to how it was.
                                         board[pRow][pCol] = savior; //Put the piece back to where it was.
-                                        model.move(move); //Call the move method to officially make the move.
+                                        model.getHandler().moveAndAddToSequence(move); //Call the move method to officially make the move.
                                         return true;
                                     }
                                     else {

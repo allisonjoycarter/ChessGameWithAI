@@ -336,9 +336,8 @@ public class GameFileHandler {
      * move
      *
      * @param move the Move to be notated and executed
-     * @return a String that represents the executed move
      *****************************************************************/
-    public String moveAndGenerateCode(Move move) {
+    public void moveAndAddToSequence(Move move) {
         player = model.currentPlayer();
         //string to create
         StringBuilder moveCode = new StringBuilder();
@@ -427,8 +426,6 @@ public class GameFileHandler {
         }
         moveCodes.append(moveCode).append(" "); //always adding a space between moves
         model.setGameData(moveCodes.toString());
-
-        return moveCode.toString();
     }
 
     /*****************************************************************
