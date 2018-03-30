@@ -4,11 +4,16 @@ import java.beans.beancontext.BeanContext;
 import java.util.ArrayList;
 
 public class ChessAI {
+    /** holds the game model to use */
     ChessModel model;
+
+    /** holds the chess board to use */
     IChessPiece[][] board;
+
+    /** holds which player the AI is playing for */
     Player player = Player.BLACK;
 
-    //for scoring moves?
+    /** holds the value of each piece rank */
     private final int PAWN = 1;
     private final int KNIGHT = 3;
     private final int BISHOP = 3;
@@ -29,25 +34,37 @@ public class ChessAI {
         this.model = model;
         board = model.getBoard();
 
-        Move bestMove = saveKing();
+
+        Move bestMove = scanDatabase();
         if (bestMove != null)
-            model.move(bestMove);
+            model.getHandler().
+                    moveAndAddToSequence(bestMove);
         else {
-            bestMove = takeKing();
+            bestMove = saveKing();
             if (bestMove != null)
-                model.move(bestMove);
+                model.getHandler().
+                        moveAndAddToSequence(bestMove);
             else {
-                bestMove = pieceInDanger();
+                bestMove = takeKing();
                 if (bestMove != null)
-                    model.move(bestMove);
+                    model.getHandler().
+                            moveAndAddToSequence(bestMove);
                 else {
-                    bestMove = takePiece();
+                    bestMove = pieceInDanger();
                     if (bestMove != null)
-                        model.move(bestMove);
+                        model.getHandler().
+                                moveAndAddToSequence(bestMove);
                     else {
-                        bestMove = makeMove();
-                        if (bestMove != null) ;
-                        model.move(bestMove);
+                        bestMove = takePiece();
+                        if (bestMove != null)
+                            model.getHandler().
+                                    moveAndAddToSequence(bestMove);
+                        else {
+                            bestMove = makeMove();
+                            if (bestMove != null) ;
+                            model.getHandler().
+                                    moveAndAddToSequence(bestMove);
+                        }
                     }
                 }
             }
@@ -55,32 +72,81 @@ public class ChessAI {
     }
 
     /******************************************************************
-     * evaluates the score for a player based on the pieces they own
+     * Searches through the database of moves and attempts to find and
+     * return a move to add to a similar move sequence
      *
-     * @param player The player for which a score will be calculated.
-     * @return The score of the player based upon the board.
-     *
-     * @author Allison
+     * @return a new Move if no similar move sequence is found,
+     *         otherwise returns the next move in the matching
+     *         sequence
      *****************************************************************/
-    private int evaluateScore(Player player) {
-        int score = 0;
-        for (int row = 0; row < board.length; row++)
-            for (int col = 0; col < board.length; col++) {
-                if (board[row][col] != null)
-                    if (board[row][col].player() == player)
-                        //add score for the player's existing pieces
-                        score += getPieceValue(board[row][col].type());
+    public Move scanDatabase() {
+        Move nextMove = null;
+        GameFileHandler handler = new GameFileHandler(model);
+        //separating the games into individual move sequences
+        ArrayList<String> sequences = handler.databaseGames();
 
-                //remove score for their pieces that have been captured
-                ArrayList<IChessPiece> captures = (player ==
-                        Player.BLACK ?
-                        model.getWhiteCaptures() :
-                        model.getBlackCaptures());
-                for (IChessPiece piece : captures) {
-                    score -= getPieceValue(piece.type());
+        //iterate through each sequence to find similar moves
+        for (String moves : sequences) {
+            //moves from the database
+            ArrayList<String> databaseMoves = handler.separateMoves(
+                    moves);
+            //moves from the current game
+            ArrayList<String> gameMoves = handler.separateMoves(
+                    model.getGameData());
+
+            //while gameMoves has similar moves to databaseMoves
+            //AI should execute response from the database
+            //for similar moves, set to false when moves aren't similar
+            boolean flag = true;
+            //when 3 of the same moves can't be found, use 2
+            boolean secondFlag;
+            if (gameMoves.size() < 3) {
+                //if opening is the same
+                if (!databaseMoves.get(0).contains(gameMoves.get(0)))
+                    flag = false;
+                if (flag)
+                    nextMove = handler.decodeMove(databaseMoves.get(1));
+            } else if (gameMoves.size() < 5) {
+                //if first 2 move are the same
+                if (!databaseMoves.get(0).contains(gameMoves.get(0)) &&
+                        !databaseMoves.get(2).contains(gameMoves.get(0)))
+                    flag = false;
+                if (flag)
+                    nextMove = handler.decodeMove(databaseMoves.get(3));
+            } else
+                //when game is at least 5 moves in
+                for (int i = 4; i < databaseMoves.size(); i++) {
+                    //if last two moves are the same
+                    secondFlag = databaseMoves.get(i - 2).
+                            contains(gameMoves.get(
+                                    gameMoves.size() - 3)) &&
+                            databaseMoves.get(i).
+                                    contains(gameMoves.
+                                            get(gameMoves.size() - 1));
+
+                    //if the past three moves are the same
+                    flag = databaseMoves.get(i - 4).contains
+                            (gameMoves.get(
+                                    gameMoves.size() - 5)) &&
+                            secondFlag;
+                    //check if the next move in a sequence of
+                    // 3 similar ones is valid
+                    if (flag && i + 1 < databaseMoves.size() &&
+                            model.isValidMove(handler.decodeMove
+                                    (databaseMoves.get(i + 1)))) {
+                        nextMove = handler.decodeMove
+                                (databaseMoves.get(i + 1));
+
+                        //check if the next move in a sequence of 2 similar ones is valid
+                    } else if (secondFlag &&
+                            model.isValidMove(handler.
+                                    decodeMove(databaseMoves.get(i + 1)))) {
+                        nextMove = handler.decodeMove(
+                                databaseMoves.get(i + 1));
+                    }
                 }
-            }
-        return score;
+        }
+        return nextMove; //will return null if nothing was found
     }
 
     /**
@@ -144,6 +210,34 @@ public class ChessAI {
         }
         return getBestMove(savingMoves);
 
+    }
+
+    /******************************************************************
+     * evaluates the score for a player by adding points for their
+     * pieces and subtracting for their pieces that have been captured
+     *
+     * @param player which player's score to evaluate
+     * @return the score based on the player's pieces
+     ******************************************************************/
+    private int evaluateScore(Player player) {
+        int score = 0;
+        for (int row = 0; row < board.length; row++)
+            for (int col = 0; col < board.length; col++) {
+                if (board[row][col] != null)
+                    if (board[row][col].player() == player)
+                        //add score for the player's existing pieces
+                        score += getPieceValue(board[row][col].type());
+
+                //remove score for their pieces that have been captured
+                ArrayList<IChessPiece> captures = (
+                        player == Player.BLACK ?
+                        model.getWhiteCaptures() :
+                                model.getBlackCaptures());
+                for (IChessPiece piece : captures) {
+                    score -= getPieceValue(piece.type());
+                }
+            }
+        return score;
     }
 
     private Move getBestMove(ArrayList<Move> savingMoves) {
@@ -622,7 +716,7 @@ public class ChessAI {
 
         //Test every piece that is possible of a black piece.
         for (Move move : primaryMoves) {
-            ArrayList<Move> nextMoves = new ArrayList<Move>();
+            ArrayList<Move> nextMoves = new ArrayList<>();
             IChessPiece saveNew;
             IChessPiece saveOld;
 

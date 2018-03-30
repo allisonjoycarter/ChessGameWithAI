@@ -209,6 +209,7 @@ public class ChessPanel extends JPanel {
         moveSequence.setBackground(new Color(189, 221, 175));
         moveSequence.setFont(new Font(UIManager.getDefaults().getFont("Label.font").getName(), Font.PLAIN, 25));
         moveSequence.setWrapStyleWord(true);
+        moveSequence.setLineWrap(true);
         JScrollPane movesPane = new JScrollPane(moveSequence);
         movesPane.setPreferredSize(new Dimension(this.getWidth(), 100));
         movesPane.setBorder(new LineBorder(new Color(0, 114, 178), 5));
@@ -678,12 +679,10 @@ public class ChessPanel extends JPanel {
                                     setTime(currentPlayer == Player.WHITE ? whiteTime : blackTime);
 
                                 if (AIEnabled) {
-                                    ChessAI ai = new ChessAI(Player.BLACK, model);
-                                    Move aiMove = ai.aiMove();
-                                    if (aiMove != null)
-                                        model.getHandler().moveAndAddToSequence(aiMove);
+                                    ChessAI ai = new ChessAI(model);
                                     model.switchPlayer();
                                     currentPlayer = model.currentPlayer();
+                                    moveSequence.setText(model.getGameData());
 
                                 }
                             } catch (Exception e) {

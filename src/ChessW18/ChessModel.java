@@ -4,11 +4,14 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Stack;
 
-/***********************************************************************
- * Holds all of the methods that are required to determine if pieces
+/**********************************************************************
+ * * Holds all of the methods that are required to determine if pieces
  * are able to move, if the game is over, what moves a piece is allowed
  * to execute, and a method that allows for an undo function.
- **********************************************************************/
+ *
+ * @author Allison and George
+ * @version 3/28/2018
+ *********************************************************************/
 public class ChessModel implements IChessModel {
 
     /** Holds the game model board. */
@@ -21,8 +24,6 @@ public class ChessModel implements IChessModel {
     private ArrayList<IChessPiece> whiteCaptures, blackCaptures;
 
     /** The stack that holds moves that have been executed.*/
-    /** holds the moves in a stack so they can be referenced
-     * first in last out */
     private Stack<Move> moveStack;
 
     /** A stack that holds moves that resulted in a capture.*/
@@ -91,7 +92,8 @@ public class ChessModel implements IChessModel {
      *****************************************************************/
     @Override
     public boolean isComplete() {
-        //if a player is in check and cannot get out of check, the game is complete
+        //if a player is in check and cannot get out of check
+        //the game is complete
         return ((inCheck(Player.WHITE) &&
                 movesToEscapeCheck(Player.WHITE).isEmpty()) ||
                 (inCheck(Player.BLACK) &&
@@ -127,14 +129,16 @@ public class ChessModel implements IChessModel {
             board[move.oldRow][move.newColumn] = null;
         board[move.oldRow][move.oldColumn] = null;
 
-        //if the move placed ends up putting player in check, then return false
+        //if the move placed ends up putting player in check
+        //then return false
         if (inCheck(currentPlayer)){
 
             //putting piece back to old location
             board[move.oldRow][move.oldColumn] =
                     board[move.newRow][move.newColumn];
             if (temp != null)
-                board[move.newRow][move.newColumn] = temp; //replacing captured piece
+                //replacing captured piece
+                board[move.newRow][move.newColumn] = temp;
             else
                 board[move.newRow][move.newColumn] = null;
             return false;
@@ -166,8 +170,10 @@ public class ChessModel implements IChessModel {
             //if so, set that piece to be captured
             if (board[move.newRow][move.newColumn] != null &&
                     board[move.newRow][move.newColumn].player() ==
-                            board[move.oldRow][move.oldColumn].opponent()) {
-                move.setCapturedPiece(board[move.newRow][move.newColumn]);
+                            board[move.oldRow][move.oldColumn].
+                                    opponent()) {
+                move.setCapturedPiece(
+                        board[move.newRow][move.newColumn]);
 
                 //deals with en passant
             } else if (board[move.oldRow][move.newColumn] != null &&
@@ -235,7 +241,8 @@ public class ChessModel implements IChessModel {
                 //during loading
                 if (move.getPromotion() == null) {
                     //dialog to promote pawn
-                    String[] options = {"Queen", "Rook", "Bishop", "Knight"};
+                    String[] options = {"Queen", "Rook",
+                            "Bishop", "Knight"};
                     int n = JOptionPane.showOptionDialog(null,
                             "What rank would you like " +
                                     "to promote this pawn to?",
@@ -683,36 +690,3 @@ public class ChessModel implements IChessModel {
         return handler;
     }
 }
-
-
-///******************************************************************
- //     * Returns the board back to it's previous state. Althoughstoring
- //     * board states uses more data than storing moves, it allows for
- //     * easier undoing of captures and special moves. The code that
- //     * stored moves rather than board states was much longer and
- //     * convoluted.
- //     *
- //     * @author Allison
- //     ***************************************************************/
-//    public void undoState() {
-//        //if there is no previous board state, set board back to
-//        //starting position
-//        if (boardStates.empty()) {
-//            board = new IChessPiece[8][8];
-//            placeStartingPieces();
-//            return;
-//        }
-//        /*once a move is made, the state is saved. So the state
-//          that's on the
-//          top of the stack is the state that contains the most
-//          current move. Which
-//          means that the state popped will be the same as the
-//          current state. So if
-//          the current state is the same as the top of the stack,
-//          that should be
-//          removed in order to return back to a previous state */
-//        if (Arrays.deepEquals(boardStates.peek(), board))
-//            boardStates.pop();
-//        board = boardStates.pop();
-//        switchPlayer();
-//    }
