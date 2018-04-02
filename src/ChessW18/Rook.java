@@ -65,8 +65,16 @@ public class Rook extends ChessPiece {
         return move.oldColumn == move.newColumn ^
                 move.oldRow == move.newRow;
 
+		//move for castling is in King class
+
     }
 
+    /******************************************************************
+     * Setter for whether the rook has not moved and is therefore able
+     * to castle
+     *
+     * @param canCastle true if the rook is able to castle
+     *****************************************************************/
 	public void setCanCastle(boolean canCastle) {
 		this.canCastle = canCastle;
 	}

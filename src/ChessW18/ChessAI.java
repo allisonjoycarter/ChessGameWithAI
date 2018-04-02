@@ -1,7 +1,7 @@
 package ChessW18;
 
-import java.beans.beancontext.BeanContext;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class ChessAI {
     /** holds the game model to use */
@@ -34,41 +34,73 @@ public class ChessAI {
         this.model = model;
         board = model.getBoard();
 
-
-        Move bestMove = scanDatabase();
-        if (bestMove != null)
-            model.getHandler().
-                    moveAndAddToSequence(bestMove);
-        else {
-            bestMove = saveKing();
-            if (bestMove != null)
-                model.getHandler().
-                        moveAndAddToSequence(bestMove);
-            else {
-                bestMove = takeKing();
+        try {
+            Move bestMove = scanDatabase();
+            if (model.inCheck(Player.BLACK)) {
+                ArrayList<Move> escapes =
+                        model.movesToEscapeCheck(Player.BLACK);
+                bestMove = escapes.get(
+                        new Random().nextInt(escapes.size() - 1));
+                if (bestMove != null)
+                    model.getHandler().moveAndAddToSequence(bestMove);
+            } else {
+//                bestMove = saveKing();
                 if (bestMove != null)
                     model.getHandler().
                             moveAndAddToSequence(bestMove);
                 else {
-                    bestMove = pieceInDanger();
+                    bestMove = takeKing();
                     if (bestMove != null)
                         model.getHandler().
                                 moveAndAddToSequence(bestMove);
                     else {
-                        bestMove = takePiece();
+                        bestMove = pieceInDanger();
                         if (bestMove != null)
                             model.getHandler().
                                     moveAndAddToSequence(bestMove);
                         else {
-                            bestMove = makeMove();
-                            if (bestMove != null) ;
-                            model.getHandler().
-                                    moveAndAddToSequence(bestMove);
+                            bestMove = takePiece();
+                            if (bestMove != null)
+                                model.getHandler().
+                                        moveAndAddToSequence(bestMove);
+                            else {
+                                bestMove = makeMove();
+                                if (bestMove != null)
+                                model.getHandler().
+                                        moveAndAddToSequence(bestMove);
+                                else
+                                    model.getHandler().
+                                            moveAndAddToSequence(
+                                                    randomMove());
+                            }
                         }
                     }
                 }
             }
+        } catch (Exception e) {
+            System.out.print(" AI Failed To Move.");
         }
+    }
+
+    /**
+     * Performs a random move out of all possible moves
+     *
+     -     * @return
+     +     * @return move from all valid moves
+     */
+    public Move randomMove() {
+        ArrayList<Move> allMoves = new ArrayList<>();
+        for (int row = 0; row < board.length; row++) {
+            for (int col = 0; col < board.length; col++) {
+                if (board[row][col] != null &&
+                        board[row][col].player() == player)
+                    allMoves.addAll(model.legalMoves(row,col));
+                allMoves.addAll(model.filterLegalMoves(
+                        model.legalMoves(row,col)));
+            }
+        }
+        return allMoves.get(new Random().nextInt(
+                allMoves.size() - 1));
     }
 
     /******************************************************************
@@ -137,10 +169,12 @@ public class ChessAI {
                         nextMove = handler.decodeMove
                                 (databaseMoves.get(i + 1));
 
-                        //check if the next move in a sequence of 2 similar ones is valid
+                        //check if the next move in a sequence of
+                        //2 similar ones is valid
                     } else if (secondFlag &&
                             model.isValidMove(handler.
-                                    decodeMove(databaseMoves.get(i + 1)))) {
+                                    decodeMove(
+                                            databaseMoves.get(i + 1)))) {
                         nextMove = handler.decodeMove(
                                 databaseMoves.get(i + 1));
                     }
@@ -242,7 +276,7 @@ public class ChessAI {
 
     private Move getBestMove(ArrayList<Move> savingMoves) {
         Move bestMove;//More defensive
-        if (evaluateScore(Player.BLACK) < evaluateScore(Player.WHITE)) {
+        if (evaluateScore(Player.BLACK) < evaluateScore(Player.WHITE)){
             bestMove = getBestDefensiveMove(savingMoves);
             if (bestMove != null)
                 return bestMove;
@@ -251,7 +285,7 @@ public class ChessAI {
                 if (bestMove != null)
                     return bestMove;
                 else {
-                    bestMove = getSacraficialOffensiveMove(savingMoves);
+                    bestMove =getSacraficialOffensiveMove(savingMoves);
                     if (bestMove != null)
                         return bestMove;
                     else
@@ -351,7 +385,8 @@ public class ChessAI {
             bestMove = getSacraficialOffensiveMove(savingMoves);
             if (bestMove != null)
                 return bestMove;
-                //This else shouldn't ever be hit, but it's here for safety.
+                //This else shouldn't ever be hit
+                //but it's here for safety.
             else {
                 bestMove = getBestDefensiveMove(savingMoves);
                 if (bestMove != null)

@@ -21,7 +21,8 @@ public class ChessGUI {
   JMenuItem gameItem = new JMenuItem("New Game");
   JMenuItem saveGame = new JMenuItem("Save Game");
   JMenuItem loadGame = new JMenuItem("Load Game");
-  JCheckBoxMenuItem colorBlind = new JCheckBoxMenuItem("Color Blind Mode");
+  JCheckBoxMenuItem colorBlind = new JCheckBoxMenuItem(
+          "Color Blind Mode");
 
   JMenuItem undoMove = new JMenuItem("Undo Move");
   JCheckBoxMenuItem enableAI = new JCheckBoxMenuItem("Enable AI");
@@ -38,7 +39,8 @@ public class ChessGUI {
   menus.add(undoMove);
   menus.add(enableAI);
 
-  ChessPanel panel = new ChessPanel(gameItem, saveGame, loadGame, colorBlind, undoMove, enableAI);
+  ChessPanel panel = new ChessPanel(gameItem, saveGame, loadGame,
+          colorBlind, undoMove, enableAI);
 
   frame.getContentPane().add(panel);
 
